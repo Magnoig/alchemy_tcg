@@ -23,7 +23,7 @@ class CardDeck extends StatelessWidget {
                 top: 0.0,
                 left: 0.0,
                 child: Image.asset(
-                  imagePath,
+                  'assets/images/card_verso.png',
                   width: 100,
                   height: 150,
                 ),
@@ -44,16 +44,13 @@ class CardDeck extends StatelessWidget {
                   width: 100,
                   height: 150,
                 ),
-                childWhenDragging: Opacity(
-                  opacity: 0.5,
-                  child: Image.asset(
-                    topCard,
-                    width: 100,
-                    height: 150,
-                  ),
+                childWhenDragging: Image.asset(
+                  'assets/images/card_verso.png',
+                  width: 100,
+                  height: 150,
                 ),
                 child: Image.asset(
-                  topCard,
+                  'assets/images/card_verso.png',
                   width: 100,
                   height: 150,
                 ),

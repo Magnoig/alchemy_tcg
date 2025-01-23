@@ -119,7 +119,7 @@ class _CardGridState extends State<CardGrid> {
                             ),
                             childWhenDragging: boardState.getCardBelowTop(cardKey) != null
                                 ? Image.asset(
-                                    boardState.getCardBelowTop(cardKey)!,
+                                    'assets/images/card_verso.png',
                                     fit: BoxFit.contain,
                                   )
                                 : Container(),
@@ -203,7 +203,7 @@ class _CardGridState extends State<CardGrid> {
                         childWhenDragging: Opacity(
                           opacity: 0.5,
                           child: Image.asset(
-                            cardPath,
+                            'assets/images/card_verso.png',
                             height: 80,
                             fit: BoxFit.contain,
                           ),
