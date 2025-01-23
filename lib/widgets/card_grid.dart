@@ -16,6 +16,26 @@ class CardGrid extends StatefulWidget {
 
 class _CardGridState extends State<CardGrid> {
   List<String> playerHand = [];
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    // Agenda a rolagem para o final após a construção do widget
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _scrollController.animateTo(
+        _scrollController.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 2000), // Controla a duração da animação
+        curve: Curves.easeOut, // Controla o tipo de animação
+      );
+    });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   Color _getCellColor(CellState state) {
     switch (state) {
@@ -246,6 +266,7 @@ class _CardGridState extends State<CardGrid> {
           children: [
             Expanded(
               child: GridView.builder(
+                controller: _scrollController,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 7,
                   childAspectRatio: 1,
