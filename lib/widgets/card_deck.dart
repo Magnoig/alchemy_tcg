@@ -33,12 +33,12 @@ class CardDeck extends StatelessWidget {
         int index = entry.key;
         String imagePath = entry.value;
         return Positioned(
-          top: index * 10.0, // Ajuste o deslocamento vertical
-          left: index * 10.0, // Ajuste o deslocamento horizontal
+          top: 0.0, // All cards at the same vertical position
+          left: 0.0, // All cards at the same horizontal position
           child: Image.asset(
             imagePath,
-            width: 100, // Ajuste a largura conforme necessário
-            height: 150, // Ajuste a altura conforme necessário
+            width: 100, // Adjust width as needed
+            height: 150, // Adjust height as needed
           ),
         );
       }).toList(),
