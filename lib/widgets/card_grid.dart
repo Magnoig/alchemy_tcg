@@ -117,13 +117,12 @@ class _CardGridState extends State<CardGrid> {
                               height: cellSize,
                               fit: BoxFit.contain,
                             ),
-                            childWhenDragging: Opacity(
-                              opacity: 0.5,
-                              child: Image.asset(
-                                cardInCell,
-                                fit: BoxFit.contain,
-                              ),
-                            ),
+                            childWhenDragging: boardState.getCardBelowTop(cardKey) != null
+                                ? Image.asset(
+                                    boardState.getCardBelowTop(cardKey)!,
+                                    fit: BoxFit.contain,
+                                  )
+                                : Container(),
                             child: Image.asset(
                               cardInCell,
                               fit: BoxFit.contain,

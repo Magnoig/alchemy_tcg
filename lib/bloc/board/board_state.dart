@@ -24,4 +24,11 @@ class BoardState {
     if (stack == null || stack.isEmpty) return null;
     return stack.last;
   }
+
+  // Método auxiliar para obter a carta abaixo do topo
+  String? getCardBelowTop(String position) {
+    final stack = boardCards[position];
+    if (stack == null || stack.length < 2) return null;
+    return stack[stack.length - 2];
+  }
 } 
