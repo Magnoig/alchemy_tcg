@@ -1,47 +1,67 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../bloc/card_deck_bloc.dart';
+import '../bloc/card_deck_state.dart';
+import '../bloc/card_deck_event.dart';
 
 class CardDeck extends StatelessWidget {
-  final List<String> cardImages = [
-    "assets/images/Ancestral Anger.PNG",
-    "assets/images/Circuit Mender.PNG",
-    "assets/images/Crash Through.PNG",
-    "assets/images/Crimson Wisps.PNG",
-    "assets/images/Devilish Valet.PNG",
-    "assets/images/Expedite.PNG",
-    "assets/images/Fireflux Squad.PNG",
-    "assets/images/Humble Defector.PNG",
-    "assets/images/Inferno Titan.PNG",
-    "assets/images/Lava Dart.PNG",
-    "assets/images/Magmatic Insight.PNG",
-    "assets/images/Overmaster.PNG",
-    "assets/images/Pilgrim's Eye.PNG",
-    "assets/images/Reckless Barbarian.PNG",
-    "assets/images/Renegade Tactics.PNG",
-    "assets/images/Rile.PNG",
-    "assets/images/Skyscanner.PNG",
-    "assets/images/Strike It Rich.PNG",
-    "assets/images/Tectonic Giant.PNG",
-    "assets/images/Thores of Chaos.PNG",
-    "assets/images/Warlord's Fury.PNG",
-    "assets/images/Wild Guess.PNG",
-  ];
-
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: cardImages.asMap().entries.map((entry) {
-        int index = entry.key;
-        String imagePath = entry.value;
-        return Positioned(
-          top: 0.0, // All cards at the same vertical position
-          left: 0.0, // All cards at the same horizontal position
-          child: Image.asset(
-            imagePath,
-            width: 100, // Adjust width as needed
-            height: 150, // Adjust height as needed
-          ),
+    return BlocBuilder<CardDeckBloc, CardDeckState>(
+      builder: (context, state) {
+        if (state.cardImages.isEmpty) {
+          return Container();
+        }
+
+        String topCard = state.cardImages.last;
+
+        return Stack(
+          children: [
+            // Cartas do fundo (não arrastáveis)
+            ...state.cardImages.take(state.cardImages.length - 1).map((imagePath) {
+              return Positioned(
+                top: 0.0,
+                left: 0.0,
+                child: Image.asset(
+                  imagePath,
+                  width: 100,
+                  height: 150,
+                ),
+              );
+            }).toList(),
+
+            // Carta do topo (arrastável)
+            Positioned(
+              top: 0.0,
+              left: 0.0,
+              child: Draggable<String>(
+                data: topCard,
+                onDragCompleted: () {
+                  context.read<CardDeckBloc>().add(RemoveTopCard());
+                },
+                feedback: Image.asset(
+                  topCard,
+                  width: 100,
+                  height: 150,
+                ),
+                childWhenDragging: Opacity(
+                  opacity: 0.5,
+                  child: Image.asset(
+                    topCard,
+                    width: 100,
+                    height: 150,
+                  ),
+                ),
+                child: Image.asset(
+                  topCard,
+                  width: 100,
+                  height: 150,
+                ),
+              ),
+            ),
+          ],
         );
-      }).toList(),
+      },
     );
   }
 } 
