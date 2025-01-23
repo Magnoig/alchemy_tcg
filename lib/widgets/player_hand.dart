@@ -8,7 +8,7 @@ import '../bloc/player_hand/player_hand_state.dart';
 import '../constants/game_constants.dart';
 import '../theme/game_theme.dart';
 
-class PlayerHand extends StatelessWidget {
+class PlayerHand extends StatefulWidget {
   final Function(BuildContext, String) onShowZoom;
 
   const PlayerHand({
@@ -17,76 +17,97 @@ class PlayerHand extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<PlayerHand> createState() => _PlayerHandState();
+}
+
+class _PlayerHandState extends State<PlayerHand> {
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocBuilder<PlayerHandBloc, PlayerHandState>(
       builder: (context, state) {
         return DragTarget<String>(
           builder: (context, candidateData, rejectedData) {
-            return Container(
-              height: GameConstants.handHeight,
-              color: GameTheme.handBackgroundColor,
-              child: state.cards.isEmpty
-                  ? Center(
-                      child: Text(
-                        'Arraste cartas do deck para cá',
-                        style: GameTheme.handText,
-                      ),
-                    )
-                  : ReorderableListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: state.cards.length,
-                      onReorder: (oldIndex, newIndex) {
-                        context.read<PlayerHandBloc>().add(
-                          ReorderCards(oldIndex, newIndex),
-                        );
-                      },
-                      itemBuilder: (context, index) {
-                        final cardPath = state.cards[index];
-                        return Padding(
-                          key: ValueKey('$cardPath-$index'),
-                          padding: const EdgeInsets.all(8.0),
-                          child: GestureDetector(
-                            onLongPress: () => onShowZoom(context, cardPath),
-                            child: Draggable<String>(
-                              data: cardPath,
-                              onDragStarted: () {
-                                context.read<CardGridBloc>().add(
-                                  StartDraggingCard(cardPath),
-                                );
-                              },
-                              onDragEnd: (_) {
-                                context.read<CardGridBloc>().add(
-                                  StopDraggingCard(),
-                                );
-                              },
-                              onDragCompleted: () {
-                                context.read<PlayerHandBloc>().add(
-                                  RemoveCard(cardPath),
-                                );
-                              },
-                              feedback: Image.asset(
-                                cardPath,
-                                height: GameConstants.handCardHeight,
-                                fit: BoxFit.contain,
-                              ),
-                              childWhenDragging: Opacity(
-                                opacity: 0.5,
+            return GestureDetector(
+              onHorizontalDragUpdate: (details) {
+                _scrollController.position.moveTo(
+                  _scrollController.offset - details.delta.dx,
+                );
+              },
+              child: Container(
+                height: GameConstants.handHeight,
+                color: GameTheme.handBackgroundColor,
+                child: state.cards.isEmpty
+                    ? Center(
+                        child: Text(
+                          'Arraste cartas do deck para cá',
+                          style: GameTheme.handText,
+                        ),
+                      )
+                    : ReorderableListView.builder(
+                        scrollController: _scrollController,
+                        scrollDirection: Axis.horizontal,
+                        itemCount: state.cards.length,
+                        onReorder: (oldIndex, newIndex) {
+                          context.read<PlayerHandBloc>().add(
+                            ReorderCards(oldIndex, newIndex),
+                          );
+                        },
+                        itemBuilder: (context, index) {
+                          final cardPath = state.cards[index];
+                          return Padding(
+                            key: ValueKey('$cardPath-$index'),
+                            padding: const EdgeInsets.all(8.0),
+                            child: GestureDetector(
+                              onLongPress: () => widget.onShowZoom(context, cardPath),
+                              child: Draggable<String>(
+                                data: cardPath,
+                                onDragStarted: () {
+                                  context.read<CardGridBloc>().add(
+                                    StartDraggingCard(cardPath),
+                                  );
+                                },
+                                onDragEnd: (_) {
+                                  context.read<CardGridBloc>().add(
+                                    StopDraggingCard(),
+                                  );
+                                },
+                                onDragCompleted: () {
+                                  context.read<PlayerHandBloc>().add(
+                                    RemoveCard(cardPath),
+                                  );
+                                },
+                                feedback: Image.asset(
+                                  cardPath,
+                                  height: GameConstants.handCardHeight,
+                                  fit: BoxFit.contain,
+                                ),
+                                childWhenDragging: Opacity(
+                                  opacity: 0.5,
+                                  child: Image.asset(
+                                    'assets/images/card_verso.png',
+                                    height: GameConstants.handCardHeight,
+                                    fit: BoxFit.contain,
+                                  ),
+                                ),
                                 child: Image.asset(
-                                  'assets/images/card_verso.png',
+                                  cardPath,
                                   height: GameConstants.handCardHeight,
                                   fit: BoxFit.contain,
                                 ),
                               ),
-                              child: Image.asset(
-                                cardPath,
-                                height: GameConstants.handCardHeight,
-                                fit: BoxFit.contain,
-                              ),
                             ),
-                          ),
-                        );
-                      },
-                    ),
+                          );
+                        },
+                      ),
+              ),
             );
           },
           onWillAccept: (data) => data != null && !state.cards.contains(data),
