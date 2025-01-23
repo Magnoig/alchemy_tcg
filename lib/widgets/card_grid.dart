@@ -34,10 +34,7 @@ class _CardGridState extends State<CardGrid> {
             child: SizedBox(
               width: cellSize * 1.4,
               height: cellSize * 1.8,
-              child: BlocProvider(
-                create: (context) => CardDeckBloc(),
-                child: CardDeck(),
-              ),
+              child: CardDeck(),
             ),
           ),
         ],
@@ -144,8 +141,11 @@ class _CardGridState extends State<CardGrid> {
     final screenWidth = MediaQuery.of(context).size.width;
     final cellSize = screenWidth / 7;
 
-    return BlocProvider(
-      create: (context) => BoardBloc(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => BoardBloc()),
+        BlocProvider(create: (context) => CardDeckBloc()),
+      ],
       child: Scaffold(
         appBar: AppBar(
           title: Text('Jogo de Cartas'),
