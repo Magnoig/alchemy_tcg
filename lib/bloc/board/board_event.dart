@@ -10,4 +10,14 @@ class PlaceCard extends BoardEvent {
     required this.col,
     required this.cardPath,
   });
+}
+
+class RemoveCard extends BoardEvent {
+  final int row;
+  final int col;
+
+  RemoveCard({
+    required this.row,
+    required this.col,
+  });
 } 

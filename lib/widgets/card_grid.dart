@@ -74,7 +74,7 @@ class _CardGridState extends State<CardGrid> {
     return BlocBuilder<BoardBloc, BoardState>(
       builder: (context, boardState) {
         final cardKey = '$row,$col';
-        final cardInCell = boardState.boardCards[cardKey];
+        final cardInCell = boardState.getTopCard(cardKey);
 
         return BlocBuilder<CardGridBloc, CardGridState>(
           builder: (context, gridState) {
@@ -103,9 +103,31 @@ class _CardGridState extends State<CardGrid> {
                       ),
                       if (cardInCell != null)
                         Positioned.fill(
-                          child: Image.asset(
-                            cardInCell,
-                            fit: BoxFit.contain,
+                          child: Draggable<String>(
+                            data: cardInCell,
+                            onDragCompleted: () {
+                              context.read<BoardBloc>().add(RemoveCard(
+                                row: row,
+                                col: col,
+                              ));
+                            },
+                            feedback: Image.asset(
+                              cardInCell,
+                              width: cellSize,
+                              height: cellSize,
+                              fit: BoxFit.contain,
+                            ),
+                            childWhenDragging: Opacity(
+                              opacity: 0.5,
+                              child: Image.asset(
+                                cardInCell,
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                            child: Image.asset(
+                              cardInCell,
+                              fit: BoxFit.contain,
+                            ),
                           ),
                         ),
                       if (candidateData.isNotEmpty)
