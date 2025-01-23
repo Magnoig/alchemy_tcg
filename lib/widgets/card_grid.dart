@@ -8,6 +8,7 @@ import '../bloc/board/board_bloc.dart';
 import '../bloc/board/board_state.dart';
 import '../bloc/board/board_event.dart';
 import 'card_deck.dart';
+import 'card_zoom.dart';
 
 class CardGrid extends StatefulWidget {
   @override
@@ -17,6 +18,13 @@ class CardGrid extends StatefulWidget {
 class _CardGridState extends State<CardGrid> {
   List<String> playerHand = [];
   final ScrollController _scrollController = ScrollController();
+
+  void _showCardZoom(BuildContext context, String cardPath) {
+    showDialog(
+      context: context,
+      builder: (context) => CardZoom(cardPath: cardPath),
+    );
+  }
 
   @override
   void initState() {
@@ -123,29 +131,32 @@ class _CardGridState extends State<CardGrid> {
                       ),
                       if (cardInCell != null)
                         Positioned.fill(
-                          child: Draggable<String>(
-                            data: cardInCell,
-                            onDragCompleted: () {
-                              context.read<BoardBloc>().add(RemoveCard(
-                                row: row,
-                                col: col,
-                              ));
-                            },
-                            feedback: Image.asset(
-                              cardInCell,
-                              width: cellSize,
-                              height: cellSize,
-                              fit: BoxFit.contain,
-                            ),
-                            childWhenDragging: boardState.getCardBelowTop(cardKey) != null
-                                ? Image.asset(
-                                    'assets/images/card_verso.png',
-                                    fit: BoxFit.contain,
-                                  )
-                                : Container(),
-                            child: Image.asset(
-                              cardInCell,
-                              fit: BoxFit.contain,
+                          child: GestureDetector(
+                            onLongPress: () => _showCardZoom(context, cardInCell),
+                            child: Draggable<String>(
+                              data: cardInCell,
+                              onDragCompleted: () {
+                                context.read<BoardBloc>().add(RemoveCard(
+                                  row: row,
+                                  col: col,
+                                ));
+                              },
+                              feedback: Image.asset(
+                                cardInCell,
+                                width: cellSize,
+                                height: cellSize,
+                                fit: BoxFit.contain,
+                              ),
+                              childWhenDragging: boardState.getCardBelowTop(cardKey) != null
+                                  ? Image.asset(
+                                      'assets/images/card_verso.png',
+                                      fit: BoxFit.contain,
+                                    )
+                                  : Container(),
+                              child: Image.asset(
+                                cardInCell,
+                                fit: BoxFit.contain,
+                              ),
                             ),
                           ),
                         ),
@@ -213,35 +224,38 @@ class _CardGridState extends State<CardGrid> {
                     return Padding(
                       key: ValueKey(cardPath),
                       padding: const EdgeInsets.all(8.0),
-                      child: Draggable<String>(
-                        data: cardPath,
-                        onDragStarted: () {
-                          context.read<CardGridBloc>().add(
-                            StartDraggingCard(cardPath),
-                          );
-                        },
-                        onDragEnd: (_) {
-                          context.read<CardGridBloc>().add(
-                            StopDraggingCard(),
-                          );
-                        },
-                        feedback: Image.asset(
-                          cardPath,
-                          height: 80,
-                          fit: BoxFit.contain,
-                        ),
-                        childWhenDragging: Opacity(
-                          opacity: 0.5,
-                          child: Image.asset(
-                            'assets/images/card_verso.png',
+                      child: GestureDetector(
+                        onLongPress: () => _showCardZoom(context, cardPath),
+                        child: Draggable<String>(
+                          data: cardPath,
+                          onDragStarted: () {
+                            context.read<CardGridBloc>().add(
+                              StartDraggingCard(cardPath),
+                            );
+                          },
+                          onDragEnd: (_) {
+                            context.read<CardGridBloc>().add(
+                              StopDraggingCard(),
+                            );
+                          },
+                          feedback: Image.asset(
+                            cardPath,
                             height: 80,
                             fit: BoxFit.contain,
                           ),
-                        ),
-                        child: Image.asset(
-                          cardPath,
-                          height: 80,
-                          fit: BoxFit.contain,
+                          childWhenDragging: Opacity(
+                            opacity: 0.5,
+                            child: Image.asset(
+                              'assets/images/card_verso.png',
+                              height: 80,
+                              fit: BoxFit.contain,
+                            ),
+                          ),
+                          child: Image.asset(
+                            cardPath,
+                            height: 80,
+                            fit: BoxFit.contain,
+                          ),
                         ),
                       ),
                     );
