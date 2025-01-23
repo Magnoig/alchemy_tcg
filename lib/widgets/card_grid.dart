@@ -196,12 +196,22 @@ class _CardGridState extends State<CardGrid> {
               ? const Center(
                   child: Text('Arraste cartas do deck para cá'),
                 )
-              : ListView.builder(
+              : ReorderableListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: playerHand.length,
+                  onReorder: (oldIndex, newIndex) {
+                    setState(() {
+                      if (oldIndex < newIndex) {
+                        newIndex -= 1;
+                      }
+                      final item = playerHand.removeAt(oldIndex);
+                      playerHand.insert(newIndex, item);
+                    });
+                  },
                   itemBuilder: (context, index) {
                     final cardPath = playerHand[index];
                     return Padding(
+                      key: ValueKey(cardPath),
                       padding: const EdgeInsets.all(8.0),
                       child: Draggable<String>(
                         data: cardPath,
@@ -238,6 +248,10 @@ class _CardGridState extends State<CardGrid> {
                   },
                 ),
         );
+      },
+      onWillAccept: (data) {
+        // Só aceita a carta se ela não estiver na mão
+        return !playerHand.contains(data);
       },
       onAccept: (String cardPath) {
         setState(() {
