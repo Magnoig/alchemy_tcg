@@ -4,8 +4,8 @@ import '../bloc/card_grid/card_grid_bloc.dart';
 import '../bloc/card_deck/card_deck_bloc.dart';
 import '../bloc/board/board_bloc.dart';
 import '../bloc/player_hand/player_hand_bloc.dart';
-import '../bloc/player_hand/player_hand_event.dart';
 import '../constants/game_constants.dart';
+import '../repositories/asset_card_repository.dart';
 import 'card_zoom.dart';
 import 'board_cell.dart';
 import 'player_hand.dart';
@@ -52,7 +52,7 @@ class _CardGridState extends State<CardGrid> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => BoardBloc()),
-        BlocProvider(create: (context) => CardDeckBloc()),
+        BlocProvider(create: (context) => CardDeckBloc(AssetCardRepository())),
         BlocProvider(create: (context) => CardGridBloc()),
         BlocProvider(create: (context) => PlayerHandBloc()),
       ],
