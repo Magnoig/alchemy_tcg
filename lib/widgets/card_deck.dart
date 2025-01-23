@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../bloc/card_deck_bloc.dart';
-import '../bloc/card_deck_state.dart';
-import '../bloc/card_deck_event.dart';
+import '../bloc/card_deck/card_deck_bloc.dart';
+import '../bloc/card_deck/card_deck_state.dart';
+import '../bloc/card_deck/card_deck_event.dart';
 
 class CardDeck extends StatelessWidget {
   @override
