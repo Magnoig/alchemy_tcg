@@ -82,9 +82,7 @@ class _CardGridState extends State<CardGrid> {
                     row: row,
                     col: col,
                     cellSize: cellSize,
-                    onCardRemoved: (cardPath) {
-                      context.read<PlayerHandBloc>().add(AddCard(cardPath));
-                    },
+                    onCardRemoved: (_) {},
                     onShowZoom: _showCardZoom,
                   );
                 },

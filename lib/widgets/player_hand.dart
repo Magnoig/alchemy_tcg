@@ -43,7 +43,7 @@ class PlayerHand extends StatelessWidget {
                       itemBuilder: (context, index) {
                         final cardPath = state.cards[index];
                         return Padding(
-                          key: ValueKey(cardPath),
+                          key: ValueKey('$cardPath-$index'),
                           padding: const EdgeInsets.all(8.0),
                           child: GestureDetector(
                             onLongPress: () => onShowZoom(context, cardPath),
