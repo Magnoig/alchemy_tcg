@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../core/theme/game_theme.dart';
 import '../../blocs/card_grid/card_grid_bloc.dart';
 import '../../blocs/card_grid/card_grid_state.dart';
 import '../../blocs/card_grid/card_grid_event.dart';
 import '../../blocs/board/board_bloc.dart';
 import '../../blocs/board/board_state.dart';
-import '../../blocs/board/board_event.dart';
+import '../../blocs/board/board_event.dart' as board_events;
+import '../../blocs/player_hand/player_hand_bloc.dart';
+import '../../blocs/player_hand/player_hand_event.dart' as hand_events;
 import '../../../core/services/cell_validator.dart';
 import 'board_cell_content.dart';
 import 'board_cell_overlay.dart';
@@ -31,16 +34,12 @@ class BoardCell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (!_validator.isCentralCell(row, col)) {
-      return Card(
-        color: Colors.grey,
-        child: Center(
-          child: Text('Outer'),
+      return Container(
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey.withOpacity(0.2)),
         ),
       );
     }
-
-    final gridRow = row - 1;
-    final gridCol = col - 1;
 
     return BlocBuilder<BoardBloc, BoardState>(
       builder: (context, boardState) {
@@ -54,15 +53,15 @@ class BoardCell extends StatelessWidget {
               builder: (context, candidateData, rejectedData) {
                 return MouseRegion(
                   onEnter: (_) => context.read<CardGridBloc>().add(
-                    HoverOverCell(gridRow, gridCol),
+                    HoverOverCell(row - 1, col - 1),
                   ),
                   onExit: (_) => context.read<CardGridBloc>().add(
-                    LeaveCell(gridRow, gridCol),
+                    LeaveCell(row - 1, col - 1),
                   ),
                   child: Stack(
                     children: [
                       BoardCellContent(
-                        cellState: gridState.cellStates[gridRow][gridCol],
+                        cellState: gridState.cellStates[row - 1][col - 1],
                         cardPath: cardInCell,
                         cellSize: cellSize,
                       ),
@@ -77,7 +76,7 @@ class BoardCell extends StatelessWidget {
                           onCardRemoved: onCardRemoved,
                         ),
                       BoardCellOverlay(
-                        isValidPosition: gridState.validPositions.contains('$gridRow,$gridCol'),
+                        isValidPosition: _validator.isCentralCell(row, col),
                         isDraggingOver: candidateData.isNotEmpty,
                       ),
                     ],
@@ -85,10 +84,10 @@ class BoardCell extends StatelessWidget {
                 );
               },
               onWillAccept: (data) => data != null && 
-                  gridState.validPositions.contains('$gridRow,$gridCol') &&
+                  _validator.isCentralCell(row, col) &&
                   _validator.canAcceptCard(data!, boardState.boardCards[cardKey] ?? []),
               onAccept: (cardPath) {
-                context.read<BoardBloc>().add(PlaceCard(
+                context.read<BoardBloc>().add(board_events.PlaceCard(
                   row: row,
                   col: col,
                   cardPath: cardPath,

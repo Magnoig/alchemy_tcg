@@ -9,10 +9,6 @@ class CardDeckBloc extends Bloc<CardDeckEvent, CardDeckState> {
   CardDeckBloc(this._repository) : super(CardDeckState.initial()) {
     on<RemoveTopCard>(_onRemoveTopCard);
     on<InitializeDeck>(_onInitializeDeck);
-    _initialize();
-  }
-
-  Future<void> _initialize() async {
     add(InitializeDeck());
   }
 

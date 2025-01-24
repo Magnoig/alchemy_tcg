@@ -1,15 +1,21 @@
+import '../constants/game_constants.dart';
+
 class CellValidator {
   bool isValidPosition(int row, int col) {
-    return row >= 0 && row < 5 && col >= 0 && col < 5;
+    return row >= 0 && row < GameConstants.gridSize && 
+           col >= 0 && col < GameConstants.gridSize;
   }
 
   bool isCentralCell(int row, int col) {
-    return row >= 1 && row <= 5 && col >= 1 && col <= 5;
+    // Área jogável é 5x5 no centro do tabuleiro 7x7
+    return row >= GameConstants.playableStartRow && 
+           row <= GameConstants.playableEndRow && 
+           col >= GameConstants.playableStartCol && 
+           col <= GameConstants.playableEndCol;
   }
 
   bool canAcceptCard(String cardPath, List<String> existingCards) {
-    // Aqui você pode adicionar regras específicas do jogo
-    // Por exemplo, verificar se a carta pode ser colocada em cima de outras
+    // Por enquanto, permite colocar cartas em qualquer célula válida
     return true;
   }
 } 

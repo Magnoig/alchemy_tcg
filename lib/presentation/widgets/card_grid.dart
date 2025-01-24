@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import '../blocs/card_grid/card_grid_bloc.dart';
-import '../blocs/card_deck/card_deck_bloc.dart';
-import '../blocs/board/board_bloc.dart';
-import '../blocs/player_hand/player_hand_bloc.dart';
 import '../../core/constants/game_constants.dart';
-import '../../data/repositories/asset_card_repository.dart';
 import 'board/board_cell.dart';
 import 'card_zoom.dart';
-import 'deck_cell.dart';
-import 'player_hand.dart';
+import 'deck/deck_cell.dart';
+import 'hand/player_hand.dart';
 
 class CardGrid extends StatefulWidget {
+  const CardGrid({super.key});
+
   @override
   _CardGridState createState() => _CardGridState();
 }
@@ -44,55 +40,61 @@ class _CardGridState extends State<CardGrid> {
     super.dispose();
   }
 
+  Widget _buildCell(int row, int col, double cellSize) {
+    // Posição do deck
+    if (GameConstants.isDeckPosition(row, col)) {
+      return DeckCell(cellSize: cellSize);
+    }
+
+    // Área jogável
+    if (GameConstants.isPlayablePosition(row, col)) {
+      return BoardCell(
+        row: row,
+        col: col,
+        cellSize: cellSize,
+        onCardRemoved: (_) {},
+        onShowZoom: _showCardZoom,
+      );
+    }
+
+    // Células não jogáveis
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey.withOpacity(0.2)),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final cellSize = screenWidth / GameConstants.gridSize;
 
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (context) => BoardBloc()),
-        BlocProvider(create: (context) => CardDeckBloc(AssetCardRepository())),
-        BlocProvider(create: (context) => CardGridBloc()),
-        BlocProvider(create: (context) => PlayerHandBloc()),
-      ],
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text('Jogo de Cartas'),
-        ),
-        body: Column(
-          children: [
-            Expanded(
-              child: GridView.builder(
-                controller: _scrollController,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: GameConstants.gridSize,
-                  childAspectRatio: 1,
-                ),
-                itemCount: GameConstants.gridSize * GameConstants.gridSize,
-                itemBuilder: (context, index) {
-                  final row = index ~/ GameConstants.gridSize;
-                  final col = index % GameConstants.gridSize;
-                  
-                  if (row == GameConstants.deckRow && col == GameConstants.deckCol) {
-                    return DeckCell(cellSize: cellSize);
-                  }
-
-                  return BoardCell(
-                    row: row,
-                    col: col,
-                    cellSize: cellSize,
-                    onCardRemoved: (_) {},
-                    onShowZoom: _showCardZoom,
-                  );
-                },
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Alchemy TCG'),
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: GridView.builder(
+              controller: _scrollController,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: GameConstants.gridSize,
+                childAspectRatio: 1,
               ),
+              itemCount: GameConstants.gridSize * GameConstants.gridSize,
+              itemBuilder: (context, index) {
+                final row = index ~/ GameConstants.gridSize;
+                final col = index % GameConstants.gridSize;
+                return _buildCell(row, col, cellSize);
+              },
             ),
-            PlayerHand(
-              onShowZoom: _showCardZoom,
-            ),
-          ],
-        ),
+          ),
+          PlayerHand(
+            onShowZoom: _showCardZoom,
+          ),
+        ],
       ),
     );
   }
