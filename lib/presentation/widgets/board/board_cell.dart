@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../core/theme/game_theme.dart';
 import '../../blocs/card_grid/card_grid_bloc.dart';
 import '../../blocs/card_grid/card_grid_state.dart';
 import '../../blocs/card_grid/card_grid_event.dart';
 import '../../blocs/board/board_bloc.dart';
 import '../../blocs/board/board_state.dart';
 import '../../blocs/board/board_event.dart' as board_events;
-import '../../blocs/player_hand/player_hand_bloc.dart';
-import '../../blocs/player_hand/player_hand_event.dart' as hand_events;
 import '../../../core/services/cell_validator.dart';
 import 'board_cell_content.dart';
 import 'board_cell_overlay.dart';
@@ -85,7 +82,7 @@ class BoardCell extends StatelessWidget {
               },
               onWillAccept: (data) => data != null && 
                   _validator.isCentralCell(row, col) &&
-                  _validator.canAcceptCard(data!, boardState.boardCards[cardKey] ?? []),
+                  _validator.canAcceptCard(data, boardState.boardCards[cardKey] ?? []),
               onAccept: (cardPath) {
                 context.read<BoardBloc>().add(board_events.PlaceCard(
                   row: row,
