@@ -10,9 +10,9 @@ class PlayerHand extends StatefulWidget {
   final Function(BuildContext, String) onShowZoom;
 
   const PlayerHand({
-    Key? key,
+    super.key,
     required this.onShowZoom,
-  }) : super(key: key);
+  });
 
   @override
   State<PlayerHand> createState() => _PlayerHandState();
@@ -102,8 +102,9 @@ class _PlayerHandState extends State<PlayerHand> {
                     ),
             );
           },
-          onWillAccept: (data) => data != null,
-          onAccept: (cardPath) {
+          onWillAcceptWithDetails: (details) => details.data.isNotEmpty,
+          onAcceptWithDetails: (details) {
+            final cardPath = details.data;
             context.read<PlayerHandBloc>().add(
               AddCard(cardPath),
             );

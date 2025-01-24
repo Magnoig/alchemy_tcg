@@ -10,9 +10,9 @@ class DeckCell extends StatelessWidget {
   final double cellSize;
 
   const DeckCell({
-    Key? key,
+    super.key,
     required this.cellSize,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

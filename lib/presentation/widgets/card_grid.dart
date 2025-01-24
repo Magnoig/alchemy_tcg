@@ -9,10 +9,10 @@ class CardGrid extends StatefulWidget {
   const CardGrid({super.key});
 
   @override
-  _CardGridState createState() => _CardGridState();
+  CardGridState createState() => CardGridState();
 }
 
-class _CardGridState extends State<CardGrid> {
+class CardGridState extends State<CardGrid> {
   final ScrollController _scrollController = ScrollController();
 
   void _showCardZoom(BuildContext context, String cardPath) {
@@ -60,7 +60,7 @@ class _CardGridState extends State<CardGrid> {
     // Células não jogáveis
     return Container(
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey.withOpacity(0.2)),
+        border: Border.all(color: Color.fromRGBO(128, 128, 128, 0.2)),
       ),
     );
   }

@@ -7,20 +7,20 @@ class BoardCellContent extends StatelessWidget {
   final double cellSize;
 
   const BoardCellContent({
-    Key? key,
+    super.key,
     required this.cellState,
     required this.cardPath,
     required this.cellSize,
-  }) : super(key: key);
+  });
 
   Color _getCellColor(CellState state) {
     switch (state) {
       case CellState.empty:
         return Colors.blue;
       case CellState.valid:
-        return Colors.green.withOpacity(0.3);
+        return Color.fromRGBO(0, 128, 0, 0.3);
       case CellState.invalid:
-        return Colors.red.withOpacity(0.3);
+        return Color.fromRGBO(255, 0, 0, 0.3);
       case CellState.highlighted:
         return Colors.green;
     }

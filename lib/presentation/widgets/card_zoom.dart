@@ -4,7 +4,7 @@ import '../../core/constants/game_constants.dart';
 class CardZoom extends StatelessWidget {
   final String cardPath;
 
-  const CardZoom({Key? key, required this.cardPath}) : super(key: key);
+  const CardZoom({super.key, required this.cardPath});
 
   @override
   Widget build(BuildContext context) {

@@ -20,20 +20,20 @@ class BoardCell extends StatelessWidget {
   final CellValidator _validator = CellValidator();
 
   BoardCell({
-    Key? key,
+    super.key,
     required this.row,
     required this.col,
     required this.cellSize,
     required this.onCardRemoved,
     required this.onShowZoom,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     if (!_validator.isCentralCell(row, col)) {
       return Container(
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey.withOpacity(0.2)),
+          border: Border.all(color: Color.fromRGBO(128, 128, 128, 0.2)),
         ),
       );
     }
@@ -80,10 +80,11 @@ class BoardCell extends StatelessWidget {
                   ),
                 );
               },
-              onWillAccept: (data) => data != null && 
+              onWillAcceptWithDetails: (details) =>
                   _validator.isCentralCell(row, col) &&
-                  _validator.canAcceptCard(data, boardState.boardCards[cardKey] ?? []),
-              onAccept: (cardPath) {
+                  _validator.canAcceptCard(details.data, boardState.boardCards[cardKey] ?? []),
+              onAcceptWithDetails: (details) {
+                final cardPath = details.data;
                 context.read<BoardBloc>().add(board_events.PlaceCard(
                   row: row,
                   col: col,

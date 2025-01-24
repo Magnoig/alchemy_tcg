@@ -13,7 +13,7 @@ class BoardCellDraggable extends StatelessWidget {
   final Function(String) onCardRemoved;
 
   const BoardCellDraggable({
-    Key? key,
+    super.key,
     required this.cardPath,
     required this.cardBelow,
     required this.cellSize,
@@ -21,7 +21,7 @@ class BoardCellDraggable extends StatelessWidget {
     required this.col,
     required this.onShowZoom,
     required this.onCardRemoved,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

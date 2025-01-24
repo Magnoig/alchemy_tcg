@@ -5,6 +5,8 @@ import '../blocs/card_deck/card_deck_state.dart';
 import '../blocs/card_deck/card_deck_event.dart';
 
 class CardDeck extends StatelessWidget {
+  const CardDeck({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CardDeckBloc, CardDeckState>(
@@ -27,7 +29,7 @@ class CardDeck extends StatelessWidget {
                   height: 150,
                 ),
               );
-            }).toList(),
+            }),
 
             Positioned(
               top: 0.0,

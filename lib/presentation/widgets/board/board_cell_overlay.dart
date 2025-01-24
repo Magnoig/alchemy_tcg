@@ -5,10 +5,10 @@ class BoardCellOverlay extends StatelessWidget {
   final bool isDraggingOver;
 
   const BoardCellOverlay({
-    Key? key,
+    super.key,
     required this.isValidPosition,
     required this.isDraggingOver,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
