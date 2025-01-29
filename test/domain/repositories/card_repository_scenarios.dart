@@ -26,4 +26,9 @@ class CardRepositoryScenarios extends CardRepository {
     return 'assets/images/card_verso.png';
   }
 
+  @override
+  Future<List<String>> removeTopCard(List<String> cardImages) async {
+    return List.from(cardImages)..removeLast();
+  }
+
 }

@@ -40,4 +40,10 @@ class AssetCardRepository implements CardRepository {
   Future<void> shuffleDeck() async {
     _cards.shuffle();
   }
+  @override
+  Future<void> removeTopCard(List<String> cardImages) async {
+    if (cardImages.isNotEmpty) {
+      _cards.removeLast();
+    }
+  }
 } 

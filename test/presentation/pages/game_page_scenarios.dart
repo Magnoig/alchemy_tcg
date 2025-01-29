@@ -15,4 +15,9 @@ class MockCardRepository implements CardRepository {
   Future<void> shuffleDeck() async {
     // Mock shuffle logic if needed
   }
+
+  @override
+  Future<List<String>> removeTopCard(List<String> cardImages) async {
+    return List.from(cardImages)..removeLast();
+  }
 }

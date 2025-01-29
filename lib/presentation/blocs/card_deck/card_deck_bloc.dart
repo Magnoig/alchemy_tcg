@@ -13,15 +13,15 @@ class CardDeckBloc extends Bloc<CardDeckEvent, CardDeckState> {
   }
 
   Future<void> _onInitializeDeck(InitializeDeck event, Emitter<CardDeckState> emit) async {
-    final cards = await _repository.getCards();
     await _repository.shuffleDeck();
+    final cards = await _repository.getCards();
     emit(state.copyWith(cardImages: cards));
   }
 
-  void _onRemoveTopCard(RemoveTopCard event, Emitter<CardDeckState> emit) {
+  Future<void> _onRemoveTopCard(RemoveTopCard event, Emitter<CardDeckState> emit) async {
     if (state.cardImages.isNotEmpty) {
-      final newCards = List<String>.from(state.cardImages)..removeLast();
-      emit(state.copyWith(cardImages: newCards));
+      await _repository.removeTopCard(state.cardImages);
+      emit(state.copyWith(cardImages: await _repository.getCards()));
     }
   }
 } 
