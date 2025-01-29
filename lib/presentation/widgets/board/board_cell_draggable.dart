@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../blocs/board/board_bloc.dart';
 import '../../blocs/board/board_event.dart';
+import 'package:alchemy_tcg/core/di/service_locator.dart';
+import 'package:alchemy_tcg/domain/repositories/card_repository.dart';
 
 class BoardCellDraggable extends StatelessWidget {
   final String cardPath;
@@ -44,9 +46,20 @@ class BoardCellDraggable extends StatelessWidget {
             fit: BoxFit.contain,
           ),
           childWhenDragging: cardBelow != null
-              ? Image.asset(
-                  'assets/images/card_verso.png',
-                  fit: BoxFit.contain,
+              ? FutureBuilder<String?>(
+                  future: getIt<CardRepository>().getCardBack(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(child: CircularProgressIndicator());
+                    } else if (snapshot.hasError) {
+                      return Center(child: Icon(Icons.error));
+                    } else {
+                      return Image.asset(
+                        snapshot.data ?? '', // Use o caminho da imagem
+                        fit: BoxFit.contain,
+                      );
+                    }
+                  },
                 )
               : Container(),
           child: Image.asset(
