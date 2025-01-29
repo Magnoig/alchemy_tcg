@@ -1,29 +1,29 @@
 import '../../domain/repositories/card_repository.dart';
-
+import '../../assets/image_paths.dart';
 class AssetCardRepository implements CardRepository {
   final List<String> _cards = [
-    "assets/images/Ancestral Anger.PNG",
-    "assets/images/Circuit Mender.PNG",
-    "assets/images/Crash Through.PNG",
-    "assets/images/Crimson Wisps.PNG",
-    "assets/images/Devilish Valet.PNG",
-    "assets/images/Expedite.PNG",
-    "assets/images/Fireflux Squad.PNG",
-    "assets/images/Humble Defector.PNG",
-    "assets/images/Inferno Titan.PNG",
-    "assets/images/Lava Dart.PNG",
-    "assets/images/Magmatic Insight.PNG",
-    "assets/images/Overmaster.PNG",
-    "assets/images/Pilgrim's Eye.PNG",
-    "assets/images/Reckless Barbarian.PNG",
-    "assets/images/Renegade Tactics.PNG",
-    "assets/images/Rile.PNG",
-    "assets/images/Skyscanner.PNG",
-    "assets/images/Strike It Rich.PNG",
-    "assets/images/Tectonic Giant.PNG",
-    "assets/images/Thores of Chaos.PNG",
-    "assets/images/Warlord's Fury.PNG",
-    "assets/images/Wild Guess.PNG",
+    ImagePaths.ancestralAnger,
+    ImagePaths.circuitMender,
+    ImagePaths.crashThrough,
+    ImagePaths.crimsonWisps,
+    ImagePaths.devilishValet,
+    ImagePaths.expedite,
+    ImagePaths.firefluxSquad,
+    ImagePaths.humbleDefector,
+    ImagePaths.infernoTitan,
+    ImagePaths.lavaDart,
+    ImagePaths.magmaticInsight,
+    ImagePaths.overmaster,
+    ImagePaths.pilgrimEye,
+    ImagePaths.recklessBarbarian,
+    ImagePaths.renegadeTactics,
+    ImagePaths.rile,
+    ImagePaths.skyscanner,
+    ImagePaths.strikeItRich,
+    ImagePaths.tectonicGiant,
+    ImagePaths.thoresOfChaos,
+    ImagePaths.warlordFury,
+    ImagePaths.wildGuess,
   ];
 
   @override
@@ -33,7 +33,7 @@ class AssetCardRepository implements CardRepository {
 
   @override
   Future<String?> getCardBack() async {
-    return 'assets/images/card_verso.png';
+    return ImagePaths.cardBack;
   }
 
   @override
