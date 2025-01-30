@@ -7,7 +7,8 @@ class CardRepositoryScenarios extends CardRepository {
   Future<List<String>> getCards() async {
     return _cards;
   }
-
+  
+  @override
   Future<void> addCard(String cardPath) async {
     _cards.add(cardPath);
   }

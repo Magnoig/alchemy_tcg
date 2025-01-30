@@ -20,4 +20,9 @@ class MockCardRepository implements CardRepository {
   Future<List<String>> removeTopCard(List<String> cardImages) async {
     return List.from(cardImages)..removeLast();
   }
+
+  @override
+  Future<void> addCard(String cardPath) async {
+    // Mock add card logic if needed
+  }
 }

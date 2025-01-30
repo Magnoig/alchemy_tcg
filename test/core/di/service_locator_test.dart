@@ -7,6 +7,8 @@ import 'package:alchemy_tcg/presentation/blocs/board/board_bloc.dart';
 import 'package:alchemy_tcg/presentation/blocs/card_deck/card_deck_bloc.dart';
 import 'package:alchemy_tcg/presentation/blocs/card_grid/card_grid_bloc.dart';
 import 'package:alchemy_tcg/presentation/blocs/player_hand/player_hand_bloc.dart';
+import 'package:alchemy_tcg/domain/repositories/card_hand.dart';
+import 'package:alchemy_tcg/data/repositories/asset_card_hand.dart';
 
 void main() {
   setUp(() {
@@ -17,6 +19,11 @@ void main() {
   test('Service Locator registers CardRepository', () {
     setupServiceLocator();
     expect(GetIt.I<CardRepository>(), isA<AssetCardRepository>());
+  });
+
+  test('Service Locator registers CardHand', () {
+    setupServiceLocator();
+    expect(GetIt.I<CardHand>(), isA<AssetCardHand>());
   });
 
   test('Service Locator registers BoardBloc', () {
