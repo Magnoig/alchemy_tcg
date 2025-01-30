@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../blocs/board/board_bloc.dart';
 import '../../blocs/board/board_event.dart';
-import 'package:alchemy_tcg/core/di/service_locator.dart';
-import 'package:alchemy_tcg/domain/repositories/card_repository.dart';
+import '../../blocs/card_grid/card_grid_bloc.dart';
+import '../../blocs/card_grid/card_grid_event.dart';
 
 class BoardCellDraggable extends StatelessWidget {
   final String cardPath;
@@ -32,12 +32,13 @@ class BoardCellDraggable extends StatelessWidget {
         onLongPress: () => onShowZoom(context, cardPath),
         child: Draggable<String>(
           data: cardPath,
+          onDragStarted: () {
+            context.read<CardGridBloc>().add(StartDraggingCard(cardPath));
+          },
           onDragCompleted: () {
-            context.read<BoardBloc>().add(RemoveCard(
-              row: row,
-              col: col,
-            ));
+            context.read<BoardBloc>().add(RemoveCard(row: row, col: col));
             onCardRemoved(cardPath);
+            context.read<CardGridBloc>().add(StopDraggingCard());
           },
           feedback: Image.asset(
             cardPath,
@@ -46,20 +47,9 @@ class BoardCellDraggable extends StatelessWidget {
             fit: BoxFit.contain,
           ),
           childWhenDragging: cardBelow != null
-              ? FutureBuilder<String?>(
-                  future: getIt<CardRepository>().getCardBack(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(child: CircularProgressIndicator());
-                    } else if (snapshot.hasError) {
-                      return Center(child: Icon(Icons.error));
-                    } else {
-                      return Image.asset(
-                        snapshot.data ?? '', // Use o caminho da imagem
-                        fit: BoxFit.contain,
-                      );
-                    }
-                  },
+              ? Image.asset(
+                  cardBelow!,
+                  fit: BoxFit.contain,
                 )
               : Container(),
           child: Image.asset(
