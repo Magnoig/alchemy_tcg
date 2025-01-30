@@ -1,38 +1,24 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'board_event.dart';
 import 'board_state.dart';
+import 'package:alchemy_tcg/domain/repositories/card_board.dart';
 
 class BoardBloc extends Bloc<BoardEvent, BoardState> {
-  BoardBloc() : super(BoardState.initial()) {
+  final CardBoard _board;
+  BoardBloc(this._board) : super(BoardState.initial()) {
     on<PlaceCard>(_onPlaceCard);
     on<RemoveCard>(_onRemoveCard);
   }
 
-  void _onPlaceCard(PlaceCard event, Emitter<BoardState> emit) {
-    final position = '${event.row},${event.col}';
-    final newBoardCards = Map<String, List<String>>.from(state.boardCards);
+  void _onPlaceCard(PlaceCard event, Emitter<BoardState> emit) async {
+    await _board.placeCard(event.cardPath, event.row, event.col);
     
-    if (!newBoardCards.containsKey(position)) {
-      newBoardCards[position] = [];
-    }
-    
-    newBoardCards[position]!.add(event.cardPath);
-    
-    emit(state.copyWith(boardCards: newBoardCards));
+    emit(state.copyWith(boardCards: await _board.getBoardCards()));
   }
 
-  void _onRemoveCard(RemoveCard event, Emitter<BoardState> emit) {
-    final position = '${event.row},${event.col}';
-    final newBoardCards = Map<String, List<String>>.from(state.boardCards);
+  void _onRemoveCard(RemoveCard event, Emitter<BoardState> emit) async {
+    await _board.removeCard(event.row, event.col);
     
-    if (newBoardCards.containsKey(position) && newBoardCards[position]!.isNotEmpty) {
-      newBoardCards[position]!.removeLast();
-      
-      if (newBoardCards[position]!.isEmpty) {
-        newBoardCards.remove(position);
-      }
-    }
-    
-    emit(state.copyWith(boardCards: newBoardCards));
+    emit(state.copyWith(boardCards: await _board.getBoardCards()));
   }
 } 
