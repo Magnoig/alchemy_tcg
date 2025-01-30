@@ -46,4 +46,9 @@ class AssetCardRepository implements CardRepository {
       _cards.removeLast();
     }
   }
+
+  @override
+  Future<void> addCard(String cardPath) async {
+    _cards.add(cardPath);
+  }
 } 
