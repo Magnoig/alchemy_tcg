@@ -19,9 +19,7 @@ class CardDeckBloc extends Bloc<CardDeckEvent, CardDeckState> {
   }
 
   Future<void> _onRemoveTopCard(RemoveTopCard event, Emitter<CardDeckState> emit) async {
-    if (state.cardImages.isNotEmpty) {
-      await _repository.removeTopCard(state.cardImages);
-      emit(state.copyWith(cardImages: await _repository.getCards()));
-    }
+    await _repository.removeTopCard(state.cardImages);
+    emit(state.copyWith(cardImages: await _repository.getCards()));
   }
 } 
