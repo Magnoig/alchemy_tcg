@@ -5,6 +5,7 @@ import '../../../core/theme/game_theme.dart';
 import '../../blocs/card_deck/card_deck_bloc.dart';
 import '../../blocs/card_deck/card_deck_event.dart';
 import '../../blocs/card_deck/card_deck_state.dart';
+import 'card_stack.dart';
 
 class DeckCell extends StatelessWidget {
   final double cellSize;
@@ -46,55 +47,13 @@ class DeckCell extends StatelessWidget {
                 ),
               ),
             ),
-            childWhenDragging: SizedBox(
-              width: cardWidth,
-              height: cardHeight,
-              child: Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  for (int i = 2; i >= 0; i--)
-                    Positioned(
-                      top: -i * 2.0,
-                      right: -i * 2.0,
-                      child: Card(
-                        child: Image.asset(
-                          'assets/images/card_verso.png',
-                          width: cardWidth,
-                          height: cardHeight,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                ],
-              ),
-            ),
+            childWhenDragging: CardStack(cardWidth: cardWidth, cardHeight: cardHeight),
             onDragEnd: (details) {
               if (details.wasAccepted) {
                 context.read<CardDeckBloc>().add(RemoveTopCard());
               }
             },
-            child: SizedBox(
-              width: cardWidth,
-              height: cardHeight,
-              child: Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  for (int i = 2; i >= 0; i--)
-                    Positioned(
-                      top: -i * 2.0,
-                      right: -i * 2.0,
-                      child: Card(
-                        child: Image.asset(
-                          'assets/images/card_verso.png',
-                          width: cardWidth,
-                          height: cardHeight,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                ],
-              ),
-            ),
+            child: CardStack(cardWidth: cardWidth, cardHeight: cardHeight),
           ),
         );
       },
