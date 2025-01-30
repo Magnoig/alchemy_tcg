@@ -51,7 +51,7 @@ class BoardCellDraggable extends StatelessWidget {
                   cardBelow!,
                   fit: BoxFit.contain,
                 )
-              : Container(),
+              : Center(child: Text('Central')),
           child: Image.asset(
             cardPath,
             fit: BoxFit.contain,
