@@ -81,7 +81,7 @@ class CardGridState extends State<CardGrid> {
               controller: _scrollController,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: GameConstants.gridSize,
-                childAspectRatio: GameConstants.cellAspectRatio,
+                childAspectRatio: GameConstants.cardAspectRatio,
               ),
               itemCount: GameConstants.gridSize * GameConstants.gridSize,
               itemBuilder: (context, index) {

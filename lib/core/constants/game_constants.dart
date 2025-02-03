@@ -13,7 +13,6 @@ class GameConstants {
   static const double handCardHeight = 120.0;
   static const double zoomWidthFactor = 0.7;
   static const double zoomHeightFactor = 0.8;
-  static const double cellAspectRatio = 0.7;
   static const Duration scrollDuration = Duration(milliseconds: 500);
 
   static bool isDeckPosition(int row, int col) {
