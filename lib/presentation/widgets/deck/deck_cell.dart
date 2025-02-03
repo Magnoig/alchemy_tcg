@@ -17,7 +17,7 @@ class DeckCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cardWidth = cellSize * 0.5;
+    final cardWidth = cellSize * 0.8;
     final cardHeight = cardWidth / GameConstants.cardAspectRatio;
 
     return BlocBuilder<CardDeckBloc, CardDeckState>(

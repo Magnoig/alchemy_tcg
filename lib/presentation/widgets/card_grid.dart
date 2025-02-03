@@ -72,7 +72,7 @@ class CardGridState extends State<CardGrid> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Alchemy TCG'),
+        title: const Text('TCG'),
       ),
       body: Column(
         children: [
@@ -81,7 +81,7 @@ class CardGridState extends State<CardGrid> {
               controller: _scrollController,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: GameConstants.gridSize,
-                childAspectRatio: 1,
+                childAspectRatio: GameConstants.cellAspectRatio,
               ),
               itemCount: GameConstants.gridSize * GameConstants.gridSize,
               itemBuilder: (context, index) {
