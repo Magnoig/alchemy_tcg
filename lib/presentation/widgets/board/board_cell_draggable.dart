@@ -40,6 +40,9 @@ class BoardCellDraggable extends StatelessWidget {
             onCardRemoved(cardPath);
             context.read<GridBoardBloc>().add(StopDraggingCard());
           },
+          onDraggableCanceled: (_, __) { 
+            context.read<GridBoardBloc>().add(StopDraggingCard());
+          },
           feedback: Image.asset(
             cardPath,
             width: cellSize,
