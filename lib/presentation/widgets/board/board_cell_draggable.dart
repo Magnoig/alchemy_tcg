@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../blocs/board/board_bloc.dart';
 import '../../blocs/board/board_event.dart';
-import '../../blocs/card_grid/card_grid_bloc.dart';
-import '../../blocs/card_grid/card_grid_event.dart';
+import '../../blocs/grid_board/grid_board_bloc.dart';
+import '../../blocs/grid_board/grid_board_event.dart';
 
 class BoardCellDraggable extends StatelessWidget {
   final String cardPath;
@@ -33,12 +33,12 @@ class BoardCellDraggable extends StatelessWidget {
         child: Draggable<String>(
           data: cardPath,
           onDragStarted: () {
-            context.read<CardGridBloc>().add(StartDraggingCard(cardPath));
+            context.read<GridBoardBloc>().add(StartDraggingCard(cardPath));
           },
           onDragCompleted: () {
             context.read<BoardBloc>().add(RemoveCard(row: row, col: col));
             onCardRemoved(cardPath);
-            context.read<CardGridBloc>().add(StopDraggingCard());
+            context.read<GridBoardBloc>().add(StopDraggingCard());
           },
           feedback: Image.asset(
             cardPath,

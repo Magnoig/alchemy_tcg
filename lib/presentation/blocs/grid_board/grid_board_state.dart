@@ -5,32 +5,32 @@ enum CellState {
   highlighted
 }
 
-class CardGridState {
+class GridBoardState {
   final List<List<CellState>> cellStates;
   final Set<String> validPositions;
 
-  CardGridState({
+  GridBoardState({
     required this.cellStates,
     this.validPositions = const {},
   });
 
-  factory CardGridState.initial() {
+  factory GridBoardState.initial() {
     final initialCellStates = List.generate(
       5,
       (_) => List.filled(5, CellState.empty),
     );
 
-    return CardGridState(
+    return GridBoardState(
       cellStates: initialCellStates,
       validPositions: {},
     );
   }
 
-  CardGridState copyWith({
+  GridBoardState copyWith({
     List<List<CellState>>? cellStates,
     Set<String>? validPositions,
   }) {
-    return CardGridState(
+    return GridBoardState(
       cellStates: cellStates ?? List.from(this.cellStates.map((row) => List.from(row))),
       validPositions: validPositions ?? Set.from(this.validPositions),
     );

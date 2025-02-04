@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../blocs/card_grid/card_grid_bloc.dart';
-import '../../blocs/card_grid/card_grid_state.dart';
-import '../../blocs/card_grid/card_grid_event.dart';
+import '../../blocs/grid_board/grid_board_bloc.dart';
+import '../../blocs/grid_board/grid_board_state.dart';
+import '../../blocs/grid_board/grid_board_event.dart';
 import '../../blocs/board/board_bloc.dart';
 import '../../blocs/board/board_state.dart';
 import '../../blocs/board/board_event.dart' as board_events;
@@ -44,15 +44,15 @@ class BoardCell extends StatelessWidget {
         final cardInCell = boardState.getTopCard(cardKey);
         final cardBelow = boardState.getCardBelowTop(cardKey);
 
-        return BlocBuilder<CardGridBloc, CardGridState>(
+        return BlocBuilder<GridBoardBloc, GridBoardState>(
           builder: (context, gridState) {
             return DragTarget<String>(
               builder: (context, candidateData, rejectedData) {
                 return MouseRegion(
-                  onEnter: (_) => context.read<CardGridBloc>().add(
+                  onEnter: (_) => context.read<GridBoardBloc>().add(
                     HoverOverCell(row - 1, col - 1),
                   ),
-                  onExit: (_) => context.read<CardGridBloc>().add(
+                  onExit: (_) => context.read<GridBoardBloc>().add(
                     LeaveCell(row - 1, col - 1),
                   ),
                   child: Stack(

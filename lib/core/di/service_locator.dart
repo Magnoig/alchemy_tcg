@@ -5,7 +5,7 @@ import '../../domain/repositories/card_repository.dart';
 import '../../domain/repositories/card_hand.dart';
 import '../../presentation/blocs/board/board_bloc.dart';
 import '../../presentation/blocs/card_deck/card_deck_bloc.dart';
-import '../../presentation/blocs/card_grid/card_grid_bloc.dart';
+import '../../presentation/blocs/grid_board/grid_board_bloc.dart';
 import '../../presentation/blocs/player_hand/player_hand_bloc.dart';
 import '../../domain/repositories/card_board.dart';
 import '../../data/repositories/asset_card_board.dart';
@@ -21,6 +21,6 @@ void setupServiceLocator() {
   // BLoCs
   getIt.registerFactory(() => BoardBloc(getIt()));
   getIt.registerFactory(() => CardDeckBloc(getIt()));
-  getIt.registerFactory(() => CardGridBloc());
+  getIt.registerFactory(() => GridBoardBloc());
   getIt.registerFactory(() => PlayerHandBloc(getIt()));
 } 

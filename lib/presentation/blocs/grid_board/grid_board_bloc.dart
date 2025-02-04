@@ -1,16 +1,16 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'card_grid_event.dart';
-import 'card_grid_state.dart';
+import 'grid_board_event.dart';
+import 'grid_board_state.dart';
 
-class CardGridBloc extends Bloc<CardGridEvent, CardGridState> {
-  CardGridBloc() : super(CardGridState.initial()) {
+class GridBoardBloc extends Bloc<GridBoardEvent, GridBoardState> {
+  GridBoardBloc() : super(GridBoardState.initial()) {
     on<StartDraggingCard>(_onStartDraggingCard);
     on<StopDraggingCard>(_onStopDraggingCard);
     on<HoverOverCell>(_onHoverOverCell);
     on<LeaveCell>(_onLeaveCell);
   }
 
-  void _onStartDraggingCard(StartDraggingCard event, Emitter<CardGridState> emit) {
+  void _onStartDraggingCard(StartDraggingCard event, Emitter<GridBoardState> emit) {
     final validPositions = <String>{};
     final newCellStates = List<List<CellState>>.from(
       state.cellStates.map((row) => List<CellState>.from(row)),
@@ -25,13 +25,13 @@ class CardGridBloc extends Bloc<CardGridEvent, CardGridState> {
       }
     }
 
-    emit(CardGridState(
+    emit(GridBoardState(
       cellStates: newCellStates,
       validPositions: validPositions,
     ));
   }
 
-  void _onStopDraggingCard(StopDraggingCard event, Emitter<CardGridState> emit) {
+  void _onStopDraggingCard(StopDraggingCard event, Emitter<GridBoardState> emit) {
     final newCellStates = List<List<CellState>>.from(
       state.cellStates.map((row) => List<CellState>.from(row)),
     );
@@ -44,13 +44,13 @@ class CardGridBloc extends Bloc<CardGridEvent, CardGridState> {
       }
     }
 
-    emit(CardGridState(
+    emit(GridBoardState(
       cellStates: newCellStates,
       validPositions: {},
     ));
   }
 
-  void _onHoverOverCell(HoverOverCell event, Emitter<CardGridState> emit) {
+  void _onHoverOverCell(HoverOverCell event, Emitter<GridBoardState> emit) {
     if (event.row < 0 || event.row >= 5 || event.col < 0 || event.col >= 5) return;
 
     final newCellStates = List<List<CellState>>.from(
@@ -61,13 +61,13 @@ class CardGridBloc extends Bloc<CardGridEvent, CardGridState> {
       newCellStates[event.row][event.col] = CellState.highlighted;
     }
 
-    emit(CardGridState(
+    emit(GridBoardState(
       cellStates: newCellStates,
       validPositions: state.validPositions,
     ));
   }
 
-  void _onLeaveCell(LeaveCell event, Emitter<CardGridState> emit) {
+  void _onLeaveCell(LeaveCell event, Emitter<GridBoardState> emit) {
     if (event.row < 0 || event.row >= 5 || event.col < 0 || event.col >= 5) return;
 
     final newCellStates = List<List<CellState>>.from(
@@ -80,7 +80,7 @@ class CardGridBloc extends Bloc<CardGridEvent, CardGridState> {
       newCellStates[event.row][event.col] = CellState.empty;
     }
 
-    emit(CardGridState(
+    emit(GridBoardState(
       cellStates: newCellStates,
       validPositions: state.validPositions,
     ));

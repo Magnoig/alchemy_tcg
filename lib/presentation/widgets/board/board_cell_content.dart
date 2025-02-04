@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../blocs/card_grid/card_grid_state.dart';
+import '../../blocs/grid_board/grid_board_state.dart';
 
 class BoardCellContent extends StatelessWidget {
   final CellState cellState;
@@ -18,9 +18,9 @@ class BoardCellContent extends StatelessWidget {
       case CellState.empty:
         return Colors.blue;
       case CellState.valid:
-        return Color.fromRGBO(0, 128, 0, 0.3);
+        return Colors.pink;
       case CellState.invalid:
-        return Color.fromRGBO(255, 0, 0, 0.3);
+        return Colors.red;
       case CellState.highlighted:
         return Colors.green;
     }
