@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/constants/game_constants.dart';
 import '../../../core/theme/game_theme.dart';
-import '../../blocs/player_hand/player_hand_bloc.dart';
-import '../../blocs/player_hand/player_hand_event.dart';
-import '../../blocs/player_hand/player_hand_state.dart';
+import '../bloc/player_hand_bloc.dart';
+import '../bloc/player_hand_event.dart';
+import '../bloc/player_hand_state.dart';
 
 class PlayerHand extends StatefulWidget {
   final Function(BuildContext, String) onShowZoom;

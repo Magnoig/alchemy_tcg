@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import '../../core/constants/game_constants.dart';
-import 'board/board_cell.dart';
+import '../board/widget/board_cell.dart';
 import 'card_zoom.dart';
-import 'deck/deck_cell.dart';
-import 'hand/player_hand.dart';
+import '../deck/widget/deck_cell.dart';
+import '../hand/widget/player_hand.dart';
 
 class CardGrid extends StatefulWidget {
   const CardGrid({super.key});

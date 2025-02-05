@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../blocs/board/board_bloc.dart';
-import '../../blocs/board/board_event.dart';
+import '../bloc/board_bloc.dart';
+import '../bloc/board_event.dart';
 import '../../blocs/grid_board/grid_board_bloc.dart';
 import '../../blocs/grid_board/grid_board_event.dart';
 

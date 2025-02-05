@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:alchemy_tcg/presentation/widgets/card_grid.dart';
 import 'package:alchemy_tcg/presentation/pages/game_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:alchemy_tcg/presentation/blocs/board/board_bloc.dart';
-import 'package:alchemy_tcg/presentation/blocs/card_deck/card_deck_bloc.dart';
+import 'package:alchemy_tcg/presentation/board/bloc/board_bloc.dart';
+import 'package:alchemy_tcg/presentation/deck/bloc/card_deck_bloc.dart';
 import 'game_page_scenarios.dart';
 
 class GamePageRobot {

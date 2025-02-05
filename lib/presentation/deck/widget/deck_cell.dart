@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/constants/game_constants.dart';
 import '../../../core/theme/game_theme.dart';
-import '../../blocs/card_deck/card_deck_bloc.dart';
-import '../../blocs/card_deck/card_deck_event.dart';
-import '../../blocs/card_deck/card_deck_state.dart';
+import '../bloc/card_deck_bloc.dart';
+import '../bloc/card_deck_event.dart';
+import '../bloc/card_deck_state.dart';
 import 'card_stack.dart';
 
 class DeckCell extends StatelessWidget {
