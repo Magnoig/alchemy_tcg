@@ -9,7 +9,8 @@ import '../../presentation/blocs/grid_board/grid_board_bloc.dart';
 import '../../presentation/blocs/player_hand/player_hand_bloc.dart';
 import '../../domain/repositories/card_board.dart';
 import '../../data/repositories/asset_card_board.dart';
-
+import '../../data/services/grid_board_service.dart';
+import 'package:alchemy_tcg/presentation/blocs/grid_board/grid_board_state.dart';
 
 final getIt = GetIt.instance;
 
@@ -18,9 +19,15 @@ void setupServiceLocator() {
   getIt.registerLazySingleton<CardRepository>(() => AssetCardRepository());
   getIt.registerLazySingleton<CardHand>(() => AssetCardHand());
   getIt.registerLazySingleton<CardBoard>(() => AssetCardBoard());
+  
+  // Services
+  getIt.registerLazySingleton<GridBoardService>(() => GridBoardService(
+     cellStates: GridBoardState.initial().cellStates,
+     validPositions: GridBoardState.initial().validPositions,
+   ));
   // BLoCs
   getIt.registerFactory(() => BoardBloc(getIt()));
   getIt.registerFactory(() => CardDeckBloc(getIt()));
-  getIt.registerFactory(() => GridBoardBloc());
+  getIt.registerFactory(() => GridBoardBloc(getIt()));
   getIt.registerFactory(() => PlayerHandBloc(getIt()));
-} 
+}
