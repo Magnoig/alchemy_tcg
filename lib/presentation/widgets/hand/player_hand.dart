@@ -38,66 +38,76 @@ class _PlayerHandState extends State<PlayerHand> {
   Widget build(BuildContext context) {
     return BlocBuilder<PlayerHandBloc, PlayerHandState>(
       builder: (context, state) {
+        final screenWidth = MediaQuery.of(context).size.width;
+        const double cardWidth = 100.0; // Largura fixa das cartas
+        const double minSpacing = 10.0; // Espaço mínimo entre cartas
+        final int totalCards = state.cards.length;
+
+        double spacing = minSpacing;
+
+        if (totalCards > 1) {
+          // Ajustar o espaçamento proporcionalmente para caberem na tela
+          double availableWidth = screenWidth - cardWidth;
+          spacing = availableWidth / (totalCards - 1);
+
+          // Limitar o espaçamento mínimo para evitar cartas muito sobrepostas
+          spacing = spacing.clamp(10.0, cardWidth * 0.6);
+        }
+
         return DragTarget<String>(
           builder: (context, candidateData, rejectedData) {
             return Container(
               height: GameConstants.handHeight,
               color: GameTheme.handBackgroundColor,
               child: state.cards.isEmpty
-                  ? const Center(
-                      child: Text('Empty Hand'),
-                    )
+                  ? const Center(child: Text('Empty Hand'))
                   : GestureDetector(
                       onHorizontalDragUpdate: _handleHorizontalDragUpdate,
-                      child: ReorderableListView.builder(
-                        scrollController: _scrollController,
-                        scrollDirection: Axis.horizontal,
-                        itemCount: state.cards.length,
-                        itemBuilder: (context, index) {
-                          final cardPath = state.cards[index];
-                          return Draggable<String>(
-                            key: ValueKey('$cardPath-$index'),
-                            data: cardPath,
-                            feedback: Material(
-                              color: Colors.transparent,
-                              child: SizedBox(
-                                height: GameConstants.handCardHeight,
-                                child: Card(
-                                  child: Image.asset(
-                                    cardPath,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            childWhenDragging: Container(),
-                            onDragEnd: (details) {
-                              if (details.wasAccepted) {
-                                context.read<PlayerHandBloc>().add(
-                                  RemoveCard(cardPath),
-                                );
-                              }
-                            },
-                            child: GestureDetector(
-                              onTap: () => widget.onShowZoom(context, cardPath),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                                child: Card(
-                                  child: Image.asset(
-                                    cardPath,
+                      child: SizedBox(
+                        width: screenWidth,
+                        child: Stack(
+                          children: List.generate(state.cards.length, (index) {
+                            final cardPath = state.cards[index];
+
+                            return Positioned(
+                              left: index * spacing, // Aplica a sobreposição proporcional
+                              child: Draggable<String>(
+                                key: ValueKey('$cardPath-$index'),
+                                data: cardPath,
+                                feedback: Material(
+                                  color: Colors.transparent,
+                                  child: SizedBox(
                                     height: GameConstants.handCardHeight,
-                                    fit: BoxFit.cover,
+                                    child: Card(
+                                      child: Image.asset(
+                                        cardPath,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                childWhenDragging: Container(),
+                                onDragEnd: (details) {
+                                  if (details.wasAccepted) {
+                                    context.read<PlayerHandBloc>().add(
+                                      RemoveCard(cardPath),
+                                    );
+                                  }
+                                },
+                                child: GestureDetector(
+                                  onTap: () => widget.onShowZoom(context, cardPath),
+                                  child: Card(
+                                    child: Image.asset(
+                                      cardPath,
+                                      height: GameConstants.handCardHeight,
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                          );
-                        },
-                        onReorder: (oldIndex, newIndex) {
-                          context.read<PlayerHandBloc>().add(
-                            ReorderCards(oldIndex, newIndex),
-                          );
-                        },
+                            );
+                          }),
+                        ),
                       ),
                     ),
             );
@@ -105,12 +115,10 @@ class _PlayerHandState extends State<PlayerHand> {
           onWillAcceptWithDetails: (details) => details.data.isNotEmpty,
           onAcceptWithDetails: (details) {
             final cardPath = details.data;
-            context.read<PlayerHandBloc>().add(
-              AddCard(cardPath),
-            );
+            context.read<PlayerHandBloc>().add(AddCard(cardPath));
           },
         );
       },
     );
   }
-} 
+}
