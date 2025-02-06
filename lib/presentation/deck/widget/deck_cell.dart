@@ -1,3 +1,4 @@
+import 'package:alchemy_tcg/presentation/widgets/card_pile_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/constants/game_constants.dart';
@@ -31,7 +32,8 @@ class DeckCell extends StatelessWidget {
           );
         }
 
-        return Center(
+        return GestureDetector(
+          onDoubleTap: () => showCardPileBottomSheet(context, "Cartas no Deck", state.cardImages),
           child: Draggable<String>(
             data: state.cardImages.last,
             feedback: Material(

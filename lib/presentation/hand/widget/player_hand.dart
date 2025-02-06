@@ -1,3 +1,4 @@
+import 'package:alchemy_tcg/presentation/widgets/card_pile_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/constants/game_constants.dart';
@@ -54,69 +55,72 @@ class _PlayerHandState extends State<PlayerHand> {
           spacing = spacing.clamp(10.0, cardWidth * 0.6);
         }
 
-        return DragTarget<String>(
-          builder: (context, candidateData, rejectedData) {
-            return Container(
-              height: GameConstants.handHeight,
-              color: GameTheme.handBackgroundColor,
-              child: state.cards.isEmpty
-                  ? const Center(child: Text('Empty Hand'))
-                  : GestureDetector(
-                      onHorizontalDragUpdate: _handleHorizontalDragUpdate,
-                      child: SizedBox(
-                        width: screenWidth,
-                        child: Stack(
-                          children: List.generate(state.cards.length, (index) {
-                            final cardPath = state.cards[index];
-
-                            return Positioned(
-                              left: index * spacing, // Aplica a sobreposição proporcional
-                              child: Draggable<String>(
-                                key: ValueKey('$cardPath-$index'),
-                                data: cardPath,
-                                feedback: Material(
-                                  color: Colors.transparent,
-                                  child: SizedBox(
-                                    height: GameConstants.handCardHeight,
+        return GestureDetector(
+          onDoubleTap: () => showCardPileBottomSheet(context, "Cartas na Mão", state.cards),
+          child: DragTarget<String>(
+            builder: (context, candidateData, rejectedData) {
+              return Container(
+                height: GameConstants.handHeight,
+                color: GameTheme.handBackgroundColor,
+                child: state.cards.isEmpty
+                    ? const Center(child: Text('Empty Hand'))
+                    : GestureDetector(
+                        onHorizontalDragUpdate: _handleHorizontalDragUpdate,
+                        child: SizedBox(
+                          width: screenWidth,
+                          child: Stack(
+                            children: List.generate(state.cards.length, (index) {
+                              final cardPath = state.cards[index];
+          
+                              return Positioned(
+                                left: index * spacing, // Aplica a sobreposição proporcional
+                                child: Draggable<String>(
+                                  key: ValueKey('$cardPath-$index'),
+                                  data: cardPath,
+                                  feedback: Material(
+                                    color: Colors.transparent,
+                                    child: SizedBox(
+                                      height: GameConstants.handCardHeight,
+                                      child: Card(
+                                        child: Image.asset(
+                                          cardPath,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  childWhenDragging: Container(),
+                                  onDragEnd: (details) {
+                                    if (details.wasAccepted) {
+                                      context.read<PlayerHandBloc>().add(
+                                        RemoveCard(cardPath),
+                                      );
+                                    }
+                                  },
+                                  child: GestureDetector(
+                                    onTap: () => widget.onShowZoom(context, cardPath),
                                     child: Card(
                                       child: Image.asset(
                                         cardPath,
+                                        height: GameConstants.handCardHeight,
                                         fit: BoxFit.cover,
                                       ),
                                     ),
                                   ),
                                 ),
-                                childWhenDragging: Container(),
-                                onDragEnd: (details) {
-                                  if (details.wasAccepted) {
-                                    context.read<PlayerHandBloc>().add(
-                                      RemoveCard(cardPath),
-                                    );
-                                  }
-                                },
-                                child: GestureDetector(
-                                  onTap: () => widget.onShowZoom(context, cardPath),
-                                  child: Card(
-                                    child: Image.asset(
-                                      cardPath,
-                                      height: GameConstants.handCardHeight,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            );
-                          }),
+                              );
+                            }),
+                          ),
                         ),
                       ),
-                    ),
-            );
-          },
-          onWillAcceptWithDetails: (details) => details.data.isNotEmpty,
-          onAcceptWithDetails: (details) {
-            final cardPath = details.data;
-            context.read<PlayerHandBloc>().add(AddCard(cardPath));
-          },
+              );
+            },
+            onWillAcceptWithDetails: (details) => details.data.isNotEmpty,
+            onAcceptWithDetails: (details) {
+              final cardPath = details.data;
+              context.read<PlayerHandBloc>().add(AddCard(cardPath));
+            },
+          ),
         );
       },
     );
