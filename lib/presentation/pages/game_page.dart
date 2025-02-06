@@ -1,3 +1,4 @@
+import 'package:alchemy_tcg/presentation/graveyard/bloc/graveyard_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../core/di/service_locator.dart';
@@ -18,6 +19,7 @@ class GamePage extends StatelessWidget {
         BlocProvider(create: (context) => getIt<CardDeckBloc>()),
         BlocProvider(create: (context) => getIt<GridBoardBloc>()),
         BlocProvider(create: (context) => getIt<PlayerHandBloc>()),
+        BlocProvider(create: (context) => getIt<GraveyardBloc>()),
       ],
       child: const CardGrid(),
     );

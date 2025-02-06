@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../blocs/grid_board/grid_board_bloc.dart';
 import '../../blocs/grid_board/grid_board_state.dart';
-import '../../blocs/grid_board/grid_board_event.dart';
 import '../bloc/board_bloc.dart';
 import '../bloc/board_state.dart';
-import '../bloc/board_event.dart' as board_events;
+import '../bloc/board_event.dart';
 import '../../../core/services/cell_validator.dart';
 import 'board_cell_content.dart';
 import 'board_cell_overlay.dart';
@@ -48,36 +47,28 @@ class BoardCell extends StatelessWidget {
           builder: (context, gridState) {
             return DragTarget<String>(
               builder: (context, candidateData, rejectedData) {
-                return MouseRegion(
-                  onEnter: (_) => context.read<GridBoardBloc>().add(
-                    HoverOverCell(row - 1, col - 1),
-                  ),
-                  onExit: (_) => context.read<GridBoardBloc>().add(
-                    LeaveCell(row - 1, col - 1),
-                  ),
-                  child: Stack(
-                    children: [
-                      BoardCellContent(
-                        cellState: gridState.cellStates[row - 1][col - 1],
+                return Stack(
+                  children: [
+                    BoardCellContent(
+                      cellState: gridState.cellStates[row - 1][col - 1],
+                      cardPath: cardInCell,
+                      cellSize: cellSize,
+                    ),
+                    if (cardInCell != null)
+                      BoardCellDraggable(
                         cardPath: cardInCell,
+                        cardBelow: cardBelow,
                         cellSize: cellSize,
+                        row: row,
+                        col: col,
+                        onShowZoom: onShowZoom,
+                        onCardRemoved: onCardRemoved,
                       ),
-                      if (cardInCell != null)
-                        BoardCellDraggable(
-                          cardPath: cardInCell,
-                          cardBelow: cardBelow,
-                          cellSize: cellSize,
-                          row: row,
-                          col: col,
-                          onShowZoom: onShowZoom,
-                          onCardRemoved: onCardRemoved,
-                        ),
-                      BoardCellOverlay(
-                        isValidPosition: _validator.isCentralCell(row, col),
-                        isDraggingOver: candidateData.isNotEmpty,
-                      ),
-                    ],
-                  ),
+                    BoardCellOverlay(
+                      isValidPosition: _validator.isCentralCell(row, col),
+                      isDraggingOver: candidateData.isNotEmpty,
+                    ),
+                  ],
                 );
               },
               onWillAcceptWithDetails: (details) =>
@@ -85,7 +76,7 @@ class BoardCell extends StatelessWidget {
                   _validator.canAcceptCard(details.data, boardState.boardCards[cardKey] ?? []),
               onAcceptWithDetails: (details) {
                 final cardPath = details.data;
-                context.read<BoardBloc>().add(board_events.PlaceCard(
+                context.read<BoardBloc>().add(PlaceCard(
                   row: row,
                   col: col,
                   cardPath: cardPath,

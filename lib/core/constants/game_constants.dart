@@ -7,6 +7,8 @@ class GameConstants {
   static const int playableEndCol = 5;
   static const int deckRow = 6;
   static const int deckCol = 0;
+  static const int graveyardRow = 5;
+  static const int graveyardCol = 0;
   static const double cardAspectRatio = 0.7;
   static const double deckOverflowFactor = 0.65;
   static const double handHeight = 150.0;
@@ -17,6 +19,10 @@ class GameConstants {
 
   static bool isDeckPosition(int row, int col) {
     return row == deckRow && col == deckCol;
+  }
+
+  static bool isGraveyardPosition(int row, int col) {
+    return row == graveyardRow && col == graveyardCol;
   }
 
   static bool isPlayablePosition(int row, int col) {

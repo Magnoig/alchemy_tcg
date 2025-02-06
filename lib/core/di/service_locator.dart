@@ -1,3 +1,6 @@
+import 'package:alchemy_tcg/data/repositories/asset_card_graveyard.dart';
+import 'package:alchemy_tcg/domain/repositories/card_graveyard.dart';
+import 'package:alchemy_tcg/presentation/graveyard/bloc/graveyard_bloc.dart';
 import 'package:get_it/get_it.dart';
 import '../../data/repositories/asset_card_repository.dart';
 import '../../data/repositories/asset_card_hand.dart';
@@ -19,6 +22,7 @@ void setupServiceLocator() {
   getIt.registerLazySingleton<CardRepository>(() => AssetCardRepository());
   getIt.registerLazySingleton<CardHand>(() => AssetCardHand());
   getIt.registerLazySingleton<CardBoard>(() => AssetCardBoard());
+  getIt.registerLazySingleton<CardGraveyard>(() => AssetCardGraveyard());
   
   // Services
   getIt.registerLazySingleton<GridBoardService>(() => GridBoardService(
@@ -30,4 +34,5 @@ void setupServiceLocator() {
   getIt.registerFactory(() => CardDeckBloc(getIt()));
   getIt.registerFactory(() => GridBoardBloc(getIt()));
   getIt.registerFactory(() => PlayerHandBloc(getIt()));
+  getIt.registerFactory(() => GraveyardBloc(getIt()));
 }

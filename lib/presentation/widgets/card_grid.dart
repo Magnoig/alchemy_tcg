@@ -1,3 +1,4 @@
+import 'package:alchemy_tcg/presentation/graveyard/widget/gaveyard_cell.dart';
 import 'package:flutter/material.dart';
 import '../../core/constants/game_constants.dart';
 import '../board/widget/board_cell.dart';
@@ -44,6 +45,11 @@ class CardGridState extends State<CardGrid> {
     // Posição do deck
     if (GameConstants.isDeckPosition(row, col)) {
       return DeckCell(cellSize: cellSize);
+    }
+
+    // Posição do cemitério
+    if (GameConstants.isGraveyardPosition(row, col)) {
+      return GraveyardCell(cellSize: cellSize);
     }
 
     // Área jogável
