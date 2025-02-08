@@ -5,24 +5,25 @@ import 'player_hand_state.dart';
 
 class PlayerHandBloc extends Bloc<PlayerHandEvent, PlayerHandState> {
   final CardHand _hand;
+  
   PlayerHandBloc(this._hand) : super(PlayerHandState.initial()) {
-    on<AddCard>(_onAddCard);
-    on<RemoveCard>(_onRemoveCard);
-    on<ReorderCards>(_onReorderCards);
-  }
+    on<AddCard>((event, emit) async {
+      await _hand.addCard(event.cardPath);
+      final cards = await _hand.getCards();
+      final newState = state.copyWith(cards: cards);
+      emit(newState);
+    });
 
-  void _onAddCard(AddCard event, Emitter<PlayerHandState> emit) async {
-    await _hand.addCard(event.cardPath);
-    emit(state.copyWith(cards: await _hand.getCards()));
-  }
-
-  void _onRemoveCard(RemoveCard event, Emitter<PlayerHandState> emit) async {
+    on<RemoveCard>((event, emit) async {
     await _hand.removeCard(event.cardPath);
-    emit(state.copyWith(cards: await _hand.getCards()));
-  }
+      final cards = await _hand.getCards();
+      emit(state.copyWith(cards: cards));
+    });
 
-  void _onReorderCards(ReorderCards event, Emitter<PlayerHandState> emit) async {
-    await _hand.reorderCards(event.oldIndex, event.newIndex);
-    emit(state.copyWith(cards: await _hand.getCards()));
+    on<ReorderCards>((event, emit) async {
+      await _hand.reorderCards(event.oldIndex, event.newIndex);
+      final cards = await _hand.getCards();
+      emit(state.copyWith(cards: cards));
+    });
   }
-} 
+}

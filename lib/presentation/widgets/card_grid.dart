@@ -1,5 +1,8 @@
+import 'package:alchemy_tcg/core/di/service_locator.dart';
 import 'package:alchemy_tcg/presentation/graveyard/widget/gaveyard_cell.dart';
+import 'package:alchemy_tcg/presentation/hand/bloc/player_hand_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../core/constants/game_constants.dart';
 import '../board/widget/board_cell.dart';
 import 'card_zoom.dart';
@@ -42,17 +45,14 @@ class CardGridState extends State<CardGrid> {
   }
 
   Widget _buildCell(int row, int col, double cellSize) {
-    // Posição do deck
     if (GameConstants.isDeckPosition(row, col)) {
       return DeckCell(cellSize: cellSize);
     }
 
-    // Posição do cemitério
     if (GameConstants.isGraveyardPosition(row, col)) {
       return GraveyardCell(cellSize: cellSize);
     }
 
-    // Área jogável
     if (GameConstants.isPlayablePosition(row, col)) {
       return BoardCell(
         row: row,
@@ -63,7 +63,6 @@ class CardGridState extends State<CardGrid> {
       );
     }
 
-    // Células não jogáveis
     return Container(
       decoration: BoxDecoration(
         border: Border.all(color: Color.fromRGBO(128, 128, 128, 0.2)),
@@ -73,10 +72,14 @@ class CardGridState extends State<CardGrid> {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final cellSize = screenWidth / GameConstants.gridSize;
+    final PlayerHandBloc playerHandBloc = getIt<PlayerHandBloc>();
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double cellSize = screenWidth / GameConstants.gridSize;
 
-    return Scaffold(
+    return BlocProvider<PlayerHandBloc>(
+      create: (context) => playerHandBloc,
+      child: Builder(
+        builder: (context) => Scaffold(
       appBar: AppBar(
         title: const Text('TCG'),
       ),
@@ -98,9 +101,12 @@ class CardGridState extends State<CardGrid> {
             ),
           ),
           PlayerHand(
-            onShowZoom: _showCardZoom,
+                onShowZoom: _showCardZoom,
+                playerHandBloc: playerHandBloc,
           ),
         ],
+      ),
+        ),
       ),
     );
   }

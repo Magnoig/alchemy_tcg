@@ -9,10 +9,12 @@ import '../bloc/player_hand_state.dart';
 
 class PlayerHand extends StatefulWidget {
   final Function(BuildContext, String) onShowZoom;
+  final PlayerHandBloc playerHandBloc;
 
   const PlayerHand({
     super.key,
     required this.onShowZoom,
+    required this.playerHandBloc,
   });
 
   @override
@@ -38,20 +40,18 @@ class _PlayerHandState extends State<PlayerHand> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<PlayerHandBloc, PlayerHandState>(
+      bloc: widget.playerHandBloc,
       builder: (context, state) {
         final screenWidth = MediaQuery.of(context).size.width;
-        const double cardWidth = 100.0; // Largura fixa das cartas
-        const double minSpacing = 10.0; // Espaço mínimo entre cartas
+        const double cardWidth = 100.0;
+        const double minSpacing = 10.0;
         final int totalCards = state.cards.length;
 
         double spacing = minSpacing;
 
         if (totalCards > 1) {
-          // Ajustar o espaçamento proporcionalmente para caberem na tela
           double availableWidth = screenWidth - cardWidth;
           spacing = availableWidth / (totalCards - 1);
-
-          // Limitar o espaçamento mínimo para evitar cartas muito sobrepostas
           spacing = spacing.clamp(10.0, cardWidth * 0.6);
         }
 
@@ -73,7 +73,7 @@ class _PlayerHandState extends State<PlayerHand> {
                               final cardPath = state.cards[index];
           
                               return Positioned(
-                                left: index * spacing, // Aplica a sobreposição proporcional
+                                left: index * spacing,
                                 child: Draggable<String>(
                                   key: ValueKey('$cardPath-$index'),
                                   data: cardPath,
@@ -92,9 +92,7 @@ class _PlayerHandState extends State<PlayerHand> {
                                   childWhenDragging: Container(),
                                   onDragEnd: (details) {
                                     if (details.wasAccepted) {
-                                      context.read<PlayerHandBloc>().add(
-                                        RemoveCard(cardPath),
-                                      );
+                                      widget.playerHandBloc.add(RemoveCard(cardPath));
                                     }
                                   },
                                   child: GestureDetector(
@@ -118,7 +116,7 @@ class _PlayerHandState extends State<PlayerHand> {
             onWillAcceptWithDetails: (details) => details.data.isNotEmpty,
             onAcceptWithDetails: (details) {
               final cardPath = details.data;
-              context.read<PlayerHandBloc>().add(AddCard(cardPath));
+              widget.playerHandBloc.add(AddCard(cardPath));
             },
           ),
         );
