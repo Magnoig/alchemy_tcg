@@ -1,4 +1,4 @@
-import 'package:alchemy_tcg/core/di/service_locator.dart';
+import 'package:alchemy_tcg/presentation/graveyard/bloc/graveyard_bloc.dart';
 import 'package:alchemy_tcg/presentation/graveyard/widget/gaveyard_cell.dart';
 import 'package:alchemy_tcg/presentation/hand/bloc/player_hand_bloc.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +18,7 @@ class CardGrid extends StatefulWidget {
 
 class CardGridState extends State<CardGrid> {
   final ScrollController _scrollController = ScrollController();
+  late GraveyardBloc graveyardBloc;
 
   void _showCardZoom(BuildContext context, String cardPath) {
     showDialog(
@@ -50,7 +51,10 @@ class CardGridState extends State<CardGrid> {
     }
 
     if (GameConstants.isGraveyardPosition(row, col)) {
-      return GraveyardCell(cellSize: cellSize);
+      return GraveyardCell(
+        cellSize: cellSize,
+        graveyardBloc: graveyardBloc,
+      );
     }
 
     if (GameConstants.isPlayablePosition(row, col)) {
@@ -59,27 +63,25 @@ class CardGridState extends State<CardGrid> {
         col: col,
         cellSize: cellSize,
         onCardRemoved: (_) {},
-        onShowZoom: _showCardZoom,
+                onShowZoom: _showCardZoom,
       );
-    }
+  }
 
     return Container(
       decoration: BoxDecoration(
         border: Border.all(color: Color.fromRGBO(128, 128, 128, 0.2)),
       ),
     );
-  }
+} 
 
   @override
   Widget build(BuildContext context) {
-    final PlayerHandBloc playerHandBloc = getIt<PlayerHandBloc>();
     final double screenWidth = MediaQuery.of(context).size.width;
     final double cellSize = screenWidth / GameConstants.gridSize;
+    final playerHandBloc = context.read<PlayerHandBloc>();
+    graveyardBloc = context.read<GraveyardBloc>();
 
-    return BlocProvider<PlayerHandBloc>(
-      create: (context) => playerHandBloc,
-      child: Builder(
-        builder: (context) => Scaffold(
+    return Scaffold(
       appBar: AppBar(
         title: const Text('TCG'),
       ),
@@ -101,13 +103,11 @@ class CardGridState extends State<CardGrid> {
             ),
           ),
           PlayerHand(
-                onShowZoom: _showCardZoom,
-                playerHandBloc: playerHandBloc,
+            onShowZoom: _showCardZoom,
+            playerHandBloc: playerHandBloc,
           ),
         ],
       ),
-        ),
-      ),
     );
   }
-} 
+}

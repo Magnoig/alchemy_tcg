@@ -11,7 +11,8 @@ class GraveyardBloc extends Bloc<GraveyardEvent, GraveyardState> {
     on<InitializeGraveyard>(_onInitializeGraveyard);
     on<RemoveTopCardGraveyard>(_onRemoveTopCard);
     // on<ShowGraveyard>(_onShowGraveyard);
-    add(InitializeGraveyard());
+
+    Future(() => add(InitializeGraveyard()));
   }
 
   Future<void> _onInitializeGraveyard(InitializeGraveyard event, Emitter<GraveyardState> emit) async {
@@ -21,16 +22,18 @@ class GraveyardBloc extends Bloc<GraveyardEvent, GraveyardState> {
 
   Future<void> _onAddCardToGraveyard(AddCardToGraveyard event, Emitter<GraveyardState> emit) async {
     await graveyard.addCard(event.cardPath);
-    emit(state.copyWith(cardImages: await graveyard.getCardsGraveyard()));
+    final cards = await graveyard.getCardsGraveyard();
+    emit(state.copyWith(cardImages: cards));
   }
 
   Future<void> _onRemoveTopCard(RemoveTopCardGraveyard event, Emitter<GraveyardState> emit) async {
     await graveyard.removeTopCard(state.cardImages);
-    emit(state.copyWith(cardImages: await graveyard.getCardsGraveyard()));
+    final cards = await graveyard.getCardsGraveyard();
+    emit(state.copyWith(cardImages: cards));
   }
 
   // Future<void> _onShowGraveyard(ShowGraveyard event, Emitter<GraveyardState> emit) async {
   //   await graveyard.showCards();
   //   emit(state.copyWith(cardImages: await graveyard.getCardsGraveyard()));
   // }
-} 
+}

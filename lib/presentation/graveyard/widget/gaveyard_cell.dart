@@ -9,15 +9,20 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class GraveyardCell extends StatelessWidget {
   final double cellSize;
+  final GraveyardBloc graveyardBloc;
 
-  const GraveyardCell({super.key, required this.cellSize});
-
+  const GraveyardCell({
+    super.key,
+    required this.cellSize,
+    required this.graveyardBloc
+  });
   @override
   Widget build(BuildContext context) {
     final cardWidth = cellSize * 0.9;
     final cardHeight = cardWidth / GameConstants.cardAspectRatio;
 
     return BlocBuilder<GraveyardBloc, GraveyardState>(
+      bloc: graveyardBloc,
       builder: (context, state) {
         return GestureDetector(
           onDoubleTap: () => showCardPileBottomSheet(context, "Cartas no Cemitério", state.cardImages),
@@ -33,7 +38,7 @@ class GraveyardCell extends StatelessWidget {
                 child: state.cardImages.isEmpty
                     ? const Center(child: Text('Graveyard Empty'))
                     : Draggable<String>(
-                        data: state.cardImages.last, // Última carta do graveyard
+                        data: state.cardImages.last,
                         feedback: Material(
                           color: Colors.transparent,
                           child: SizedBox(
@@ -57,7 +62,7 @@ class GraveyardCell extends StatelessWidget {
                             : Container(),
                         onDragEnd: (details) {
                           if (details.wasAccepted) {
-                            context.read<GraveyardBloc>().add(RemoveTopCardGraveyard());
+                            graveyardBloc.add(RemoveTopCardGraveyard());
                           }
                         },
                         child: Card(
@@ -74,7 +79,7 @@ class GraveyardCell extends StatelessWidget {
             },
             onAcceptWithDetails: (details) {
               final cardPath = details.data;
-              context.read<GraveyardBloc>().add(AddCardToGraveyard(cardPath));
+              graveyardBloc.add(AddCardToGraveyard(cardPath));
             },
           ),
         );
