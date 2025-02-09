@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart'; // Importa o mock
 import 'game_page_robot.dart'; // Importa o robot
-import 'package:alchemy_tcg/presentation/widgets/card_grid.dart';
+import 'package:alchemy_tcg/presentation/features/grid/widgets/card_grid.dart';
 import 'package:alchemy_tcg/core/di/service_locator.dart';
 
 void main() {

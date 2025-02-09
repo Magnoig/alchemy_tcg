@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:alchemy_tcg/core/constants/game_constants.dart';
-import 'package:alchemy_tcg/core/services/cell_validator.dart';
+import 'package:alchemy_tcg/core/validators/cell_validator.dart';
 
 void main() {
   late CellValidator cellValidator;

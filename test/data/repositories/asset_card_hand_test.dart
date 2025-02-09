@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:alchemy_tcg/data/repositories/asset_card_hand.dart';
+import 'package:alchemy_tcg/data/repositories/hand_repository_impl.dart';
 
 void main() {
   late AssetCardHand assetCardHand;

@@ -1,4 +1,4 @@
-import 'package:alchemy_tcg/domain/repositories/card_repository.dart';
+import 'package:alchemy_tcg/domain/repositories/deck_repository.dart';
 
 class MockCardRepository implements CardRepository {
   @override

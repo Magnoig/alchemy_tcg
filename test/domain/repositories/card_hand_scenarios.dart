@@ -1,4 +1,4 @@
-import 'package:alchemy_tcg/domain/repositories/card_hand.dart';
+import 'package:alchemy_tcg/domain/repositories/hand_repository.dart';
 
 class CardHandScenarios extends CardHand {
   final List<String> _cards = [];
