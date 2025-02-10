@@ -16,6 +16,7 @@ class BoardCell extends StatelessWidget {
   final double cellSize;
   final Function(String) onCardRemoved;
   final Function(BuildContext, String) onShowZoom;
+  final BoardBloc boardBloc;
   final CellValidator validator = CellValidator();
 
   BoardCell({
@@ -25,6 +26,7 @@ class BoardCell extends StatelessWidget {
     required this.cellSize,
     required this.onCardRemoved,
     required this.onShowZoom,
+    required this.boardBloc,
   });
 
   @override
@@ -76,7 +78,7 @@ class BoardCell extends StatelessWidget {
                   validator.canAcceptCard(details.data, boardState.boardCards[cardKey] ?? []),
               onAcceptWithDetails: (details) {
                 final cardPath = details.data;
-                context.read<BoardBloc>().add(PlaceCard(
+                boardBloc.add(PlaceCard(
                   row: row,
                   col: col,
                   cardPath: cardPath,

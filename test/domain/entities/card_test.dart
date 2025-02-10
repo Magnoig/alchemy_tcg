@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:alchemy_tcg/domain/entities/card.dart';
+import 'package:alchemy_tcg/domain/entities/game_card.dart';
 void main() {
   group('Card', () {
     test('Card constructor initializes properties correctly', () {

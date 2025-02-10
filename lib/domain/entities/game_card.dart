@@ -1,17 +1,17 @@
-class Card {
+class GameCard {
   final String imagePath;
   final bool isFaceUp;
 
-  const Card({
+  const GameCard({
     required this.imagePath,
     this.isFaceUp = true,
   });
 
-  Card copyWith({
+  GameCard copyWith({
     String? imagePath,
     bool? isFaceUp,
   }) {
-    return Card(
+    return GameCard(
       imagePath: imagePath ?? this.imagePath,
       isFaceUp: isFaceUp ?? this.isFaceUp,
     );

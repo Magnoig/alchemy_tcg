@@ -36,10 +36,15 @@ class GamePageDependencies {
     final scrollManager = DefaultGridScrollManager();
     final zoomHandler = DefaultCardZoomHandler();
     final graveyardBloc = getIt<GraveyardBloc>();
+    final boardBloc = getIt<BoardBloc>();
+    final cardDeckBloc = getIt<CardDeckBloc>();
+    final gridBoardBloc = getIt<GridBoardBloc>();
+    final playerHandBloc = getIt<PlayerHandBloc>();
 
     final cellBuilder = DefaultCellBuilder(
       graveyardBloc: graveyardBloc,
       onShowZoom: zoomHandler.showCardZoom,
+      boardBloc: boardBloc,
     );
 
     final layoutManager = DefaultGridLayoutManager(
@@ -48,10 +53,10 @@ class GamePageDependencies {
     );
 
     return GamePageDependencies._(
-      boardBloc: getIt<BoardBloc>(),
-      cardDeckBloc: getIt<CardDeckBloc>(),
-      gridBoardBloc: getIt<GridBoardBloc>(),
-      playerHandBloc: getIt<PlayerHandBloc>(),
+      boardBloc: boardBloc,
+      cardDeckBloc: cardDeckBloc,
+      gridBoardBloc: gridBoardBloc,
+      playerHandBloc: playerHandBloc,
       graveyardBloc: graveyardBloc,
       scrollManager: scrollManager,
       zoomHandler: zoomHandler,

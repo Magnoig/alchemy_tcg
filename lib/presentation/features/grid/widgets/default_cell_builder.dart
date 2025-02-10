@@ -1,5 +1,6 @@
 import 'package:alchemy_tcg/core/constants/game_constants.dart';
 import 'package:alchemy_tcg/domain/interfaces/i_cell_builder.dart';
+import 'package:alchemy_tcg/presentation/features/board/bloc/board_bloc.dart';
 import 'package:alchemy_tcg/presentation/features/board/widget/board_cell.dart';
 import 'package:alchemy_tcg/presentation/features/deck/widget/deck_cell.dart';
 import 'package:alchemy_tcg/presentation/features/graveyard/bloc/graveyard_bloc.dart';
@@ -9,10 +10,12 @@ import 'package:flutter/widgets.dart';
 class DefaultCellBuilder implements ICellBuilder {
   final GraveyardBloc graveyardBloc;
   final Function(BuildContext, String) onShowZoom;
+  final BoardBloc boardBloc;
 
   DefaultCellBuilder({
     required this.graveyardBloc,
     required this.onShowZoom,
+    required this.boardBloc,
   });
 
   @override
@@ -35,6 +38,7 @@ class DefaultCellBuilder implements ICellBuilder {
         cellSize: cellSize,
         onCardRemoved: (_) {},
         onShowZoom: onShowZoom,
+        boardBloc: boardBloc,
       );
     }
 

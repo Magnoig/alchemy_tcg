@@ -28,15 +28,16 @@ class GraveyardCell extends StatelessWidget {
           onDoubleTap: () => showCardPileBottomSheet(context, "Cartas no Cemitério", state.cardImages),
           child: DragTarget<String>(
             builder: (context, candidateData, rejectedData) {
-              return Container(
+              return SizedBox(
                 width: cardWidth,
                 height: cardHeight,
-                decoration: BoxDecoration(
-                  color: GameTheme.graveyardColor,
-                  border: Border.all(color: Colors.black, width: 2),
-                ),
                 child: state.cardImages.isEmpty
-                    ? const Center(child: Text('Graveyard Empty'))
+                    ? Card(
+                        color: GameTheme.deckColor,
+                        child: const Center(
+                          child: Text('Empty'),
+                        ),
+                      )
                     : Draggable<String>(
                         data: state.cardImages.last,
                         feedback: Material(
