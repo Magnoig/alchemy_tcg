@@ -18,8 +18,6 @@ class GraveyardCell extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-    final cardWidth = cellSize;
-    final cardHeight = cardWidth / GameConstants.cardAspectRatio;
 
     return BlocBuilder<GraveyardBloc, GraveyardState>(
       bloc: graveyardBloc,
@@ -29,8 +27,7 @@ class GraveyardCell extends StatelessWidget {
           child: DragTarget<String>(
             builder: (context, candidateData, rejectedData) {
               return SizedBox(
-                width: cardWidth,
-                height: cardHeight,
+                height: cellSize,
                 child: state.cardImages.isEmpty
                     ? Card(
                         color: GameTheme.deckColor,
@@ -43,8 +40,7 @@ class GraveyardCell extends StatelessWidget {
                         feedback: Material(
                           color: Colors.transparent,
                           child: SizedBox(
-                            width: cardWidth,
-                            height: cardHeight,
+                            height: cellSize,
                             child: Card(
                               child: Image.asset(
                                 state.cardImages.last,

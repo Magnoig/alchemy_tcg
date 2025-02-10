@@ -1,5 +1,6 @@
 import 'package:alchemy_tcg/core/constants/game_constants.dart';
 import 'package:alchemy_tcg/domain/interfaces/i_cell_builder.dart';
+import 'package:alchemy_tcg/domain/repositories/deck_repository.dart';
 import 'package:alchemy_tcg/presentation/features/board/bloc/board_bloc.dart';
 import 'package:alchemy_tcg/presentation/features/board/widget/board_cell.dart';
 import 'package:alchemy_tcg/presentation/features/deck/bloc/card_deck_bloc.dart';
@@ -15,6 +16,7 @@ class DefaultCellBuilder implements ICellBuilder {
   final BoardBloc boardBloc;
   final GridBoardBloc gridBoardBloc;
   final DeckBloc deckBloc;
+  final DeckRepository deckRepository;
 
   DefaultCellBuilder({
     required this.graveyardBloc,
@@ -22,12 +24,17 @@ class DefaultCellBuilder implements ICellBuilder {
     required this.boardBloc,
     required this.gridBoardBloc,
     required this.deckBloc,
+    required this.deckRepository,
   });
 
   @override
   Widget buildCell(int row, int col, double cellSize,) {
     if (GameConstants.isDeckPosition(row, col)) {
-      return DeckCell(cellSize: cellSize, deckBloc: deckBloc,);
+      return DeckCell(
+        cellSize: cellSize, 
+        deckBloc: deckBloc, 
+        deckRepository: deckRepository,
+      );
     }
 
     if (GameConstants.isGraveyardPosition(row, col)) {

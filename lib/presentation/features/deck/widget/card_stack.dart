@@ -5,11 +5,13 @@ import 'package:alchemy_tcg/domain/repositories/deck_repository.dart';
 class CardStack extends StatelessWidget {
   final double cardWidth;
   final double cardHeight;
+  final DeckRepository deckRepository;
 
   const CardStack({
     super.key,
     required this.cardWidth,
     required this.cardHeight,
+    required this.deckRepository,
   });
 
   @override
@@ -26,7 +28,7 @@ class CardStack extends StatelessWidget {
               right: -i * 2.0,
               child: Card(
                 child: FutureBuilder<String?>(
-                  future: getIt<DeckRepository>().getCardBack(),
+                  future: deckRepository.getCardBack(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(child: CircularProgressIndicator());

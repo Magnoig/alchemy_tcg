@@ -1,3 +1,5 @@
+import 'package:alchemy_tcg/assets/image_paths.dart';
+import 'package:alchemy_tcg/domain/repositories/deck_repository.dart';
 import 'package:alchemy_tcg/presentation/features/card_pile/widgets/card_pile_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,11 +13,13 @@ import 'card_stack.dart';
 class DeckCell extends StatelessWidget {
   final double cellSize;
   final DeckBloc deckBloc;
+  final DeckRepository deckRepository;
 
   const DeckCell({
     super.key,
     required this.cellSize,
     required this.deckBloc,
+    required this.deckRepository,
   });
 
   @override
@@ -40,24 +44,37 @@ class DeckCell extends StatelessWidget {
             data: state.cardImages.last,
             feedback: Material(
               color: Colors.transparent,
-              child: SizedBox(
-                width: cardWidth,
-                height: cardHeight,
-                child: Card(
-                  child: Image.asset(
-                    state.cardImages.last,
-                    fit: BoxFit.cover,
-                  ),
-                ),
+              child: FutureBuilder<String?>(
+                future: deckRepository.getCardBack(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return SizedBox(
+                      height: cellSize,
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (snapshot.hasError || snapshot.data == null || snapshot.data!.isEmpty) {
+                    return Container();
+                  } else {
+                    return SizedBox(
+                      height: cellSize,
+                      child: Card(
+                        child: Image.asset(
+                          snapshot.data!,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    );
+                  }
+                },
               ),
             ),
-            childWhenDragging: CardStack(cardWidth: cardWidth, cardHeight: cardHeight),
+            childWhenDragging: CardStack(cardWidth: cardWidth, cardHeight: cardHeight, deckRepository: deckRepository,),
             onDragEnd: (details) {
               if (details.wasAccepted) {
                 deckBloc.add(RemoveTopCard());
               }
             },
-            child: CardStack(cardWidth: cardWidth, cardHeight: cardHeight),
+            child: CardStack(cardWidth: cardWidth, cardHeight: cardHeight, deckRepository: deckRepository,),
           ),
         );
       },
