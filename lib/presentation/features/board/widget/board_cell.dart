@@ -16,7 +16,7 @@ class BoardCell extends StatelessWidget {
   final double cellSize;
   final Function(String) onCardRemoved;
   final Function(BuildContext, String) onShowZoom;
-  final CellValidator _validator = CellValidator();
+  final CellValidator validator = CellValidator();
 
   BoardCell({
     super.key,
@@ -29,7 +29,7 @@ class BoardCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (!_validator.isCentralCell(row, col)) {
+    if (!validator.isCentralCell(row, col)) {
       return Container(
         decoration: BoxDecoration(
           border: Border.all(color: Color.fromRGBO(128, 128, 128, 0.2)),
@@ -65,15 +65,15 @@ class BoardCell extends StatelessWidget {
                         onCardRemoved: onCardRemoved,
                       ),
                     BoardCellOverlay(
-                      isValidPosition: _validator.isCentralCell(row, col),
+                      isValidPosition: validator.isCentralCell(row, col),
                       isDraggingOver: candidateData.isNotEmpty,
                     ),
                   ],
                 );
               },
               onWillAcceptWithDetails: (details) =>
-                  _validator.isCentralCell(row, col) &&
-                  _validator.canAcceptCard(details.data, boardState.boardCards[cardKey] ?? []),
+                  validator.isCentralCell(row, col) &&
+                  validator.canAcceptCard(details.data, boardState.boardCards[cardKey] ?? []),
               onAcceptWithDetails: (details) {
                 final cardPath = details.data;
                 context.read<BoardBloc>().add(PlaceCard(

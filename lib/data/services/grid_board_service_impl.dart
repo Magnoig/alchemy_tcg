@@ -1,9 +1,11 @@
+import 'package:alchemy_tcg/domain/entities/cell_state.dart';
 import 'package:alchemy_tcg/domain/services/grid_board_service.dart';
-import 'package:alchemy_tcg/presentation/features/grid/bloc/grid_board_state.dart';
 
 class GridBoardServiceImpl implements GridBoardService {
   final List<List<CellState>> cellStates;
+  @override
   final Set<String> validPositions;
+  @override
   late final newCellStates = List<List<CellState>>.from(
       cellStates.map((row) => List<CellState>.from(row)),
     );

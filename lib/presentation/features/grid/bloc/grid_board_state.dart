@@ -1,9 +1,4 @@
-enum CellState {
-  empty,
-  valid,
-  invalid,
-  highlighted
-}
+import 'package:alchemy_tcg/domain/entities/cell_state.dart';
 
 class GridBoardState {
   final List<List<CellState>> cellStates;

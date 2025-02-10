@@ -1,4 +1,4 @@
-import 'package:alchemy_tcg/presentation/features/grid/bloc/grid_board_state.dart';
+import 'package:alchemy_tcg/domain/entities/cell_state.dart';
 
 abstract class GridBoardService {
   Future<void> startDraggingCard(String cardPath);
