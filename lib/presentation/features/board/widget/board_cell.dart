@@ -17,6 +17,7 @@ class BoardCell extends StatelessWidget {
   final Function(String) onCardRemoved;
   final Function(BuildContext, String) onShowZoom;
   final BoardBloc boardBloc;
+  final GridBoardBloc gridBoardBloc;
   final CellValidator validator = CellValidator();
 
   BoardCell({
@@ -27,6 +28,7 @@ class BoardCell extends StatelessWidget {
     required this.onCardRemoved,
     required this.onShowZoom,
     required this.boardBloc,
+    required this.gridBoardBloc,
   });
 
   @override
@@ -64,7 +66,9 @@ class BoardCell extends StatelessWidget {
                         row: row,
                         col: col,
                         onShowZoom: onShowZoom,
-                        onCardRemoved: onCardRemoved,
+                        onCardRemoved: onCardRemoved, 
+                        gridBoardBloc: gridBoardBloc, 
+                        boardBloc: boardBloc,
                       ),
                     BoardCellOverlay(
                       isValidPosition: validator.isCentralCell(row, col),

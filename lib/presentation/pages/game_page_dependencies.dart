@@ -13,7 +13,7 @@ final getIt = GetIt.instance;
 
 class GamePageDependencies {
   final BoardBloc boardBloc;
-  final CardDeckBloc cardDeckBloc;
+  final DeckBloc deckBloc;
   final GridBoardBloc gridBoardBloc;
   final PlayerHandBloc playerHandBloc;
   final GraveyardBloc graveyardBloc;
@@ -23,7 +23,7 @@ class GamePageDependencies {
 
   GamePageDependencies._({
     required this.boardBloc,
-    required this.cardDeckBloc,
+    required this.deckBloc,
     required this.gridBoardBloc,
     required this.playerHandBloc,
     required this.graveyardBloc,
@@ -37,14 +37,16 @@ class GamePageDependencies {
     final zoomHandler = DefaultCardZoomHandler();
     final graveyardBloc = getIt<GraveyardBloc>();
     final boardBloc = getIt<BoardBloc>();
-    final cardDeckBloc = getIt<CardDeckBloc>();
+    final deckBloc = getIt<DeckBloc>();
     final gridBoardBloc = getIt<GridBoardBloc>();
     final playerHandBloc = getIt<PlayerHandBloc>();
 
     final cellBuilder = DefaultCellBuilder(
       graveyardBloc: graveyardBloc,
       onShowZoom: zoomHandler.showCardZoom,
-      boardBloc: boardBloc,
+      boardBloc: boardBloc, 
+      gridBoardBloc: gridBoardBloc, 
+      deckBloc: deckBloc,
     );
 
     final layoutManager = DefaultGridLayoutManager(
@@ -54,7 +56,7 @@ class GamePageDependencies {
 
     return GamePageDependencies._(
       boardBloc: boardBloc,
-      cardDeckBloc: cardDeckBloc,
+      deckBloc: deckBloc,
       gridBoardBloc: gridBoardBloc,
       playerHandBloc: playerHandBloc,
       graveyardBloc: graveyardBloc,

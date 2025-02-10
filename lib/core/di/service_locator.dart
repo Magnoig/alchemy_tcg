@@ -32,7 +32,7 @@ void setupServiceLocator() {
    ));
   // BLoCs
   getIt.registerFactory(() => BoardBloc(getIt()));
-  getIt.registerFactory(() => CardDeckBloc(getIt()));
+  getIt.registerFactory(() => DeckBloc(getIt()));
   getIt.registerFactory(() => GridBoardBloc(getIt()));
   getIt.registerFactory(() => PlayerHandBloc(getIt()));
   getIt.registerFactory(() => GraveyardBloc(getIt()));

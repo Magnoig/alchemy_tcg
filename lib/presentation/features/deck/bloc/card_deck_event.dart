@@ -1,7 +1,7 @@
-abstract class CardDeckEvent {}
+abstract class DeckEvent {}
 
-class RemoveTopCard extends CardDeckEvent {}
+class RemoveTopCard extends DeckEvent {}
 
-class InitializeDeck extends CardDeckEvent {} 
+class InitializeDeck extends DeckEvent {} 
 
-class ShuffleDeck extends CardDeckEvent {}
+class ShuffleDeck extends DeckEvent {}

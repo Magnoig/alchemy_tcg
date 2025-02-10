@@ -10,10 +10,12 @@ import 'card_stack.dart';
 
 class DeckCell extends StatelessWidget {
   final double cellSize;
+  final DeckBloc deckBloc;
 
   const DeckCell({
     super.key,
     required this.cellSize,
+    required this.deckBloc,
   });
 
   @override
@@ -21,7 +23,7 @@ class DeckCell extends StatelessWidget {
     final cardWidth = cellSize * 0.9;
     final cardHeight = cardWidth / GameConstants.cardAspectRatio;
 
-    return BlocBuilder<CardDeckBloc, CardDeckState>(
+    return BlocBuilder<DeckBloc, DeckState>(
       builder: (context, state) {
         if (state.cardImages.isEmpty) {
           return Card(
@@ -52,7 +54,7 @@ class DeckCell extends StatelessWidget {
             childWhenDragging: CardStack(cardWidth: cardWidth, cardHeight: cardHeight),
             onDragEnd: (details) {
               if (details.wasAccepted) {
-                context.read<CardDeckBloc>().add(RemoveTopCard());
+                deckBloc.add(RemoveTopCard());
               }
             },
             child: CardStack(cardWidth: cardWidth, cardHeight: cardHeight),

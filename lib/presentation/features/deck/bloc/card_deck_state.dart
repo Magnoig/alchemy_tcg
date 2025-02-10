@@ -1,16 +1,16 @@
-class CardDeckState {
+class DeckState {
   final List<String> cardImages;
 
-  CardDeckState({required this.cardImages});
+  DeckState({required this.cardImages});
 
-  factory CardDeckState.initial() {
-    return CardDeckState(cardImages: []);
+  factory DeckState.initial() {
+    return DeckState(cardImages: []);
   }
 
-  CardDeckState copyWith({
+  DeckState copyWith({
     List<String>? cardImages,
   }) {
-    return CardDeckState(
+    return DeckState(
       cardImages: cardImages ?? this.cardImages,
     );
   }

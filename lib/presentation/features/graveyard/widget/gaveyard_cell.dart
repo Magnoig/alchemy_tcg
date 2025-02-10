@@ -18,7 +18,7 @@ class GraveyardCell extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-    final cardWidth = cellSize * 0.9;
+    final cardWidth = cellSize;
     final cardHeight = cardWidth / GameConstants.cardAspectRatio;
 
     return BlocBuilder<GraveyardBloc, GraveyardState>(
@@ -57,10 +57,15 @@ class GraveyardCell extends StatelessWidget {
                             ? Card(
                                 child: Image.asset(
                                   state.cardImages[state.cardImages.length - 2],
-                                  fit: BoxFit.cover,
+                                  fit: BoxFit.contain,
                                 ),
                               )
-                            : Container(),
+                            : Card(
+                        color: GameTheme.deckColor,
+                        child: const Center(
+                          child: Text('Empty'),
+                        ),
+                      ),
                         onDragEnd: (details) {
                           if (details.wasAccepted) {
                             graveyardBloc.add(RemoveTopCardGraveyard());
@@ -69,7 +74,7 @@ class GraveyardCell extends StatelessWidget {
                         child: Card(
                           child: Image.asset(
                             state.cardImages.last,
-                            fit: BoxFit.cover,
+                            fit: BoxFit.contain,
                           ),
                         ),
                       ),
