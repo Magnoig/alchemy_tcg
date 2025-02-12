@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:alchemy_tcg/core/di/service_locator.dart';
 import 'package:alchemy_tcg/domain/repositories/deck_repository.dart';
 
 class CardStack extends StatelessWidget {

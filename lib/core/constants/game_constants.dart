@@ -1,14 +1,18 @@
 class GameConstants {
-  static const int gridSize = 7;
-  static const int playableGridSize = 5;
-  static const int playableStartRow = 1;
-  static const int playableStartCol = 1;
-  static const int playableEndRow = 5;
-  static const int playableEndCol = 5;
-  static const int deckRow = 6;
-  static const int deckCol = 0;
-  static const int graveyardRow = 5;
-  static const int graveyardCol = 0;
+  static const int gridRows = 5;
+  static const int gridCols = 7;
+  
+  static const int playableStartRow = 0;
+  static const int playableStartCol = 0;
+  static const int playableEndRow = gridRows;
+  static const int playableEndCol = gridCols;
+
+  static const int deckRow = 4;
+  static const int deckCol = 6;
+
+  static const int graveyardRow = 3;
+  static const int graveyardCol = 6;
+
   static const double cardAspectRatio = 0.7;
   static const double deckOverflowFactor = 0.65;
   static const double handHeight = 150.0;

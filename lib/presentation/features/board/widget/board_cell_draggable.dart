@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import '../bloc/board_bloc.dart';
 import '../bloc/board_event.dart';
-import '../../grid/bloc/grid_board_bloc.dart';
-import '../../grid/bloc/grid_board_event.dart';
 
 class BoardCellDraggable extends StatelessWidget {
   final String cardPath;
@@ -12,7 +10,6 @@ class BoardCellDraggable extends StatelessWidget {
   final int col;
   final Function(BuildContext, String) onShowZoom;
   final Function(String) onCardRemoved;
-  final GridBoardBloc gridBoardBloc;
   final BoardBloc boardBloc;
 
   const BoardCellDraggable({
@@ -24,7 +21,6 @@ class BoardCellDraggable extends StatelessWidget {
     required this.col,
     required this.onShowZoom,
     required this.onCardRemoved,
-    required this.gridBoardBloc,
     required this.boardBloc,
   });
 
@@ -36,15 +32,12 @@ class BoardCellDraggable extends StatelessWidget {
         child: Draggable<String>(
           data: cardPath,
           onDragStarted: () {
-            gridBoardBloc.add(StartDraggingCard(cardPath));
           },
           onDragCompleted: () {
             boardBloc.add(RemoveCard(row: row, col: col));
             onCardRemoved(cardPath);
-            gridBoardBloc.add(StopDraggingCard());
           },
           onDraggableCanceled: (_, __) { 
-            gridBoardBloc.add(StopDraggingCard());
           },
           feedback: Image.asset(
             cardPath,

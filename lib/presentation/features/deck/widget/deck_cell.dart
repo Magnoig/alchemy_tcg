@@ -1,4 +1,3 @@
-import 'package:alchemy_tcg/assets/image_paths.dart';
 import 'package:alchemy_tcg/domain/repositories/deck_repository.dart';
 import 'package:alchemy_tcg/presentation/features/card_pile/widgets/card_pile_bottom_sheet.dart';
 import 'package:flutter/material.dart';

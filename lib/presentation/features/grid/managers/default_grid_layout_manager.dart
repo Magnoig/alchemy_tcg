@@ -15,18 +15,17 @@ class DefaultGridLayoutManager implements GridLayoutManager {
 
   @override
   Widget buildGrid(double screenWidth) {
-    final cellSize = screenWidth / GameConstants.gridSize;
-    
+    final cellSize = screenWidth / GameConstants.gridCols;
     return GridView.builder(
       controller: scrollManager.controller,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: GameConstants.gridSize,
+        crossAxisCount: GameConstants.gridCols,
         childAspectRatio: GameConstants.cardAspectRatio,
       ),
-      itemCount: GameConstants.gridSize * GameConstants.gridSize,
+      itemCount: GameConstants.gridRows * GameConstants.gridCols,
       itemBuilder: (context, index) {
-        final row = index ~/ GameConstants.gridSize;
-        final col = index % GameConstants.gridSize;
+        final row = index ~/ GameConstants.gridCols;
+        final col = index % GameConstants.gridCols;
         return cellBuilder.buildCell(row, col, cellSize);
       },
     );

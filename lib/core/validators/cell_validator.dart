@@ -2,8 +2,8 @@ import '../constants/game_constants.dart';
 
 class CellValidator {
   bool isValidPosition(int row, int col) {
-    return row >= 0 && row < GameConstants.gridSize && 
-           col >= 0 && col < GameConstants.gridSize;
+    return row >= 0 && row < GameConstants.gridRows && 
+           col >= 0 && col < GameConstants.gridCols;
   }
 
   bool isCentralCell(int row, int col) {

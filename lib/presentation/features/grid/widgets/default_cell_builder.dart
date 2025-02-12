@@ -7,14 +7,12 @@ import 'package:alchemy_tcg/presentation/features/deck/bloc/card_deck_bloc.dart'
 import 'package:alchemy_tcg/presentation/features/deck/widget/deck_cell.dart';
 import 'package:alchemy_tcg/presentation/features/graveyard/bloc/graveyard_bloc.dart';
 import 'package:alchemy_tcg/presentation/features/graveyard/widget/gaveyard_cell.dart';
-import 'package:alchemy_tcg/presentation/features/grid/bloc/grid_board_bloc.dart';
 import 'package:flutter/widgets.dart';
 
 class DefaultCellBuilder implements ICellBuilder {
   final GraveyardBloc graveyardBloc;
   final Function(BuildContext, String) onShowZoom;
   final BoardBloc boardBloc;
-  final GridBoardBloc gridBoardBloc;
   final DeckBloc deckBloc;
   final DeckRepository deckRepository;
 
@@ -22,7 +20,6 @@ class DefaultCellBuilder implements ICellBuilder {
     required this.graveyardBloc,
     required this.onShowZoom,
     required this.boardBloc,
-    required this.gridBoardBloc,
     required this.deckBloc,
     required this.deckRepository,
   });
@@ -52,7 +49,6 @@ class DefaultCellBuilder implements ICellBuilder {
         onCardRemoved: (_) {},
         onShowZoom: onShowZoom,
         boardBloc: boardBloc, 
-        gridBoardBloc: gridBoardBloc,
       );
     }
 

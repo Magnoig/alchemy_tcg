@@ -14,7 +14,6 @@ class GamePage extends StatelessWidget {
       providers: [
         BlocProvider(create: (_) => dependencies.boardBloc),
         BlocProvider(create: (_) => dependencies.deckBloc),
-        BlocProvider(create: (_) => dependencies.gridBoardBloc),
         BlocProvider(create: (_) => dependencies.playerHandBloc),
         BlocProvider(create: (_) => dependencies.graveyardBloc),
       ],

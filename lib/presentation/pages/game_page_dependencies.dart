@@ -1,6 +1,5 @@
 import 'package:alchemy_tcg/data/repositories/deck_repository_impl.dart';
 import 'package:alchemy_tcg/domain/repositories/deck_repository.dart';
-import 'package:alchemy_tcg/presentation/features/grid/bloc/grid_board_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:alchemy_tcg/presentation/features/grid/widgets/default_cell_builder.dart';
 import 'package:alchemy_tcg/presentation/features/grid/managers/default_grid_layout_manager.dart';
@@ -16,7 +15,6 @@ final getIt = GetIt.instance;
 class GamePageDependencies {
   final BoardBloc boardBloc;
   final DeckBloc deckBloc;
-  final GridBoardBloc gridBoardBloc;
   final PlayerHandBloc playerHandBloc;
   final GraveyardBloc graveyardBloc;
   final DefaultGridScrollManager scrollManager;
@@ -27,7 +25,6 @@ class GamePageDependencies {
   GamePageDependencies._({
     required this.boardBloc,
     required this.deckBloc,
-    required this.gridBoardBloc,
     required this.playerHandBloc,
     required this.graveyardBloc,
     required this.scrollManager,
@@ -43,14 +40,12 @@ class GamePageDependencies {
     final graveyardBloc = getIt<GraveyardBloc>();
     final boardBloc = getIt<BoardBloc>();
     final deckBloc = getIt<DeckBloc>();
-    final gridBoardBloc = getIt<GridBoardBloc>();
     final playerHandBloc = getIt<PlayerHandBloc>();
 
     final cellBuilder = DefaultCellBuilder(
       graveyardBloc: graveyardBloc,
       onShowZoom: zoomHandler.showCardZoom,
-      boardBloc: boardBloc, 
-      gridBoardBloc: gridBoardBloc, 
+      boardBloc: boardBloc,  
       deckBloc: deckBloc, 
       deckRepository: deckRepository,
     );
@@ -63,7 +58,6 @@ class GamePageDependencies {
     return GamePageDependencies._(
       boardBloc: boardBloc,
       deckBloc: deckBloc,
-      gridBoardBloc: gridBoardBloc,
       playerHandBloc: playerHandBloc,
       graveyardBloc: graveyardBloc,
       scrollManager: scrollManager,
