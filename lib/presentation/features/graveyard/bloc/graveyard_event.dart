@@ -1,12 +1,15 @@
 abstract class GraveyardEvent {}
 
-class AddCardToGraveyard extends GraveyardEvent {
+class AddCardGraveyard extends GraveyardEvent {
   final String cardPath;
-  AddCardToGraveyard(this.cardPath);
+  AddCardGraveyard(this.cardPath);
 }
 
 class InitializeGraveyard extends GraveyardEvent {} 
 
 class ShowGraveyard extends GraveyardEvent {}
 
-class RemoveTopCardGraveyard extends GraveyardEvent {}
+class RemoveCardGraveyard extends GraveyardEvent {
+  final int index;
+  RemoveCardGraveyard(this.index);
+}

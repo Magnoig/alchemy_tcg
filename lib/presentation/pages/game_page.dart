@@ -8,7 +8,7 @@ class GamePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dependencies = GamePageDependencies.initialize();
+    final dependencies = GamePageDependencies.initialize(context);
 
     return MultiBlocProvider(
       providers: [

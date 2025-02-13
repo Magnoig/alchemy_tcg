@@ -1,16 +1,16 @@
 import 'package:alchemy_tcg/domain/repositories/graveyard_repository.dart';
+import 'package:alchemy_tcg/presentation/features/graveyard/bloc/interfaces/i_graveyard_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'graveyard_event.dart';
 import 'graveyard_state.dart';
 
-class GraveyardBloc extends Bloc<GraveyardEvent, GraveyardState> {
+class GraveyardBloc extends Bloc<GraveyardEvent, GraveyardState> implements IGraveyardBloc {
   final GraveyardRepository graveyard;
 
   GraveyardBloc(this.graveyard) : super(GraveyardState.initial()) {
-    on<AddCardToGraveyard>(_onAddCardToGraveyard);
+    on<AddCardGraveyard>(_onAddCardGraveyard);
     on<InitializeGraveyard>(_onInitializeGraveyard);
-    on<RemoveTopCardGraveyard>(_onRemoveTopCard);
-    // on<ShowGraveyard>(_onShowGraveyard);
+    on<RemoveCardGraveyard>(_onRemoveCard);
 
     Future(() => add(InitializeGraveyard()));
   }
@@ -20,20 +20,15 @@ class GraveyardBloc extends Bloc<GraveyardEvent, GraveyardState> {
     emit(state.copyWith(cardImages: cards));
   }
 
-  Future<void> _onAddCardToGraveyard(AddCardToGraveyard event, Emitter<GraveyardState> emit) async {
+  Future<void> _onAddCardGraveyard(AddCardGraveyard event, Emitter<GraveyardState> emit) async {
     await graveyard.addCard(event.cardPath);
     final cards = await graveyard.getCardsGraveyard();
     emit(state.copyWith(cardImages: cards));
   }
 
-  Future<void> _onRemoveTopCard(RemoveTopCardGraveyard event, Emitter<GraveyardState> emit) async {
-    await graveyard.removeTopCard(state.cardImages);
+  Future<void> _onRemoveCard(RemoveCardGraveyard event, Emitter<GraveyardState> emit) async {
+    await graveyard.removeCard(event.index);
     final cards = await graveyard.getCardsGraveyard();
     emit(state.copyWith(cardImages: cards));
   }
-
-  // Future<void> _onShowGraveyard(ShowGraveyard event, Emitter<GraveyardState> emit) async {
-  //   await graveyard.showCards();
-  //   emit(state.copyWith(cardImages: await graveyard.getCardsGraveyard()));
-  // }
 }

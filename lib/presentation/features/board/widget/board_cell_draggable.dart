@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import '../bloc/board_bloc.dart';
-import '../bloc/board_event.dart';
 
 class BoardCellDraggable extends StatelessWidget {
   final String cardPath;
@@ -8,9 +6,8 @@ class BoardCellDraggable extends StatelessWidget {
   final double cellSize;
   final int row;
   final int col;
+  final VoidCallback onRemove;
   final Function(BuildContext, String) onShowZoom;
-  final Function(String) onCardRemoved;
-  final BoardBloc boardBloc;
 
   const BoardCellDraggable({
     super.key,
@@ -20,8 +17,7 @@ class BoardCellDraggable extends StatelessWidget {
     required this.row,
     required this.col,
     required this.onShowZoom,
-    required this.onCardRemoved,
-    required this.boardBloc,
+    required this.onRemove,
   });
 
   @override
@@ -31,32 +27,21 @@ class BoardCellDraggable extends StatelessWidget {
         onLongPress: () => onShowZoom(context, cardPath),
         child: Draggable<String>(
           data: cardPath,
-          onDragStarted: () {
-          },
-          onDragCompleted: () {
-            boardBloc.add(RemoveCard(row: row, col: col));
-            onCardRemoved(cardPath);
-          },
-          onDraggableCanceled: (_, __) { 
-          },
-          feedback: Image.asset(
-            cardPath,
-            width: cellSize,
-            height: cellSize,
-            fit: BoxFit.contain,
-          ),
-          childWhenDragging: cardBelow != null
-              ? Image.asset(
-                  cardBelow!,
-                  fit: BoxFit.contain,
-                )
-              : Center(child: Text('Central')),
-          child: Image.asset(
-            cardPath,
-            fit: BoxFit.contain,
-          ),
+          onDragCompleted: onRemove,
+          feedback: _buildCardImage(cardPath),
+          childWhenDragging: cardBelow != null ? _buildCardImage(cardBelow!) : Container(),
+          child: _buildCardImage(cardPath),
         ),
       ),
     );
   }
-} 
+
+  Widget _buildCardImage(String path) {
+    return Image.asset(
+      path,
+      width: cellSize,
+      height: cellSize,
+      fit: BoxFit.contain,
+    );
+  }
+}

@@ -3,12 +3,12 @@ class BoardRepositoryImpl extends BoardRepository {
   final Map<String, List<String>> _boardCards = {};
 
   @override
-  Future<Map<String, List<String>>> getBoardCards() async {
+  Future<Map<String, List<String>>> getCards() async {
     return Map.from(_boardCards);
   }
 
   @override
-  Future<void> placeCard(String cardPath, int row, int col) async {
+  Future<void> addCard(String cardPath, int row, int col) async {
     final position = '$row,$col';
     if (!_boardCards.containsKey(position)) {
       _boardCards[position] = [];
@@ -17,10 +17,10 @@ class BoardRepositoryImpl extends BoardRepository {
   }
 
   @override
-  Future<void> removeCard(int row, int col) async {
+  Future<void> removeCard(String cardPath, int row, int col) async {
     final position = '$row,$col';
     if (_boardCards.containsKey(position) && _boardCards[position]!.isNotEmpty) {
-      _boardCards[position]!.removeLast();
+      _boardCards[position]!.remove(cardPath);
       if (_boardCards[position]!.isEmpty) {
         _boardCards.remove(position);
       }

@@ -5,6 +5,7 @@ class GraveyardRepositoryImpl implements GraveyardRepository{
   @override
   Future<void> addCard(String cardPath) async {
     graveyard.add(cardPath);
+    print(graveyard);
   }
 
   @override
@@ -19,9 +20,7 @@ class GraveyardRepositoryImpl implements GraveyardRepository{
   }
   
   @override
-  Future<void> removeTopCard(List<String> cardImages) async {
-    if (cardImages.isNotEmpty) {
-      graveyard.removeLast();
-    }
+  Future<void> removeCard(int index) async {
+    graveyard.removeAt(index);
   }
 }
