@@ -92,7 +92,7 @@ class _PlayerHandState extends State<PlayerHand> {
                                   childWhenDragging: Container(),
                                   onDragEnd: (details) {
                                     if (details.wasAccepted) {
-                                      widget.playerHandBloc.add(RemoveCard(cardPath));
+                                      widget.playerHandBloc.add(RemoveCard(index));
                                     }
                                   },
                                   child: GestureDetector(

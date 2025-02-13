@@ -15,15 +15,10 @@ class PlayerHandBloc extends Bloc<PlayerHandEvent, PlayerHandState> {
     });
 
     on<RemoveCard>((event, emit) async {
-    await _hand.removeCard(event.cardPath);
+    await _hand.removeCard(event.index);
       final cards = await _hand.getCards();
       emit(state.copyWith(cards: cards));
     });
 
-    on<ReorderCards>((event, emit) async {
-      await _hand.reorderCards(event.oldIndex, event.newIndex);
-      final cards = await _hand.getCards();
-      emit(state.copyWith(cards: cards));
-    });
   }
 }

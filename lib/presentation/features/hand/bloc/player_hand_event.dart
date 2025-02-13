@@ -6,12 +6,7 @@ class AddCard extends PlayerHandEvent {
 }
 
 class RemoveCard extends PlayerHandEvent {
-  final String cardPath;
-  RemoveCard(this.cardPath);
+  final int index;
+  RemoveCard(this.index);
 }
-
-class ReorderCards extends PlayerHandEvent {
-  final int oldIndex;
-  final int newIndex;
-  ReorderCards(this.oldIndex, this.newIndex);
-} 
+ 

@@ -1,6 +1,7 @@
 import 'package:alchemy_tcg/data/repositories/deck_repository_impl.dart';
 import 'package:alchemy_tcg/domain/repositories/deck_repository.dart';
 import 'package:alchemy_tcg/presentation/features/card_pile/widgets/card_pile_bottom_sheet.dart';
+import 'package:alchemy_tcg/presentation/features/deck/bloc/card_deck_event.dart';
 import 'package:alchemy_tcg/presentation/features/graveyard/bloc/graveyard_bloc.dart';
 import 'package:alchemy_tcg/presentation/features/graveyard/bloc/graveyard_event.dart';
 import 'package:flutter/widgets.dart';
@@ -50,10 +51,13 @@ class GamePageDependencies {
       onShowZoom: zoomHandler.showCardZoom,
       boardBloc: boardBloc,  
       deckBloc: deckBloc, 
-      deckRepository: deckRepository, 
       onGraveyardDoubleTap: () => showCardPileBottomSheet(context, "Cartas no Cemitério", graveyardBloc.state.cardImages), 
       onGraveyardCardAdded: (cardPath) => graveyardBloc.add(AddCardGraveyard(cardPath)), 
-      onGraveyardCardRemoved: (index) => graveyardBloc.add(RemoveCardGraveyard(index)), 
+      onGraveyardCardRemoved: (index) => graveyardBloc.add(RemoveCardGraveyard(index)),
+      deckRepository: deckRepository, 
+      onDeckDoubleTap: () => showCardPileBottomSheet(context, "Cartas no Deck", deckBloc.state.cardImages), 
+      onDeckCardAdded: (cardPath) => deckBloc.add(AddCard(cardPath: cardPath)), 
+      onDeckCardRemoved: (index) => deckBloc.add(RemoveCard(index: index)), 
     );
 
     final layoutManager = DefaultGridLayoutManager(

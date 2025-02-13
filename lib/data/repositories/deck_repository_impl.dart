@@ -1,7 +1,7 @@
 import '../../domain/repositories/deck_repository.dart';
 import '../../assets/image_paths.dart';
 class DeckRepositoryImpl implements DeckRepository {
-  final List<String> _cards = [
+  final List<String> deck = [
     ImagePaths.ancestralAnger,
     ImagePaths.circuitMender,
     ImagePaths.crashThrough,
@@ -28,7 +28,17 @@ class DeckRepositoryImpl implements DeckRepository {
 
   @override
   Future<List<String>> getCards() async {
-    return List.from(_cards);
+    return List.from(deck);
+  }
+
+  @override
+  Future<void> addCard(String cardPath) async {
+    deck.add(cardPath);
+  }
+
+  @override
+  Future<void> removeCard(int index) async {
+    deck.removeAt(index);
   }
 
   @override
@@ -38,17 +48,7 @@ class DeckRepositoryImpl implements DeckRepository {
 
   @override
   Future<void> shuffleDeck() async {
-    _cards.shuffle();
+    deck.shuffle();
   }
-  @override
-  Future<void> removeTopCard(List<String> cardImages) async {
-    if (cardImages.isNotEmpty) {
-      _cards.removeLast();
-    }
-  }
-
-  @override
-  Future<void> addCard(String cardPath) async {
-    _cards.add(cardPath);
-  }
+  
 } 

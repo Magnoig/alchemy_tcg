@@ -4,22 +4,29 @@ import 'card_deck_event.dart';
 import 'card_deck_state.dart';
 
 class DeckBloc extends Bloc<DeckEvent, DeckState> {
-  final DeckRepository _repository;
+  final DeckRepository deck;
 
-  DeckBloc(this._repository) : super(DeckState.initial()) {
-    on<RemoveTopCard>(_onRemoveTopCard);
+  DeckBloc(this.deck) : super(DeckState.initial()) {
+    on<AddCard>(_onAddCard);
+    on<RemoveCard>(_onRemoveCard);
     on<InitializeDeck>(_onInitializeDeck);
     add(InitializeDeck());
   }
 
   Future<void> _onInitializeDeck(InitializeDeck event, Emitter<DeckState> emit) async {
-    await _repository.shuffleDeck();
-    final cards = await _repository.getCards();
+    await deck.shuffleDeck();
+    final cards = await deck.getCards();
     emit(state.copyWith(cardImages: cards));
   }
 
-  Future<void> _onRemoveTopCard(RemoveTopCard event, Emitter<DeckState> emit) async {
-    await _repository.removeTopCard(state.cardImages);
-    emit(state.copyWith(cardImages: await _repository.getCards()));
+  Future<void> _onAddCard(AddCard event, Emitter<DeckState> emit) async {
+    await deck.addCard(event.cardPath);
+    final cards = await deck.getCards();
+    emit(state.copyWith(cardImages: cards));
+  }
+
+  Future<void> _onRemoveCard(RemoveCard event, Emitter<DeckState> emit) async {
+    await deck.removeCard(event.index);
+    emit(state.copyWith(cardImages: await deck.getCards()));
   }
 } 

@@ -4,6 +4,7 @@ import 'package:alchemy_tcg/domain/repositories/deck_repository.dart';
 import 'package:alchemy_tcg/presentation/features/board/bloc/board_bloc.dart';
 import 'package:alchemy_tcg/presentation/features/board/widget/board_cell.dart';
 import 'package:alchemy_tcg/presentation/features/deck/bloc/card_deck_bloc.dart';
+import 'package:alchemy_tcg/presentation/features/deck/bloc/card_deck_state.dart';
 import 'package:alchemy_tcg/presentation/features/deck/widget/deck_cell.dart';
 import 'package:alchemy_tcg/presentation/features/graveyard/bloc/graveyard_bloc.dart';
 import 'package:alchemy_tcg/presentation/features/graveyard/bloc/graveyard_state.dart';
@@ -17,19 +18,32 @@ class DefaultCellBuilder implements ICellBuilder {
   final Map<String, CellBuilderFunction> _cellBuilders;
 
   DefaultCellBuilder({
-    required GraveyardBloc graveyardBloc,
-    required Function(BuildContext, String) onShowZoom,
-    required BoardBloc boardBloc,
     required DeckBloc deckBloc,
     required DeckRepository deckRepository,
+    required VoidCallback onDeckDoubleTap,
+    required void Function(String) onDeckCardAdded,
+    required void Function(int index) onDeckCardRemoved,
+
+    required GraveyardBloc graveyardBloc,
     required VoidCallback onGraveyardDoubleTap,
     required void Function(String) onGraveyardCardAdded,
     required void Function(int index) onGraveyardCardRemoved,
+
+    required BoardBloc boardBloc,
+
+    required Function(BuildContext, String) onShowZoom,
   }) : _cellBuilders = {
-          'deck': (cellSize, row, col) => DeckCell(
-                cellSize: cellSize,
-                deckBloc: deckBloc,
-                deckRepository: deckRepository,
+          'deck': (cellSize, row, col) => BlocBuilder<DeckBloc, DeckState>(
+                builder: (context, state) {
+                  return DeckCell(
+                    cellSize: cellSize, 
+                    deckRepository: deckRepository,
+                    onDoubleTap: onDeckDoubleTap, 
+                    onCardAdded: onDeckCardAdded, 
+                    onCardRemoved: onDeckCardRemoved, 
+                    cardImages: state.cardImages, 
+                  );
+                },
               ),
           'graveyard': (cellSize, rol, col) => BlocBuilder<GraveyardBloc, GraveyardState>(
                 builder: (context, state) {

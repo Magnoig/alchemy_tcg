@@ -14,16 +14,8 @@ class HandRepositoryImpl implements HandRepository {
   }
 
   @override
-  Future<void> removeCard(String cardPath) async {
-    _cards.remove(cardPath);
+  Future<void> removeCard(int index) async {
+    _cards.removeAt(index);
   }
 
-  @override
-  Future<void> reorderCards(int oldIndex, int newIndex) async {
-    newIndex = oldIndex < newIndex
-        ? newIndex - 1
-        : newIndex;
-    final item = _cards.removeAt(oldIndex);
-    _cards.insert(newIndex, item);
-  }
 } 
