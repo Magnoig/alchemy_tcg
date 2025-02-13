@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 class GraveyardCellDraggable extends StatelessWidget {
   final String imagePath;
   final double cellSize;
-  final int index; // Adicionamos o índice aqui
+  final int index; 
   final void Function(int index) onDragEnd;
 
   const GraveyardCellDraggable({
     super.key, 
     required this.imagePath,
     required this.cellSize,
-    required this.index, // Passamos o índice
+    required this.index, 
     required this.onDragEnd,
   });
 
@@ -31,7 +31,7 @@ class GraveyardCellDraggable extends StatelessWidget {
         ),
       ),
       childWhenDragging: Container(),
-      onDragEnd: (details) => onDragEnd(index), // Agora passamos o índice
+      onDragEnd: (details) => onDragEnd(index),
       child: Card(
         child: Image.asset(
           imagePath,

@@ -2,7 +2,9 @@ import 'package:alchemy_tcg/domain/interfaces/card_zoom_handler.dart';
 import 'package:alchemy_tcg/domain/interfaces/grid_layout_manager.dart';
 import 'package:alchemy_tcg/presentation/features/grid/managers/grid_scroll_manager.dart';
 import 'package:alchemy_tcg/presentation/features/hand/bloc/player_hand_bloc.dart';
+import 'package:alchemy_tcg/presentation/features/hand/bloc/player_hand_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../hand/widget/player_hand.dart';
 
 class CardGrid extends StatefulWidget {
@@ -10,13 +12,19 @@ class CardGrid extends StatefulWidget {
   final GridLayoutManager layoutManager;
   final GridScrollManager scrollManager;
   final PlayerHandBloc playerHandBloc;
+  final VoidCallback onDoubleTap;
+  final void Function(String) onCardAdded;
+  final void Function(int index) onCardRemoved;
   
   const CardGrid({
     required this.zoomHandler,
     required this.layoutManager,
     required this.scrollManager,
     required this.playerHandBloc,
-    super.key,
+    super.key, 
+    required this.onDoubleTap, 
+    required this.onCardAdded, 
+    required this.onCardRemoved, 
   });
   
   @override
@@ -24,13 +32,11 @@ class CardGrid extends StatefulWidget {
 }
 
 class CardGridState extends State<CardGrid> {
-  late final PlayerHandBloc _playerHandBloc;
   
   @override
   void initState() {
     super.initState();
     widget.scrollManager.initializeScroll();
-    _playerHandBloc = widget.playerHandBloc;
   }
   
   @override
@@ -49,9 +55,16 @@ class CardGridState extends State<CardGrid> {
           Expanded(
             child: widget.layoutManager.buildGrid(MediaQuery.of(context).size.width),
           ),
-          PlayerHand(
-            onShowZoom: widget.zoomHandler.showCardZoom,
-            playerHandBloc: _playerHandBloc,
+          BlocBuilder<PlayerHandBloc, PlayerHandState>(
+            builder: (context, state) {
+              return PlayerHand(
+                onShowZoom: widget.zoomHandler.showCardZoom, 
+                cardImages: state.cards, 
+                onDoubleTap: widget.onDoubleTap, 
+                onCardAdded: widget.onCardAdded,
+                onCardRemoved: widget.onCardRemoved,
+              );
+            },
           ),
         ],
       ),
