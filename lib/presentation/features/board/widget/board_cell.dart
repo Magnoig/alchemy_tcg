@@ -1,9 +1,6 @@
-import 'package:alchemy_tcg/core/theme/game_theme.dart';
 import 'package:alchemy_tcg/presentation/features/board/widget/board_background.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/board_bloc.dart';
-import '../bloc/board_state.dart';
 import '../bloc/board_event.dart';
 import '../../../../core/validators/cell_validator.dart';
 import 'board_cell_overlay.dart';
