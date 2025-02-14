@@ -4,6 +4,9 @@ import 'package:alchemy_tcg/presentation/features/card_pile/widgets/card_pile_bo
 import 'package:alchemy_tcg/presentation/features/deck/bloc/card_deck_event.dart';
 import 'package:alchemy_tcg/presentation/features/graveyard/bloc/graveyard_bloc.dart';
 import 'package:alchemy_tcg/presentation/features/graveyard/bloc/graveyard_event.dart';
+import 'package:alchemy_tcg/presentation/features/grid/widgets/deck_cell_builder.dart';
+import 'package:alchemy_tcg/presentation/features/grid/widgets/graveyard_cell_builder.dart';
+import 'package:alchemy_tcg/presentation/features/grid/widgets/playable_cell_builder.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get_it/get_it.dart';
 import 'package:alchemy_tcg/presentation/features/grid/widgets/default_cell_builder.dart';
@@ -25,6 +28,12 @@ class GamePageDependencies {
   final DefaultCardZoomHandler zoomHandler;
   final DefaultGridLayoutManager layoutManager;
   final DeckRepository deckRepository;
+  final VoidCallback onDoubleTapDeck;
+  final ValueChanged<String> onCardAddedDeck;
+  final ValueChanged<int> onCardRemovedDeck;
+  final VoidCallback onDoubleTapGraveyard;
+  final ValueChanged<String> onCardAddedGraveyard;
+  final ValueChanged<int> onCardRemovedGraveyard;
 
   GamePageDependencies._({
     required this.boardBloc,
@@ -35,6 +44,12 @@ class GamePageDependencies {
     required this.zoomHandler,
     required this.layoutManager,
     required this.deckRepository,
+    required this.onDoubleTapDeck,
+    required this.onCardAddedDeck,
+    required this.onCardRemovedDeck,
+    required this.onDoubleTapGraveyard,
+    required this.onCardAddedGraveyard,
+    required this.onCardRemovedGraveyard,
   });
 
   static GamePageDependencies initialize(BuildContext context) {
@@ -46,18 +61,33 @@ class GamePageDependencies {
     final deckBloc = getIt<DeckBloc>();
     final playerHandBloc = getIt<PlayerHandBloc>();
 
+
+    onDoubleTapDeck() => showCardPileBottomSheet(context, "Cartas no Deck", deckBloc.state.cardImages);
+    onCardAddedDeck(String cardPath) => deckBloc.add(AddCardDeck(cardPath: cardPath));
+    onCardRemovedDeck(int index) => deckBloc.add(RemoveCardDeck(index:index));
+
+    onDoubleTapGraveyard() => showCardPileBottomSheet(context, "Cartas no Cemitério", graveyardBloc.state.cardImages);
+    onCardAddedGraveyard(String cardPath) => graveyardBloc.add(AddCardGraveyard(cardPath));
+    onCardRemovedGraveyard(int index) => graveyardBloc.add(RemoveCardGraveyard(index));
+
     final cellBuilder = DefaultCellBuilder(
-      graveyardBloc: graveyardBloc,
-      onShowZoom: zoomHandler.showCardZoom,
-      boardBloc: boardBloc,  
-      deckBloc: deckBloc, 
-      onGraveyardDoubleTap: () => showCardPileBottomSheet(context, "Cartas no Cemitério", graveyardBloc.state.cardImages), 
-      onGraveyardCardAdded: (cardPath) => graveyardBloc.add(AddCardGraveyard(cardPath)), 
-      onGraveyardCardRemoved: (index) => graveyardBloc.add(RemoveCardGraveyard(index)),
-      deckRepository: deckRepository, 
-      onDeckDoubleTap: () => showCardPileBottomSheet(context, "Cartas no Deck", deckBloc.state.cardImages), 
-      onDeckCardAdded: (cardPath) => deckBloc.add(AddCard(cardPath: cardPath)), 
-      onDeckCardRemoved: (index) => deckBloc.add(RemoveCard(index: index)), 
+      deckCellBuilder: DeckCellBuilder(
+        deckBloc: deckBloc,
+        deckRepository: deckRepository,
+        onDoubleTapDeck: onDoubleTapDeck,
+        onCardAddedDeck: onCardAddedDeck,
+        onCardRemovedDeck: onCardRemovedDeck,
+      ),
+      graveyardCellBuilder: GraveyardCellBuilder(
+        graveyardBloc: graveyardBloc,
+        onDoubleTapGraveyard: onDoubleTapGraveyard,
+        onCardAddedGraveyard: onCardAddedGraveyard,
+        onCardRemovedGraveyard: onCardRemovedGraveyard,
+      ),
+      playableCellBuilder: PlayableCellBuilder(
+        boardBloc: boardBloc,
+        onShowZoom: zoomHandler.showCardZoom,
+      ),
     );
 
     final layoutManager = DefaultGridLayoutManager(
@@ -72,8 +102,14 @@ class GamePageDependencies {
       graveyardBloc: graveyardBloc,
       scrollManager: scrollManager,
       zoomHandler: zoomHandler,
-      layoutManager: layoutManager, 
+      layoutManager: layoutManager,
       deckRepository: deckRepository,
+      onDoubleTapDeck: onDoubleTapDeck,
+      onCardAddedDeck: onCardAddedDeck,
+      onCardRemovedDeck: onCardRemovedDeck,
+      onDoubleTapGraveyard: onDoubleTapGraveyard,
+      onCardAddedGraveyard: onCardAddedGraveyard,
+      onCardRemovedGraveyard: onCardRemovedGraveyard,
     );
   }
 }

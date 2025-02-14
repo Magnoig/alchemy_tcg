@@ -26,7 +26,7 @@ class DefaultGridLayoutManager implements GridLayoutManager {
       itemBuilder: (context, index) {
         final row = index ~/ GameConstants.gridCols;
         final col = index % GameConstants.gridCols;
-        return cellBuilder.buildCell(row, col, cellSize);
+        return cellBuilder.buildCell(cellSize, row, col);
       },
     );
   }

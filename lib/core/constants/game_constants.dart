@@ -35,4 +35,16 @@ class GameConstants {
            col >= playableStartCol && 
            col <= playableEndCol;
   }
+
+  static String getCellType(int row, int col) {
+    if (row == deckRow && col == deckCol) {
+      return 'deck';
+    } else if (row == graveyardRow && col == graveyardCol) {
+      return 'graveyard';
+    } else if (row >= playableStartRow && row <= playableEndRow) {
+      return 'playable';
+    }
+    return 'empty';
+  }
+  
 } 

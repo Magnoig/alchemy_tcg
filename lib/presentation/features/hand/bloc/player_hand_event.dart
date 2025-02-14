@@ -1,12 +1,12 @@
 abstract class PlayerHandEvent {}
 
-class AddCard extends PlayerHandEvent {
+class AddCardHand extends PlayerHandEvent {
   final String cardPath;
-  AddCard(this.cardPath);
+  AddCardHand(this.cardPath);
 }
 
-class RemoveCard extends PlayerHandEvent {
+class RemoveCardHand extends PlayerHandEvent {
   final int index;
-  RemoveCard(this.index);
+  RemoveCardHand(this.index);
 }
  

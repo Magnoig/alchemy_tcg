@@ -1,7 +1,9 @@
 // import 'dart:nativewrappers/_internal/vm/lib/ffi_allocation_patch.dart';
 
+import 'package:alchemy_tcg/data/repositories/deck_repository_impl.dart';
 import 'package:alchemy_tcg/presentation/features/card_pile/widgets/card_pile_bottom_sheet.dart';
 import 'package:alchemy_tcg/presentation/features/hand/bloc/player_hand_event.dart';
+import 'package:alchemy_tcg/presentation/features/zoom/implementations/default_card_zoom_handler.dart';
 import 'package:alchemy_tcg/presentation/pages/game_page_dependencies.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,6 +15,7 @@ class GamePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dependencies = GamePageDependencies.initialize(context);
+    final zoomHandler = DefaultCardZoomHandler();
 
     return MultiBlocProvider(
       providers: [
@@ -22,13 +25,23 @@ class GamePage extends StatelessWidget {
         BlocProvider(create: (_) => dependencies.graveyardBloc),
       ],
       child: CardGrid(
-        zoomHandler: dependencies.zoomHandler,
-        layoutManager: dependencies.layoutManager,
-        scrollManager: dependencies.scrollManager, 
+        onDoubleTap: () => showCardPileBottomSheet(
+          context, "Cartas na Mão", dependencies.playerHandBloc.state.cards,
+        ), 
+        onCardAdded: (cardPath) => dependencies.playerHandBloc.add(AddCardHand(cardPath)), 
+        onCardRemoved: (index) => dependencies.playerHandBloc.add(RemoveCardHand(index)), 
+        deckBloc: dependencies.deckBloc, 
+        graveyardBloc: dependencies.graveyardBloc, 
+        boardBloc: dependencies.boardBloc,
         playerHandBloc: dependencies.playerHandBloc, 
-        onDoubleTap: () => showCardPileBottomSheet(context, "Cartas na Mâo", dependencies.playerHandBloc.state.cards), 
-        onCardAdded: (cardPath) => dependencies.playerHandBloc.add(AddCard(cardPath),), 
-        onCardRemoved: (index) => dependencies.playerHandBloc.add(RemoveCard(index)),
+        deckRepository: dependencies.deckRepository, 
+        onShowZoom: zoomHandler.showCardZoom, 
+        onDoubleTapDeck: dependencies.onDoubleTapDeck, 
+        onCardAddedDeck: dependencies.onCardAddedDeck, 
+        onCardRemovedDeck: dependencies.onCardRemovedDeck, 
+        onDoubleTapGraveyard: dependencies.onDoubleTapGraveyard, 
+        onCardAddedGraveyard: dependencies.onCardAddedGraveyard, 
+        onCardRemovedGraveyard: dependencies.onCardRemovedGraveyard,
       ),
     );
   }

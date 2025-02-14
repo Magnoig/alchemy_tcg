@@ -7,8 +7,8 @@ class DeckBloc extends Bloc<DeckEvent, DeckState> {
   final DeckRepository deck;
 
   DeckBloc(this.deck) : super(DeckState.initial()) {
-    on<AddCard>(_onAddCard);
-    on<RemoveCard>(_onRemoveCard);
+    on<AddCardDeck>(_onAddCardDeck);
+    on<RemoveCardDeck>(_onRemoveCardDeck);
     on<InitializeDeck>(_onInitializeDeck);
     add(InitializeDeck());
   }
@@ -19,13 +19,13 @@ class DeckBloc extends Bloc<DeckEvent, DeckState> {
     emit(state.copyWith(cardImages: cards));
   }
 
-  Future<void> _onAddCard(AddCard event, Emitter<DeckState> emit) async {
+  Future<void> _onAddCardDeck(AddCardDeck event, Emitter<DeckState> emit) async {
     await deck.addCard(event.cardPath);
     final cards = await deck.getCards();
     emit(state.copyWith(cardImages: cards));
   }
 
-  Future<void> _onRemoveCard(RemoveCard event, Emitter<DeckState> emit) async {
+  Future<void> _onRemoveCardDeck(RemoveCardDeck event, Emitter<DeckState> emit) async {
     await deck.removeCard(event.index);
     emit(state.copyWith(cardImages: await deck.getCards()));
   }
