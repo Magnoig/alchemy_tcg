@@ -1,5 +1,7 @@
+import 'package:alchemy_tcg/core/validators/cell_validator.dart';
 import 'package:alchemy_tcg/data/repositories/deck_repository_impl.dart';
 import 'package:alchemy_tcg/domain/repositories/deck_repository.dart';
+import 'package:alchemy_tcg/presentation/features/board/bloc/board_event.dart';
 import 'package:alchemy_tcg/presentation/features/card_pile/widgets/card_pile_bottom_sheet.dart';
 import 'package:alchemy_tcg/presentation/features/deck/bloc/card_deck_event.dart';
 import 'package:alchemy_tcg/presentation/features/graveyard/bloc/graveyard_bloc.dart';
@@ -34,6 +36,9 @@ class GamePageDependencies {
   final VoidCallback onDoubleTapGraveyard;
   final ValueChanged<String> onCardAddedGraveyard;
   final ValueChanged<int> onCardRemovedGraveyard;
+  final CellValidator validator;
+  final ValueChanged<String> onCardAddedBoard;
+  final ValueChanged<int> onCardRemovedBoard;
 
   GamePageDependencies._({
     required this.boardBloc,
@@ -50,6 +55,9 @@ class GamePageDependencies {
     required this.onDoubleTapGraveyard,
     required this.onCardAddedGraveyard,
     required this.onCardRemovedGraveyard,
+    required this.validator,
+    required this.onCardAddedBoard,
+    required this.onCardRemovedBoard,
   });
 
   static GamePageDependencies initialize(BuildContext context) {
@@ -60,6 +68,7 @@ class GamePageDependencies {
     final boardBloc = getIt<BoardBloc>();
     final deckBloc = getIt<DeckBloc>();
     final playerHandBloc = getIt<PlayerHandBloc>();
+    final validator = CellValidator();
 
 
     onDoubleTapDeck() => showCardPileBottomSheet(context, "Cartas no Deck", deckBloc.state.cardImages);
@@ -69,6 +78,9 @@ class GamePageDependencies {
     onDoubleTapGraveyard() => showCardPileBottomSheet(context, "Cartas no Cemitério", graveyardBloc.state.cardImages);
     onCardAddedGraveyard(String cardPath) => graveyardBloc.add(AddCardGraveyard(cardPath));
     onCardRemovedGraveyard(int index) => graveyardBloc.add(RemoveCardGraveyard(index));
+
+    onCardAddedBoard(String cardPath) => boardBloc.add(AddCardBoard(cardPath: cardPath));
+    onCardRemovedBoard(int index) => boardBloc.add(RemoveCardBoard(index: index));
 
     final cellBuilder = DefaultCellBuilder(
       deckCellBuilder: DeckCellBuilder(
@@ -86,7 +98,10 @@ class GamePageDependencies {
       ),
       playableCellBuilder: PlayableCellBuilder(
         boardBloc: boardBloc,
-        onShowZoom: zoomHandler.showCardZoom,
+        validatorBoard: validator, 
+        onShowZoom: zoomHandler.showCardZoom, 
+        onCardAddedBoard: onCardAddedBoard, 
+        onCardRemovedBoard: onCardRemovedBoard,
       ),
     );
 
@@ -109,7 +124,10 @@ class GamePageDependencies {
       onCardRemovedDeck: onCardRemovedDeck,
       onDoubleTapGraveyard: onDoubleTapGraveyard,
       onCardAddedGraveyard: onCardAddedGraveyard,
-      onCardRemovedGraveyard: onCardRemovedGraveyard,
+      onCardRemovedGraveyard: onCardRemovedGraveyard, 
+      validator: validator, 
+      onCardAddedBoard: onCardAddedBoard, 
+      onCardRemovedBoard: onCardRemovedBoard,
     );
   }
 }

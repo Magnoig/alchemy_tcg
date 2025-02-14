@@ -1,4 +1,5 @@
 import 'package:alchemy_tcg/core/theme/game_theme.dart';
+import 'package:alchemy_tcg/presentation/features/board/widget/board_background.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/board_bloc.dart';
@@ -14,15 +15,22 @@ class BoardCell extends StatelessWidget {
   final double cellSize;
   final Function(BuildContext, String) onShowZoom;
   final BoardBloc boardBloc;
-  final CellValidator validator = CellValidator();
+  final CellValidator validator;
+  final void Function(String) onCardAdded;
+  final void Function(int index) onCardRemoved;
+  final List<String> cardImages;
 
-  BoardCell({
+  const BoardCell({
     super.key,
     required this.row,
     required this.col,
     required this.cellSize,
     required this.onShowZoom,
-    required this.boardBloc,
+    required this.boardBloc, 
+    required this.validator,
+    required this.onCardAdded, 
+    required this.onCardRemoved, 
+    required this.cardImages,
   });
 
   @override
@@ -31,39 +39,35 @@ class BoardCell extends StatelessWidget {
       return _buildEmptyCell();
     }
 
-    return BlocBuilder<BoardBloc, BoardState>(
-      builder: (context, boardState) {
-        final cardKey = '$row,$col';
-        final cardInCell = boardState.getTopCard(cardKey);
-        final cardBelow = boardState.getCardBelowTop(cardKey);
-
-        return DragTarget<String>(
-          builder: (context, candidateData, rejectedData) => Stack(
-            children: [
-              _buildZoneCard(),
-              if (cardInCell != null)
-                BoardCellDraggable(
-                  cardPath: cardInCell,
-                  cardBelow: cardBelow,
-                  cellSize: cellSize,
-                  row: row,
-                  col: col,
-                  onShowZoom: onShowZoom,
-                  onRemove: () => boardBloc.add(RemoveCard(row: row, col: col, cardPath: cardInCell)),
-                ),
-              BoardCellOverlay(
-                isValidPosition: validator.isCentralCell(row, col),
-                isDraggingOver: candidateData.isNotEmpty,
+    return GestureDetector(
+      onLongPress: cardImages.isNotEmpty
+          ? () => onShowZoom(context, cardImages.last)
+          : null,
+      child: DragTarget<String>(
+        builder: (context, candidateData, rejectedData) => Stack(
+          children: [
+            BoardBackground(),
+            for (int i = 0; i < cardImages.length; i++)
+              BoardCellDraggable(
+                cellSize: cellSize,
+                imagePath: cardImages[i], 
+                index: i, 
+                onDragEnd: (index) {
+                  onCardRemoved(index);
+                },
               ),
-            ],
-          ),
-          onWillAcceptWithDetails: (details) =>
-              validator.isCentralCell(row, col) &&
-              validator.canAcceptCard(details.data, boardState.boardCards[cardKey] ?? []),
-          onAcceptWithDetails: (details) =>
-              boardBloc.add(AddCard(row: row, col: col, cardPath: details.data)),
-        );
-      },
+            BoardCellOverlay(
+              isValidPosition: validator.isCentralCell(row, col),
+              isDraggingOver: candidateData.isNotEmpty,
+            ),
+          ],
+        ),
+        onWillAcceptWithDetails: (details) =>
+            validator.isCentralCell(row, col), 
+            // && validator.canAcceptCard(details.data, boardState.boardCards[cardKey] ?? []),
+        onAcceptWithDetails: (details) =>
+            boardBloc.add(AddCardBoard(cardPath: details.data)),
+      ),
     );
   }
 
@@ -71,15 +75,6 @@ class BoardCell extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         border: Border.all(color: const Color.fromRGBO(128, 128, 128, 0.2)),
-      ),
-    );
-  }
-
-  Widget _buildZoneCard() {
-    return Card(
-      color: GameTheme.deckColor,
-      child: const Center(
-        child: Text('Zone'),
       ),
     );
   }

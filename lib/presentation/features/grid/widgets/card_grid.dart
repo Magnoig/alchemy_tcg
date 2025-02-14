@@ -1,3 +1,4 @@
+import 'package:alchemy_tcg/core/validators/cell_validator.dart';
 import 'package:alchemy_tcg/domain/repositories/deck_repository.dart';
 import 'package:alchemy_tcg/presentation/features/board/bloc/board_bloc.dart';
 import 'package:alchemy_tcg/presentation/features/deck/bloc/card_deck_bloc.dart';
@@ -34,6 +35,9 @@ class CardGrid extends StatelessWidget {
 
   final BoardBloc boardBloc;
   final Function(BuildContext, String) onShowZoom;
+  final CellValidator validatorBoard;
+  final void Function(String) onCardAddedBoard;
+  final void Function(int index) onCardRemovedBoard;
 
   const CardGrid({
     super.key,
@@ -56,6 +60,10 @@ class CardGrid extends StatelessWidget {
 
     required this.boardBloc,
     required this.onShowZoom,
+    required this.validatorBoard,
+    required this.onCardAddedBoard, 
+    required this.onCardRemovedBoard, 
+
   });
 
   @override
@@ -77,8 +85,12 @@ class CardGrid extends StatelessWidget {
         onCardRemovedGraveyard: onCardRemovedGraveyard,
       ),
       playableCellBuilder: PlayableCellBuilder(
-        boardBloc: boardBloc,
-        onShowZoom: onShowZoom,
+        boardBloc: boardBloc, 
+        validatorBoard: validatorBoard, 
+        onShowZoom: onShowZoom, 
+        onCardAddedBoard: onCardAddedBoard, 
+        onCardRemovedBoard: onCardRemovedBoard, 
+        
       ),
     );
 

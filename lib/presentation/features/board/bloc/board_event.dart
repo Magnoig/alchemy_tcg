@@ -1,25 +1,17 @@
 abstract class BoardEvent {}
 
-class AddCard extends BoardEvent {
-  final int row;
-  final int col;
+class AddCardBoard extends BoardEvent {
   final String cardPath;
 
-  AddCard({
-    required this.row,
-    required this.col,
+  AddCardBoard({
     required this.cardPath,
   });
 }
 
-class RemoveCard extends BoardEvent {
-  final int row;
-  final int col;
-  final String cardPath;
+class RemoveCardBoard extends BoardEvent {
+  final int index;
 
-  RemoveCard({
-    required this.row,
-    required this.col,
-    required this.cardPath,
+  RemoveCardBoard({
+    required this.index,
   });
 } 

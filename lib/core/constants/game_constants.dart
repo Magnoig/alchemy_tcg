@@ -2,8 +2,8 @@ class GameConstants {
   static const int gridRows = 5;
   static const int gridCols = 7;
   
-  static const int playableStartRow = 0;
-  static const int playableStartCol = 0;
+  static const int playableStartRow = 4;
+  static const int playableStartCol = 1;
   static const int playableEndRow = gridRows;
   static const int playableEndCol = gridCols;
 

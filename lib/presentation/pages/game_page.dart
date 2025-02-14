@@ -38,7 +38,10 @@ class GamePage extends StatelessWidget {
         onCardRemovedDeck: dependencies.onCardRemovedDeck, 
         onDoubleTapGraveyard: dependencies.onDoubleTapGraveyard, 
         onCardAddedGraveyard: dependencies.onCardAddedGraveyard, 
-        onCardRemovedGraveyard: dependencies.onCardRemovedGraveyard,
+        onCardRemovedGraveyard: dependencies.onCardRemovedGraveyard, 
+        validatorBoard: dependencies.validator, 
+        onCardAddedBoard: dependencies.onCardAddedBoard, 
+        onCardRemovedBoard: dependencies.onCardRemovedBoard,
       ),
     );
   }

@@ -1,31 +1,29 @@
 class BoardState {
-  final Map<String, List<String>> boardCards;
+  final List<String> cardImages;
 
-  BoardState({required this.boardCards});
+  BoardState({required this.cardImages});
 
   factory BoardState.initial() {
-    return BoardState(boardCards: {});
+    return BoardState(cardImages: []);
   }
 
   BoardState copyWith({
-    Map<String, List<String>>? boardCards,
+    List<String>? cardImages
   }) {
     return BoardState(
-      boardCards: boardCards ?? Map.from(boardCards!.map(
-        (key, value) => MapEntry(key, List<String>.from(value)),
-      )),
+      cardImages: cardImages ?? this.cardImages,
     );
   }
 
-  String? getTopCard(String position) {
-    final stack = boardCards[position];
-    if (stack == null || stack.isEmpty) return null;
-    return stack.last;
-  }
+  // String? getTopCard(String position) {
+  //   final stack = boardCards[position];
+  //   if (stack == null || stack.isEmpty) return null;
+  //   return stack.last;
+  // }
 
-  String? getCardBelowTop(String position) {
-    final stack = boardCards[position];
-    if (stack == null || stack.length < 2) return null;
-    return stack[stack.length - 2];
-  }
+  // String? getCardBelowTop(String position) {
+  //   final stack = boardCards[position];
+  //   if (stack == null || stack.length < 2) return null;
+  //   return stack[stack.length - 2];
+  // }
 } 
