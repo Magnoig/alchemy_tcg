@@ -1,6 +1,4 @@
-import 'package:alchemy_tcg/core/constants/game_constants.dart';
 import 'package:alchemy_tcg/domain/repositories/deck_repository.dart';
-import 'package:alchemy_tcg/presentation/features/deck/widget/card_stack.dart';
 import 'package:alchemy_tcg/presentation/features/deck/widget/deck_background.dart';
 import 'package:alchemy_tcg/presentation/features/deck/widget/deck_cell_draggable.dart';
 import 'package:flutter/material.dart';
