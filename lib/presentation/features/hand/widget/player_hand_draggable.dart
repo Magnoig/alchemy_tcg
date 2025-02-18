@@ -1,12 +1,12 @@
 import 'package:alchemy_tcg/core/constants/game_constants.dart';
 import 'package:flutter/material.dart';
 
-class DraggableCard extends StatelessWidget {
+class PlayerHandDraggable extends StatelessWidget {
   final String cardPath;
   final Function(bool) onDragEnd;
   final VoidCallback onTap;
 
-  const DraggableCard({
+  const PlayerHandDraggable({
     super.key,
     required this.cardPath,
     required this.onDragEnd,

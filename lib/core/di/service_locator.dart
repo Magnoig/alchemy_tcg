@@ -6,11 +6,11 @@ import '../../data/repositories/deck_repository_impl.dart';
 import '../../data/repositories/hand_repository_impl.dart';
 import '../../domain/repositories/deck_repository.dart';
 import '../../domain/repositories/hand_repository.dart';
-import '../../presentation/features/board/bloc/board_bloc.dart';
+import '../../presentation/features/spell_trap/bloc/spell_trap_bloc.dart';
 import '../../presentation/features/deck/bloc/card_deck_bloc.dart';
 import '../../presentation/features/hand/bloc/player_hand_bloc.dart';
-import '../../domain/repositories/board_repository.dart';
-import '../../data/repositories/board_repository_impl.dart';
+import '../../domain/repositories/spell_trap_repository.dart';
+import '../../data/repositories/spell_trap_repository_impl.dart';
 
 final getIt = GetIt.instance;
 
@@ -18,11 +18,11 @@ void setupServiceLocator() {
   // Repositories
   getIt.registerLazySingleton<DeckRepository>(() => DeckRepositoryImpl());
   getIt.registerLazySingleton<HandRepository>(() => HandRepositoryImpl());
-  getIt.registerLazySingleton<BoardRepository>(() => BoardRepositoryImpl());
+  getIt.registerLazySingleton<SpellTrapRepository>(() => SpellTrapRepositoryImpl());
   getIt.registerLazySingleton<GraveyardRepository>(() => GraveyardRepositoryImpl());
   
   // BLoCs
-  getIt.registerFactory(() => BoardBloc(getIt()));
+  getIt.registerFactory(() => SpellTrapBloc(getIt()));
   getIt.registerFactory(() => DeckBloc(getIt()));
   getIt.registerFactory(() => PlayerHandBloc(getIt()));
   getIt.registerFactory(() => GraveyardBloc(getIt()));

@@ -1,7 +1,7 @@
 import 'package:alchemy_tcg/domain/interfaces/i_cell_builder.dart';
 import 'package:alchemy_tcg/presentation/features/graveyard/bloc/graveyard_bloc.dart';
 import 'package:alchemy_tcg/presentation/features/graveyard/bloc/graveyard_state.dart';
-import 'package:alchemy_tcg/presentation/features/graveyard/widget/gaveyard_cell.dart';
+import 'package:alchemy_tcg/presentation/features/graveyard/widget/graveyard_cell.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

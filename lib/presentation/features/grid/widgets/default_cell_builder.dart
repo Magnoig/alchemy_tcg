@@ -3,7 +3,7 @@ import 'package:alchemy_tcg/domain/interfaces/i_cell_builder.dart';
 import 'package:flutter/material.dart';
 import 'deck_cell_builder.dart';
 import 'graveyard_cell_builder.dart';
-import 'playable_cell_builder.dart';
+import 'spell_trap_cell_builder.dart';
 
 class DefaultCellBuilder implements ICellBuilder {
   final Map<String, ICellBuilder> _cellBuilders;
@@ -11,11 +11,11 @@ class DefaultCellBuilder implements ICellBuilder {
   DefaultCellBuilder({
     required DeckCellBuilder deckCellBuilder,
     required GraveyardCellBuilder graveyardCellBuilder,
-    required PlayableCellBuilder playableCellBuilder,
+    required SpellTrapCellBuilder spellTrapCellBuilder,
   }) : _cellBuilders = {
           'deck': deckCellBuilder,
           'graveyard': graveyardCellBuilder,
-          'playable': playableCellBuilder,
+          'spell_trap': spellTrapCellBuilder,
         };
 
   @override

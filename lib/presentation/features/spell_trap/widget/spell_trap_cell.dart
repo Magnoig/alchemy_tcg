@@ -1,29 +1,28 @@
-import 'package:alchemy_tcg/presentation/features/board/widget/board_background.dart';
+import 'package:alchemy_tcg/presentation/features/spell_trap/widget/spell_trap_background.dart';
 import 'package:flutter/material.dart';
-import '../bloc/board_bloc.dart';
-import '../bloc/board_event.dart';
+import '../bloc/spell_trap_bloc.dart';
 import '../../../../core/validators/cell_validator.dart';
 import 'board_cell_overlay.dart';
-import 'board_cell_draggable.dart';
+import 'spell_trap_cell_draggable.dart';
 
-class BoardCell extends StatelessWidget {
+class SpellTrapCell extends StatelessWidget {
   final int row;
   final int col;
   final double cellSize;
   final Function(BuildContext, String) onShowZoom;
-  final BoardBloc boardBloc;
+  final SpellTrapBloc spellTrapBloc;
   final CellValidator validator;
   final void Function(String) onCardAdded;
   final void Function(int index) onCardRemoved;
   final List<String> cardImages;
 
-  const BoardCell({
+  const SpellTrapCell({
     super.key,
     required this.row,
     required this.col,
     required this.cellSize,
     required this.onShowZoom,
-    required this.boardBloc, 
+    required this.spellTrapBloc, 
     required this.validator,
     required this.onCardAdded, 
     required this.onCardRemoved, 
@@ -45,7 +44,7 @@ class BoardCell extends StatelessWidget {
           children: [
             BoardBackground(),
             for (int i = 0; i < cardImages.length; i++)
-              BoardCellDraggable(
+              SpellTrapCellDraggable(
                 cellSize: cellSize,
                 imagePath: cardImages[i], 
                 index: i, 
@@ -62,8 +61,7 @@ class BoardCell extends StatelessWidget {
         onWillAcceptWithDetails: (details) =>
             validator.isCentralCell(row, col), 
             // && validator.canAcceptCard(details.data, boardState.boardCards[cardKey] ?? []),
-        onAcceptWithDetails: (details) =>
-            boardBloc.add(AddCardBoard(cardPath: details.data)),
+        onAcceptWithDetails: (details) => onCardAdded(details.data),
       ),
     );
   }

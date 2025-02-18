@@ -1,6 +1,6 @@
 import 'package:alchemy_tcg/core/validators/cell_validator.dart';
 import 'package:alchemy_tcg/domain/repositories/deck_repository.dart';
-import 'package:alchemy_tcg/presentation/features/board/bloc/board_bloc.dart';
+import 'package:alchemy_tcg/presentation/features/spell_trap/bloc/spell_trap_bloc.dart';
 import 'package:alchemy_tcg/presentation/features/deck/bloc/card_deck_bloc.dart';
 import 'package:alchemy_tcg/presentation/features/graveyard/bloc/graveyard_bloc.dart';
 import 'package:alchemy_tcg/presentation/features/grid/managers/default_grid_layout_manager.dart';
@@ -13,7 +13,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'default_cell_builder.dart';
 import 'deck_cell_builder.dart';
 import 'graveyard_cell_builder.dart';
-import 'playable_cell_builder.dart';
+import 'spell_trap_cell_builder.dart';
 
 class CardGrid extends StatelessWidget {
 
@@ -33,11 +33,11 @@ class CardGrid extends StatelessWidget {
   final void Function(String) onCardAddedGraveyard;
   final void Function(int) onCardRemovedGraveyard;
 
-  final BoardBloc boardBloc;
+  final SpellTrapBloc boardBloc;
   final Function(BuildContext, String) onShowZoom;
-  final CellValidator validatorBoard;
-  final void Function(String) onCardAddedBoard;
-  final void Function(int index) onCardRemovedBoard;
+  final CellValidator validatorSpellTrap;
+  final void Function(String) onCardAddedSpellTrap;
+  final void Function(int index) onCardRemovedSpellTrap;
 
   const CardGrid({
     super.key,
@@ -60,9 +60,9 @@ class CardGrid extends StatelessWidget {
 
     required this.boardBloc,
     required this.onShowZoom,
-    required this.validatorBoard,
-    required this.onCardAddedBoard, 
-    required this.onCardRemovedBoard, 
+    required this.validatorSpellTrap,
+    required this.onCardAddedSpellTrap, 
+    required this.onCardRemovedSpellTrap, 
 
   });
 
@@ -84,12 +84,12 @@ class CardGrid extends StatelessWidget {
         onCardAddedGraveyard: onCardAddedGraveyard,
         onCardRemovedGraveyard: onCardRemovedGraveyard,
       ),
-      playableCellBuilder: PlayableCellBuilder(
-        boardBloc: boardBloc, 
-        validatorBoard: validatorBoard, 
+      spellTrapCellBuilder: SpellTrapCellBuilder(
+        spellTrapBloc: boardBloc, 
+        validatorSpellTrap: validatorSpellTrap, 
         onShowZoom: onShowZoom, 
-        onCardAddedBoard: onCardAddedBoard, 
-        onCardRemovedBoard: onCardRemovedBoard, 
+        onCardAddedSpellTrap: onCardAddedSpellTrap, 
+        onCardRemovedSpellTrap: onCardRemovedSpellTrap, 
         
       ),
     );

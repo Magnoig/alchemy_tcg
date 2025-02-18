@@ -7,9 +7,9 @@ class BoardBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: GameTheme.deckColor,
+      color: GameTheme.spellTrapBackgroundColor,
       child: const Center(
-        child: Text('BoardBackground'),
+        child: Text('Spell/Trap'),
       ),
     );
   }

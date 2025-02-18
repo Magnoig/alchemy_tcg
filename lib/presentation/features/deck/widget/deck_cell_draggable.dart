@@ -1,4 +1,5 @@
 import 'package:alchemy_tcg/domain/repositories/deck_repository.dart';
+import 'package:alchemy_tcg/presentation/features/deck/widget/deck_card_back.dart';
 import 'package:flutter/material.dart';
 
 class DeckCellDraggable extends StatelessWidget {
@@ -26,9 +27,7 @@ class DeckCellDraggable extends StatelessWidget {
         color: Colors.transparent,
         child: SizedBox(
           height: cellSize,
-          child: Card(
-            child: Image.asset(imagePath, fit: BoxFit.contain),
-          ),
+          child: DeckCardBack(deckRepository: deckRepository,),
         ),
       ),
       childWhenDragging: Container(),
@@ -37,20 +36,7 @@ class DeckCellDraggable extends StatelessWidget {
           onDragEnd(index);
         }
       },
-      child: Card(
-        child: FutureBuilder<String?>(
-          future: deckRepository.getCardBack(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const CircularProgressIndicator();
-            } else if (snapshot.hasError || snapshot.data == null || snapshot.data!.isEmpty) {
-              return Container();
-            } else {
-              return Image.asset(snapshot.data!, fit: BoxFit.contain);
-            }
-          },
-        ),
-      ),
+      child:  DeckCardBack(deckRepository: deckRepository,),
     );
   }
 }

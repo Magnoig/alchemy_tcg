@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:alchemy_tcg/presentation/features/grid/widgets/card_grid.dart';
 import 'package:alchemy_tcg/presentation/pages/game_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:alchemy_tcg/presentation/features/board/bloc/board_bloc.dart';
+import 'package:alchemy_tcg/presentation/features/spell_trap/bloc/spell_trap_bloc.dart';
 import 'package:alchemy_tcg/presentation/features/deck/bloc/card_deck_bloc.dart';
 import 'game_page_scenarios.dart';
 

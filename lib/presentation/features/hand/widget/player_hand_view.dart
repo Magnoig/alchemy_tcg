@@ -1,6 +1,6 @@
 import 'package:alchemy_tcg/core/constants/game_constants.dart';
 import 'package:alchemy_tcg/core/theme/game_theme.dart';
-import 'package:alchemy_tcg/presentation/features/hand/widget/draggable_card.dart';
+import 'package:alchemy_tcg/presentation/features/hand/widget/player_hand_draggable.dart';
 import 'package:flutter/material.dart';
 
 class PlayerHandView extends StatelessWidget {
@@ -52,7 +52,7 @@ class PlayerHandView extends StatelessWidget {
                       children: List.generate(cardImages.length, (index) {
                         return Positioned(
                           left: index * spacing,
-                          child: DraggableCard(
+                          child: PlayerHandDraggable(
                             cardPath: cardImages[index],
                             onDragEnd: (wasAccepted) {
                               if (wasAccepted) onRemoveCard(index);

@@ -6,7 +6,7 @@ class CellValidator {
   }
 
   bool isCentralCell(int row, int col) {
-    return GameConstants.isPlayablePosition(row, col);
+    return GameConstants.isSpellTrapPosition(row, col);
   }
 
   bool canAcceptCard(String cardPath, List<String> existingCards) {

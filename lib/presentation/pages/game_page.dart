@@ -16,7 +16,7 @@ class GamePage extends StatelessWidget {
 
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_) => dependencies.boardBloc),
+        BlocProvider(create: (_) => dependencies.spellTrapBloc),
         BlocProvider(create: (_) => dependencies.deckBloc),
         BlocProvider(create: (_) => dependencies.playerHandBloc),
         BlocProvider(create: (_) => dependencies.graveyardBloc),
@@ -29,7 +29,7 @@ class GamePage extends StatelessWidget {
         onCardRemoved: (index) => dependencies.playerHandBloc.add(RemoveCardHand(index)), 
         deckBloc: dependencies.deckBloc, 
         graveyardBloc: dependencies.graveyardBloc, 
-        boardBloc: dependencies.boardBloc,
+        boardBloc: dependencies.spellTrapBloc,
         playerHandBloc: dependencies.playerHandBloc, 
         deckRepository: dependencies.deckRepository, 
         onShowZoom: zoomHandler.showCardZoom, 
@@ -39,9 +39,9 @@ class GamePage extends StatelessWidget {
         onDoubleTapGraveyard: dependencies.onDoubleTapGraveyard, 
         onCardAddedGraveyard: dependencies.onCardAddedGraveyard, 
         onCardRemovedGraveyard: dependencies.onCardRemovedGraveyard, 
-        validatorBoard: dependencies.validator, 
-        onCardAddedBoard: dependencies.onCardAddedBoard, 
-        onCardRemovedBoard: dependencies.onCardRemovedBoard,
+        validatorSpellTrap: dependencies.validator, 
+        onCardAddedSpellTrap: dependencies.onCardAddedBoard, 
+        onCardRemovedSpellTrap: dependencies.onCardRemovedBoard,
       ),
     );
   }

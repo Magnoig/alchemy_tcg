@@ -7,7 +7,7 @@ class DeckBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: GameTheme.deckColor,
+      color: GameTheme.deckBackgroundColor,
       child: const Center(
         child: Text('Deck'),
       ),

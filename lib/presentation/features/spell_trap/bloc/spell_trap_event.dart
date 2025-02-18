@@ -1,6 +1,6 @@
-abstract class BoardEvent {}
+abstract class SpellTrapEvent {}
 
-class AddCardBoard extends BoardEvent {
+class AddCardBoard extends SpellTrapEvent {
   final String cardPath;
 
   AddCardBoard({
@@ -8,7 +8,7 @@ class AddCardBoard extends BoardEvent {
   });
 }
 
-class RemoveCardBoard extends BoardEvent {
+class RemoveCardBoard extends SpellTrapEvent {
   final int index;
 
   RemoveCardBoard({

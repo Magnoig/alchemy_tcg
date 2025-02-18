@@ -3,7 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:alchemy_tcg/core/di/service_locator.dart';
 import 'package:alchemy_tcg/data/repositories/deck_repository_impl.dart';
 import 'package:alchemy_tcg/domain/repositories/deck_repository.dart';
-import 'package:alchemy_tcg/presentation/features/board/bloc/board_bloc.dart';
+import 'package:alchemy_tcg/presentation/features/spell_trap/bloc/spell_trap_bloc.dart';
 import 'package:alchemy_tcg/presentation/features/deck/bloc/card_deck_bloc.dart';
 import 'package:alchemy_tcg/presentation/features/grid/bloc/grid_board_bloc.dart';
 import 'package:alchemy_tcg/presentation/features/hand/bloc/player_hand_bloc.dart';

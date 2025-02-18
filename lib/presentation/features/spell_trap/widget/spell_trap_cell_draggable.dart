@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-class BoardCellDraggable extends StatelessWidget {
+class SpellTrapCellDraggable extends StatelessWidget {
   final String imagePath;
   final double cellSize;
   final int index;
   final void Function(int index) onDragEnd;
 
-  const BoardCellDraggable({
+  const SpellTrapCellDraggable({
     super.key,
     required this.imagePath,
     required this.cellSize,

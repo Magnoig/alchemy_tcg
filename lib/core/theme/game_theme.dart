@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 class GameTheme {
-  static const Color deckColor = Colors.grey;
+  static const Color deckBackgroundColor = Colors.grey;
   static const Color handBackgroundColor = Colors.grey;
-  static const Color graveyardColor = Colors.grey;
+  static const Color graveyardBackgroundColor = Colors.grey;
+  static const Color spellTrapBackgroundColor = Colors.grey;
 
   static const TextStyle cellText = TextStyle(
     color: Colors.white,

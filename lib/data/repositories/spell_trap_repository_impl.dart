@@ -1,5 +1,5 @@
-import 'package:alchemy_tcg/domain/repositories/board_repository.dart';
-class BoardRepositoryImpl extends BoardRepository {
+import 'package:alchemy_tcg/domain/repositories/spell_trap_repository.dart';
+class SpellTrapRepositoryImpl extends SpellTrapRepository {
   final List<String> _boardCards = [];
 
   @override

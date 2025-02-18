@@ -1,16 +1,16 @@
-class BoardState {
+class SpellTrapState {
   final List<String> cardImages;
 
-  BoardState({required this.cardImages});
+  SpellTrapState({required this.cardImages});
 
-  factory BoardState.initial() {
-    return BoardState(cardImages: []);
+  factory SpellTrapState.initial() {
+    return SpellTrapState(cardImages: []);
   }
 
-  BoardState copyWith({
+  SpellTrapState copyWith({
     List<String>? cardImages
   }) {
-    return BoardState(
+    return SpellTrapState(
       cardImages: cardImages ?? this.cardImages,
     );
   }
