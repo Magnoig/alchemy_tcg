@@ -5,7 +5,6 @@ class GraveyardRepositoryImpl implements GraveyardRepository{
   @override
   Future<void> addCard(String cardPath) async {
     graveyard.add(cardPath);
-    print(graveyard);
   }
 
   @override

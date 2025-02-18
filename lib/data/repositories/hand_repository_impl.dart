@@ -17,11 +17,10 @@ class HandRepositoryImpl implements HandRepository {
 
   @override
   Future<void> removeCard(int index) async {
-  if (index >= 0 && index < _hand.length) {
-    _hand.removeAt(index);
-  } else {
-    debugPrint('Tentativa de remover carta inválida. Índice: $index, Tamanho da mão: ${_hand.length}');
+    if (index >= 0 && index < _hand.length) {
+      _hand.removeAt(index);
+    } else {
+      debugPrint('Tentativa de remover carta inválida. Índice: $index, Tamanho da mão: ${_hand.length}');
+    }
   }
-}
-
 } 
