@@ -1,17 +1,21 @@
 abstract class SpellTrapEvent {}
 
-class AddCardBoard extends SpellTrapEvent {
+class AddCardSpellTrap extends SpellTrapEvent {
+  final String cellId;
   final String cardPath;
 
-  AddCardBoard({
+  AddCardSpellTrap({
+    required this.cellId,
     required this.cardPath,
   });
 }
 
-class RemoveCardBoard extends SpellTrapEvent {
+class RemoveCardSpellTrap extends SpellTrapEvent {
+  final String cellId;
   final int index;
 
-  RemoveCardBoard({
+  RemoveCardSpellTrap({
+    required this.cellId,
     required this.index,
   });
 } 

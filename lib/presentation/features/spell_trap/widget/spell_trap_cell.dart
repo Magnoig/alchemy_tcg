@@ -12,9 +12,10 @@ class SpellTrapCell extends StatelessWidget {
   final Function(BuildContext, String) onShowZoom;
   final SpellTrapBloc spellTrapBloc;
   final CellValidator validator;
-  final void Function(String) onCardAdded;
-  final void Function(int index) onCardRemoved;
+  final void Function(String cellId, String cardPath) onCardAdded;
+  final void Function(String cellId, int index) onCardRemoved;
   final List<String> cardImages;
+  final String cellId;  // Adicionei o cellId
 
   const SpellTrapCell({
     super.key,
@@ -22,11 +23,12 @@ class SpellTrapCell extends StatelessWidget {
     required this.col,
     required this.cellSize,
     required this.onShowZoom,
-    required this.spellTrapBloc, 
+    required this.spellTrapBloc,
     required this.validator,
-    required this.onCardAdded, 
-    required this.onCardRemoved, 
+    required this.onCardAdded,
+    required this.onCardRemoved,
     required this.cardImages,
+    required this.cellId, // Adicionado
   });
 
   @override
@@ -46,10 +48,10 @@ class SpellTrapCell extends StatelessWidget {
             for (int i = 0; i < cardImages.length; i++)
               SpellTrapCellDraggable(
                 cellSize: cellSize,
-                imagePath: cardImages[i], 
-                index: i, 
+                imagePath: cardImages[i],
+                index: i,
                 onDragEnd: (index) {
-                  onCardRemoved(index);
+                  onCardRemoved(cellId, index); // Agora passando cellId
                 },
               ),
             BoardCellOverlay(
@@ -59,13 +61,12 @@ class SpellTrapCell extends StatelessWidget {
           ],
         ),
         onWillAcceptWithDetails: (details) =>
-            validator.isCentralCell(row, col), 
-            // && validator.canAcceptCard(details.data, boardState.boardCards[cardKey] ?? []),
-        onAcceptWithDetails: (details) => onCardAdded(details.data),
+            validator.isCentralCell(row, col),
+        onAcceptWithDetails: (details) => onCardAdded(cellId, details.data), // Agora passando cellId
       ),
     );
   }
-
+  
   Widget _buildEmptyCell() {
     return Container(
       decoration: BoxDecoration(

@@ -10,19 +10,21 @@ class SpellTrapCellBuilder implements ICellBuilder {
   final SpellTrapBloc spellTrapBloc;
   final Function(BuildContext, String) onShowZoom;
   final CellValidator validatorSpellTrap;
-  final void Function(String) onCardAddedSpellTrap;
-  final void Function(int index) onCardRemovedSpellTrap;
+  final void Function(String cellId, String) onCardAddedSpellTrap;
+  final void Function(String cellId, int) onCardRemovedSpellTrap;
 
   SpellTrapCellBuilder({
     required this.spellTrapBloc,
     required this.onShowZoom,
     required this.validatorSpellTrap,
-    required this.onCardAddedSpellTrap, 
-    required this.onCardRemovedSpellTrap, 
+    required this.onCardAddedSpellTrap,
+    required this.onCardRemovedSpellTrap,
   });
 
   @override
   Widget buildCell(double cellSize, int row, int col) {
+    String cellId = '$row-$col';
+
     return BlocBuilder<SpellTrapBloc, SpellTrapState>(
       bloc: spellTrapBloc,
       builder: (context, state) {
@@ -31,13 +33,14 @@ class SpellTrapCellBuilder implements ICellBuilder {
           col: col,
           cellSize: cellSize,
           onShowZoom: onShowZoom,
-          spellTrapBloc: spellTrapBloc, 
-          validator: validatorSpellTrap,  
-          onCardAdded: onCardAddedSpellTrap, 
-          onCardRemoved: onCardRemovedSpellTrap, 
-          cardImages: state.cardImages,
+          spellTrapBloc: spellTrapBloc,
+          validator: validatorSpellTrap,
+          onCardAdded: onCardAddedSpellTrap,
+          onCardRemoved: onCardRemovedSpellTrap,
+          cellId: cellId,
+          cardImages: state.spellTrapCards[cellId] ?? [],
         );
-      }
+      },
     );
   }
 }

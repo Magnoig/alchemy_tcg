@@ -36,8 +36,8 @@ class CardGrid extends StatelessWidget {
   final SpellTrapBloc boardBloc;
   final Function(BuildContext, String) onShowZoom;
   final CellValidator validatorSpellTrap;
-  final void Function(String) onCardAddedSpellTrap;
-  final void Function(int index) onCardRemovedSpellTrap;
+  final void Function(String cellId, String) onCardAddedSpellTrap;
+  final void Function(String cellId, int) onCardRemovedSpellTrap;
 
   const CardGrid({
     super.key,

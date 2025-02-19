@@ -25,7 +25,6 @@ class GraveyardCellDraggable extends StatelessWidget {
           child: Card(
             child: Image.asset(
               imagePath,
-              fit: BoxFit.cover,
             ),
           ),
         ),
@@ -35,7 +34,6 @@ class GraveyardCellDraggable extends StatelessWidget {
       child: Card(
         child: Image.asset(
           imagePath,
-          fit: BoxFit.contain,
         ),
       ),
     );

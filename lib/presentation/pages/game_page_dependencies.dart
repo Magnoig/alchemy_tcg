@@ -37,8 +37,8 @@ class GamePageDependencies {
   final ValueChanged<String> onCardAddedGraveyard;
   final ValueChanged<int> onCardRemovedGraveyard;
   final CellValidator validator;
-  final ValueChanged<String> onCardAddedBoard;
-  final ValueChanged<int> onCardRemovedBoard;
+  final void Function(String cellId, String) onCardAddedSpellTrap;
+  final void Function(String cellId, int) onCardRemovedSpellTrap;
 
   GamePageDependencies._({
     required this.spellTrapBloc,
@@ -56,8 +56,8 @@ class GamePageDependencies {
     required this.onCardAddedGraveyard,
     required this.onCardRemovedGraveyard,
     required this.validator,
-    required this.onCardAddedBoard,
-    required this.onCardRemovedBoard,
+    required this.onCardAddedSpellTrap,
+    required this.onCardRemovedSpellTrap,
   });
 
   static GamePageDependencies initialize(BuildContext context) {
@@ -79,8 +79,10 @@ class GamePageDependencies {
     onCardAddedGraveyard(String cardPath) => graveyardBloc.add(AddCardGraveyard(cardPath));
     onCardRemovedGraveyard(int index) => graveyardBloc.add(RemoveCardGraveyard(index));
 
-    onCardAddedBoard(String cardPath) => spellTrapBloc.add(AddCardBoard(cardPath: cardPath));
-    onCardRemovedBoard(int index) => spellTrapBloc.add(RemoveCardBoard(index: index));
+    onCardAddedSpellTrap(String cellId, String cardPath) =>
+      spellTrapBloc.add(AddCardSpellTrap(cellId: cellId, cardPath: cardPath));
+    onCardRemovedSpellTrap(String cellId, int index) =>
+      spellTrapBloc.add(RemoveCardSpellTrap(cellId: cellId, index: index));
 
     final cellBuilder = DefaultCellBuilder(
       deckCellBuilder: DeckCellBuilder(
@@ -100,8 +102,8 @@ class GamePageDependencies {
         spellTrapBloc: spellTrapBloc,
         validatorSpellTrap: validator, 
         onShowZoom: zoomHandler.showCardZoom, 
-        onCardAddedSpellTrap: onCardAddedBoard, 
-        onCardRemovedSpellTrap: onCardRemovedBoard,
+        onCardAddedSpellTrap: onCardAddedSpellTrap, 
+        onCardRemovedSpellTrap: onCardRemovedSpellTrap,
       ),
     );
 
@@ -126,8 +128,8 @@ class GamePageDependencies {
       onCardAddedGraveyard: onCardAddedGraveyard,
       onCardRemovedGraveyard: onCardRemovedGraveyard, 
       validator: validator, 
-      onCardAddedBoard: onCardAddedBoard, 
-      onCardRemovedBoard: onCardRemovedBoard,
+      onCardAddedSpellTrap: onCardAddedSpellTrap, 
+      onCardRemovedSpellTrap: onCardRemovedSpellTrap,
     );
   }
 }

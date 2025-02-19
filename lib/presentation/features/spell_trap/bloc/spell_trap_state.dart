@@ -1,29 +1,27 @@
 class SpellTrapState {
-  final List<String> cardImages;
+  final Map<String, List<String>> spellTrapCards;
 
-  SpellTrapState({required this.cardImages});
+  SpellTrapState({required this.spellTrapCards});
 
   factory SpellTrapState.initial() {
-    return SpellTrapState(cardImages: []);
+    return SpellTrapState(spellTrapCards: {});
   }
 
   SpellTrapState copyWith({
-    List<String>? cardImages
+    Map<String, List<String>>? spellTrapCards,
   }) {
     return SpellTrapState(
-      cardImages: cardImages ?? this.cardImages,
+      spellTrapCards: spellTrapCards ?? this.spellTrapCards,
     );
   }
 
-  // String? getTopCard(String position) {
-  //   final stack = boardCards[position];
-  //   if (stack == null || stack.isEmpty) return null;
-  //   return stack.last;
-  // }
+  String? getTopCard(String position) {
+    final stack = spellTrapCards[position];
+    return (stack?.isNotEmpty == true) ? stack!.last : null;
+  }
 
-  // String? getCardBelowTop(String position) {
-  //   final stack = boardCards[position];
-  //   if (stack == null || stack.length < 2) return null;
-  //   return stack[stack.length - 2];
-  // }
+  String? getCardBelowTop(String position) {
+    final stack = spellTrapCards[position];
+    return (stack != null && stack.length > 1) ? stack[stack.length - 2] : null;
+  }
 } 
