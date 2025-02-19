@@ -16,19 +16,19 @@ class GraveyardBloc extends Bloc<GraveyardEvent, GraveyardState> implements IGra
   }
 
   Future<void> _onInitializeGraveyard(InitializeGraveyard event, Emitter<GraveyardState> emit) async {
-    final cards = await graveyard.getCardsGraveyard();
-    emit(state.copyWith(cardImages: cards));
+    final cards = await graveyard.getCards();
+    emit(state.copyWith(graveyardCards: cards));
   }
 
   Future<void> _onAddCardGraveyard(AddCardGraveyard event, Emitter<GraveyardState> emit) async {
-    await graveyard.addCard(event.cardPath);
-    final cards = await graveyard.getCardsGraveyard();
-    emit(state.copyWith(cardImages: cards));
+    await graveyard.addCard(event.cellId, event.cardPath);
+    final cards = await graveyard.getCards();
+    emit(state.copyWith(graveyardCards: cards));
   }
 
   Future<void> _onRemoveCard(RemoveCardGraveyard event, Emitter<GraveyardState> emit) async {
-    await graveyard.removeCard(event.index);
-    final cards = await graveyard.getCardsGraveyard();
-    emit(state.copyWith(cardImages: cards));
+    await graveyard.removeCard(event.cellId, event.index);
+    final cards = await graveyard.getCards();
+    emit(state.copyWith(graveyardCards: cards));
   }
 }

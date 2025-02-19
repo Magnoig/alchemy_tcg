@@ -1,34 +1,29 @@
 import 'package:flutter/foundation.dart';
 
 class GraveyardState {
-  final List<String> cardImages;
+  final Map<String, List<String>> graveyardCards;
 
-  GraveyardState({required this.cardImages});
+  GraveyardState({required this.graveyardCards});
 
   factory GraveyardState.initial() {
-    return GraveyardState(cardImages: []);
+    return GraveyardState(graveyardCards: {});
   }
 
   GraveyardState copyWith({
-    List<String>? cardImages,
+    Map<String, List<String>>? graveyardCards,
   }) {
     return GraveyardState(
-      cardImages: cardImages ?? List.from(this.cardImages),
+      graveyardCards: graveyardCards ?? this.graveyardCards,
     );
   }
 
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is GraveyardState &&
-          runtimeType == other.runtimeType &&
-          listEquals(cardImages, other.cardImages);
+  String? getTopCard(String position) {
+    final stack = graveyardCards[position];
+    return (stack?.isNotEmpty == true) ? stack!.last : null;
+  }
 
-  @override
-  int get hashCode => cardImages.hashCode;
-
-  String? getCardBelowTop() {
-    if (cardImages.length < 2) return null;
-    return cardImages[cardImages.length - 2];
+  String? getCardBelowTop(String position) {
+    final stack = graveyardCards[position];
+    return (stack != null && stack.length > 1) ? stack[stack.length - 2] : null;
   }
 } 

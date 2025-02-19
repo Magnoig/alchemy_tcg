@@ -16,26 +16,27 @@ class GraveyardCellDraggable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Draggable<String>(
-      data: imagePath,
-      feedback: Material(
-        color: Colors.transparent,
-        child: SizedBox(
-          height: cellSize,
-          child: Card(
-            child: Image.asset(
-              imagePath,
-            ),
+    return Positioned.fill(
+      child: Draggable<String>(
+        data: imagePath,
+        feedback: Material(
+          color: Colors.transparent,
+          child: SizedBox(
+            height: cellSize,
+            child: _buildCardImage(imagePath),
           ),
         ),
+        childWhenDragging: Container(),
+        onDragEnd: (details) => onDragEnd(index),
+        child: _buildCardImage(imagePath)
       ),
-      childWhenDragging: Container(),
-      onDragEnd: (details) => onDragEnd(index),
-      child: Card(
-        child: Image.asset(
-          imagePath,
-        ),
-      ),
+    );
+  }
+  Widget _buildCardImage(String path) {
+    return Image.asset(
+      path,
+      width: cellSize,
+      height: cellSize,
     );
   }
 }

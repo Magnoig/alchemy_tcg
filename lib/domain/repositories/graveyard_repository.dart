@@ -1,6 +1,5 @@
 abstract class GraveyardRepository {
-  Future<List<String>> getCardsGraveyard();
-  Future<void> addCard(String cardPath);
-  Future<List<String>> showCards();
-  Future<void> removeCard(int index);
+  Future<Map<String, List<String>>> getCards();
+  Future<void> addCard(String cellId, String cardPath);
+  Future<void> removeCard(String cellId, int index);
 }

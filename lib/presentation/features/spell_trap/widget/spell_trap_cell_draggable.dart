@@ -32,7 +32,6 @@ class SpellTrapCellDraggable extends StatelessWidget {
       path,
       width: cellSize,
       height: cellSize,
-      fit: BoxFit.contain,
     );
   }
 }

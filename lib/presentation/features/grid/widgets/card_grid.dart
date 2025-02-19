@@ -29,9 +29,9 @@ class CardGrid extends StatelessWidget {
   final void Function(int) onCardRemovedDeck;
 
   final GraveyardBloc graveyardBloc;
-  final VoidCallback onDoubleTapGraveyard;
-  final void Function(String) onCardAddedGraveyard;
-  final void Function(int) onCardRemovedGraveyard;
+  final void Function(String cellId) onDoubleTapGraveyard;
+  final void Function(String cellId, String cardPath) onCardAddedGraveyard;
+  final void Function(String cellId, int index) onCardRemovedGraveyard;
 
   final SpellTrapBloc boardBloc;
   final Function(BuildContext, String) onShowZoom;

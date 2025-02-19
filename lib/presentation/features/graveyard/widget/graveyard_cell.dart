@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 
 class GraveyardCell extends StatelessWidget {
   final double cellSize;
-  final VoidCallback onDoubleTap;
-  final void Function(String) onCardAdded;
-  final void Function(int index) onCardRemoved;
+  final void Function(String cellId) onDoubleTap;
+  final void Function(String cellId, String cardPath) onCardAdded;
+  final void Function(String cellId, int index) onCardRemoved;
   final List<String> cardImages;
+  final String cellId;
 
   const GraveyardCell({
     super.key,
@@ -16,12 +17,13 @@ class GraveyardCell extends StatelessWidget {
     required this.onCardAdded,
     required this.onCardRemoved,
     required this.cardImages,
+    required this.cellId,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onDoubleTap: onDoubleTap,
+      onDoubleTap: () => onDoubleTap(cellId),
       child: DragTarget<String>(
         builder: (context, candidateData, rejectedData) {
           return Stack(
@@ -33,14 +35,14 @@ class GraveyardCell extends StatelessWidget {
                   cellSize: cellSize,
                   index: i,
                   onDragEnd: (index) {
-                    onCardRemoved(index);
+                    onCardRemoved(cellId, index);
                   },
                 ),
             ],
           );
         },
         onWillAcceptWithDetails: (details) => details.data.isNotEmpty,
-        onAcceptWithDetails: (details) => onCardAdded(details.data),
+        onAcceptWithDetails: (details) => onCardAdded(cellId, details.data),
       ),
     );
   }

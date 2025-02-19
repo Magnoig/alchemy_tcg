@@ -7,9 +7,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class GraveyardCellBuilder implements ICellBuilder {
   final GraveyardBloc graveyardBloc;
-  final VoidCallback onDoubleTapGraveyard;
-  final void Function(String) onCardAddedGraveyard;
-  final void Function(int) onCardRemovedGraveyard;
+  final void Function(String cellId) onDoubleTapGraveyard;
+  final void Function(String cellId, String cardPath) onCardAddedGraveyard;
+  final void Function(String cellId, int index) onCardRemovedGraveyard;
 
   GraveyardCellBuilder({
     required this.graveyardBloc,
@@ -20,6 +20,7 @@ class GraveyardCellBuilder implements ICellBuilder {
 
   @override
   Widget buildCell(double cellSize, int row, int col,) {
+    String cellId = '$row-$col';
     return BlocBuilder<GraveyardBloc, GraveyardState>(
       bloc: graveyardBloc,
       builder: (context, state) {
@@ -28,7 +29,8 @@ class GraveyardCellBuilder implements ICellBuilder {
           onDoubleTap: onDoubleTapGraveyard,
           onCardAdded: onCardAddedGraveyard,
           onCardRemoved: onCardRemovedGraveyard,
-          cardImages: state.cardImages,
+          cellId: cellId,
+          cardImages: state.graveyardCards[cellId] ?? [], 
         );
       },
     );

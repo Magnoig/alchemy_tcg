@@ -33,9 +33,9 @@ class GamePageDependencies {
   final VoidCallback onDoubleTapDeck;
   final ValueChanged<String> onCardAddedDeck;
   final ValueChanged<int> onCardRemovedDeck;
-  final VoidCallback onDoubleTapGraveyard;
-  final ValueChanged<String> onCardAddedGraveyard;
-  final ValueChanged<int> onCardRemovedGraveyard;
+  final void Function(String cellId) onDoubleTapGraveyard;
+  final void Function(String cellId, String cardPath) onCardAddedGraveyard;
+  final void Function(String cellId, int index) onCardRemovedGraveyard;
   final CellValidator validator;
   final void Function(String cellId, String) onCardAddedSpellTrap;
   final void Function(String cellId, int) onCardRemovedSpellTrap;
@@ -75,9 +75,9 @@ class GamePageDependencies {
     onCardAddedDeck(String cardPath) => deckBloc.add(AddCardDeck(cardPath: cardPath));
     onCardRemovedDeck(int index) => deckBloc.add(RemoveCardDeck(index:index));
 
-    onDoubleTapGraveyard() => showCardPileBottomSheet(context, "Cartas no Cemitério", graveyardBloc.state.cardImages);
-    onCardAddedGraveyard(String cardPath) => graveyardBloc.add(AddCardGraveyard(cardPath));
-    onCardRemovedGraveyard(int index) => graveyardBloc.add(RemoveCardGraveyard(index));
+    onDoubleTapGraveyard(String cellId) => showCardPileBottomSheet(context, "Cartas no Cemitério", graveyardBloc.state.graveyardCards[cellId] ?? []);
+    onCardAddedGraveyard(String cellId, String cardPath) => graveyardBloc.add(AddCardGraveyard(cellId: cellId, cardPath: cardPath));
+    onCardRemovedGraveyard(String cellId, int index) => graveyardBloc.add(RemoveCardGraveyard(cellId: cellId, index: index));
 
     onCardAddedSpellTrap(String cellId, String cardPath) =>
       spellTrapBloc.add(AddCardSpellTrap(cellId: cellId, cardPath: cardPath));

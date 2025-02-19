@@ -19,16 +19,15 @@ class SpellTrapRepositoryImpl extends SpellTrapRepository {
   @override
   Future<void> removeCard(String cellId, int index) async {
     if (_spellTrapCards.containsKey(cellId)) {
-    List<String> cards = _spellTrapCards[cellId]!; // Obtém a lista de cartas
+      List<String> cards = _spellTrapCards[cellId]!;
 
-    if (index >= 0 && index < cards.length) {
-      cards.removeAt(index); // Remove a carta no índice especificado
-    }
+      if (index >= 0 && index < cards.length) {
+        cards.removeAt(index);
+      }
 
-    // Se a célula ficar vazia, remove do mapa para evitar lixo na memória
-    if (cards.isEmpty) {
-      _spellTrapCards.remove(cellId);
+      if (cards.isEmpty) {
+        _spellTrapCards.remove(cellId);
+      }
     }
-  }
   }
 }
