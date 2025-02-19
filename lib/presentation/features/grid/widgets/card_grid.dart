@@ -1,7 +1,7 @@
 import 'package:alchemy_tcg/core/validators/cell_validator.dart';
 import 'package:alchemy_tcg/domain/repositories/deck_repository.dart';
 import 'package:alchemy_tcg/presentation/features/spell_trap/bloc/spell_trap_bloc.dart';
-import 'package:alchemy_tcg/presentation/features/deck/bloc/card_deck_bloc.dart';
+import 'package:alchemy_tcg/presentation/features/deck/bloc/deck_bloc.dart';
 import 'package:alchemy_tcg/presentation/features/graveyard/bloc/graveyard_bloc.dart';
 import 'package:alchemy_tcg/presentation/features/grid/managers/default_grid_layout_manager.dart';
 import 'package:alchemy_tcg/presentation/features/grid/managers/grid_scroll_manager.dart';
@@ -24,9 +24,9 @@ class CardGrid extends StatelessWidget {
 
   final DeckRepository deckRepository;
   final DeckBloc deckBloc;
-  final VoidCallback onDoubleTapDeck;
-  final void Function(String) onCardAddedDeck;
-  final void Function(int) onCardRemovedDeck;
+  final void Function(String cellId) onDoubleTapDeck;
+  final void Function(String cellId, String cardPath) onCardAddedDeck;
+  final void Function(String cellId, int index) onCardRemovedDeck;
 
   final GraveyardBloc graveyardBloc;
   final void Function(String cellId) onDoubleTapGraveyard;

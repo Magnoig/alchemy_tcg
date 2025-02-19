@@ -1,7 +1,7 @@
 import '../../domain/repositories/deck_repository.dart';
 import '../../assets/image_paths.dart';
 class DeckRepositoryImpl implements DeckRepository {
-  final List<String> deck = [
+  final List<String> _deckTemplate = [
     ImagePaths.ancestralAnger,
     ImagePaths.circuitMender,
     ImagePaths.crashThrough,
@@ -26,19 +26,33 @@ class DeckRepositoryImpl implements DeckRepository {
     ImagePaths.wildGuess,
   ];
 
+  final Map<String, List<String>> cellDecks = {};
+
   @override
-  Future<List<String>> getCards() async {
-    return List.from(deck);
+  Future<Map<String, List<String>>> getCards(String cellId) async {
+    cellDecks.putIfAbsent(cellId, () => List.from(_deckTemplate));
+    return {cellId: List.from(cellDecks[cellId]!)};
   }
 
   @override
-  Future<void> addCard(String cardPath) async {
-    deck.add(cardPath);
+  Future<void> addCard(String cellId, String cardPath) async {
+    cellDecks.putIfAbsent(cellId, () => []);
+    cellDecks[cellId]!.add(cardPath);
   }
 
   @override
-  Future<void> removeCard(int index) async {
-    deck.removeAt(index);
+  Future<void> removeCard(String cellId, int index) async {
+    if (cellDecks.containsKey(cellId)) {
+      List<String> cards = cellDecks[cellId]!;
+
+      if (index >= 0 && index < cards.length) {
+        cards.removeAt(index);
+      }
+
+      if (cards.isEmpty) {
+        return;
+      }
+    }
   }
 
   @override
@@ -47,8 +61,9 @@ class DeckRepositoryImpl implements DeckRepository {
   }
 
   @override
-  Future<void> shuffleDeck() async {
-    deck.shuffle();
+  Future<void> shuffleDeck(String cellId) async {
+    if (cellDecks.containsKey(cellId)) {
+      cellDecks[cellId]!.shuffle();
+    }
   }
-  
-} 
+}

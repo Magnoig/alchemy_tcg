@@ -5,11 +5,12 @@ import 'package:flutter/material.dart';
 
 class DeckCell extends StatelessWidget {
   final double cellSize;
-  final VoidCallback onDoubleTap;
-  final void Function(String) onCardAdded;
-  final void Function(int index) onCardRemoved;
+  final void Function(String cellId) onDoubleTap;
+  final void Function(String cellId, String cardPath) onCardAdded;
+  final void Function(String cellId, int index) onCardRemoved;
   final List<String> cardImages;
   final DeckRepository deckRepository;
+  final String cellId;
 
   const DeckCell({
     super.key,
@@ -19,13 +20,14 @@ class DeckCell extends StatelessWidget {
     required this.onCardRemoved,
     required this.cardImages,
     required this.deckRepository,
+    required this.cellId,
   });
 
   @override
   Widget build(BuildContext context) {
 
     return GestureDetector(
-      onDoubleTap: onDoubleTap,
+      onDoubleTap: () => onDoubleTap(cellId),
       child: DragTarget<String>(
         builder: (context, candidateData, rejectedData) {
           return Stack(
@@ -37,7 +39,7 @@ class DeckCell extends StatelessWidget {
                   cellSize: cellSize,
                   index: i,
                   onDragEnd: (index) {
-                    onCardRemoved(index);
+                    onCardRemoved(cellId, index);
                   },
                   deckRepository: deckRepository,
                 ),
@@ -45,7 +47,7 @@ class DeckCell extends StatelessWidget {
           );
         },
         onWillAcceptWithDetails: (details) => details.data.isNotEmpty,
-        onAcceptWithDetails: (details) => onCardAdded(details.data),
+        onAcceptWithDetails: (details) => onCardAdded(cellId, details.data),
       ),
     );
   }

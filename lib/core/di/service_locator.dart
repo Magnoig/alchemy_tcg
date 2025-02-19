@@ -7,7 +7,7 @@ import '../../data/repositories/hand_repository_impl.dart';
 import '../../domain/repositories/deck_repository.dart';
 import '../../domain/repositories/hand_repository.dart';
 import '../../presentation/features/spell_trap/bloc/spell_trap_bloc.dart';
-import '../../presentation/features/deck/bloc/card_deck_bloc.dart';
+import '../../presentation/features/deck/bloc/deck_bloc.dart';
 import '../../presentation/features/hand/bloc/player_hand_bloc.dart';
 import '../../domain/repositories/spell_trap_repository.dart';
 import '../../data/repositories/spell_trap_repository_impl.dart';

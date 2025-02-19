@@ -1,9 +1,10 @@
 import 'package:alchemy_tcg/core/validators/cell_validator.dart';
 import 'package:alchemy_tcg/data/repositories/deck_repository_impl.dart';
 import 'package:alchemy_tcg/domain/repositories/deck_repository.dart';
+import 'package:alchemy_tcg/presentation/features/deck/bloc/deck_state_extension.dart';
 import 'package:alchemy_tcg/presentation/features/spell_trap/bloc/spell_trap_event.dart';
 import 'package:alchemy_tcg/presentation/features/card_pile/widgets/card_pile_bottom_sheet.dart';
-import 'package:alchemy_tcg/presentation/features/deck/bloc/card_deck_event.dart';
+import 'package:alchemy_tcg/presentation/features/deck/bloc/deck_event.dart';
 import 'package:alchemy_tcg/presentation/features/graveyard/bloc/graveyard_bloc.dart';
 import 'package:alchemy_tcg/presentation/features/graveyard/bloc/graveyard_event.dart';
 import 'package:alchemy_tcg/presentation/features/grid/widgets/deck_cell_builder.dart';
@@ -16,7 +17,7 @@ import 'package:alchemy_tcg/presentation/features/grid/managers/default_grid_lay
 import 'package:alchemy_tcg/presentation/features/grid/managers/default_grid_scroll_manager.dart';
 import 'package:alchemy_tcg/presentation/features/zoom/implementations/default_card_zoom_handler.dart';
 import '../features/spell_trap/bloc/spell_trap_bloc.dart';
-import '../features/deck/bloc/card_deck_bloc.dart';
+import '../features/deck/bloc/deck_bloc.dart';
 import '../features/hand/bloc/player_hand_bloc.dart';
 
 final getIt = GetIt.instance;
@@ -30,9 +31,9 @@ class GamePageDependencies {
   final DefaultCardZoomHandler zoomHandler;
   final DefaultGridLayoutManager layoutManager;
   final DeckRepository deckRepository;
-  final VoidCallback onDoubleTapDeck;
-  final ValueChanged<String> onCardAddedDeck;
-  final ValueChanged<int> onCardRemovedDeck;
+  final void Function(String cellId) onDoubleTapDeck;
+  final void Function(String cellId, String cardPath) onCardAddedDeck;
+  final void Function(String cellId, int index) onCardRemovedDeck;
   final void Function(String cellId) onDoubleTapGraveyard;
   final void Function(String cellId, String cardPath) onCardAddedGraveyard;
   final void Function(String cellId, int index) onCardRemovedGraveyard;
@@ -71,9 +72,9 @@ class GamePageDependencies {
     final validator = CellValidator();
 
 
-    onDoubleTapDeck() => showCardPileBottomSheet(context, "Cartas no Deck", deckBloc.state.cardImages);
-    onCardAddedDeck(String cardPath) => deckBloc.add(AddCardDeck(cardPath: cardPath));
-    onCardRemovedDeck(int index) => deckBloc.add(RemoveCardDeck(index:index));
+    onDoubleTapDeck(String cellId) => showCardPileBottomSheet(context, "Cartas no Deck", deckBloc.state.getCardsForCell(cellId));
+    onCardAddedDeck(String cellId, String cardPath) => deckBloc.add(AddCardDeck(cellId: cellId, cardPath: cardPath));
+    onCardRemovedDeck(String cellId, int index) => deckBloc.add(RemoveCardDeck(cellId: cellId, index: index));
 
     onDoubleTapGraveyard(String cellId) => showCardPileBottomSheet(context, "Cartas no Cemitério", graveyardBloc.state.graveyardCards[cellId] ?? []);
     onCardAddedGraveyard(String cellId, String cardPath) => graveyardBloc.add(AddCardGraveyard(cellId: cellId, cardPath: cardPath));
